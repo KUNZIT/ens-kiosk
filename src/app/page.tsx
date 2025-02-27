@@ -1,12 +1,27 @@
 'use client';
 
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { EnsDisplay } from './EnsDisplay'; // Import EnsDisplay
+import { useEffect } from 'react';
+import { useAccount, useConnect, useDisconnect, useEnsName } from 'wagmi';
+import { EnsDisplay } from './EnsDisplay';
+import { checkIfWhitelisted } from './whitelist'; // Import whitelist function
 
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
+  const { data: ensName } = useEnsName({ address: account.address });
+
+  useEffect(() => {
+    async function checkWhitelist() {
+      if (ensName) {
+        const isWhitelisted = await checkIfWhitelisted(ensName);
+        if (isWhitelisted) {
+          alert(`${ensName} is whitelisted!`);
+        }
+      }
+    }
+    checkWhitelist();
+  }, [ensName]);
 
   return (
     <>
@@ -45,7 +60,7 @@ function App() {
 
       <div>
         <h2>ENS Display</h2>
-        <EnsDisplay /> {/* Add EnsDisplay component */}
+        <EnsDisplay />
       </div>
     </>
   );
