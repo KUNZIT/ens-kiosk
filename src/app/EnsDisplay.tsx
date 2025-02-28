@@ -44,7 +44,7 @@ export function EnsDisplay() {
   }
 
   if (avatarError) {
-    return <p>Error fetching ENS avatar: {avatarError}</p>;
+    return <p>Error fetching ENS avatar: {avatarError.message || String(avatarError)}</p>;
   }
 
   let displayError: string | Error | null = error;
