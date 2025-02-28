@@ -26,6 +26,9 @@ export async function getEnsName(address: string, alchemyApiKey: string | undefi
   }
 }
 
+interface Avatar {
+  url: string;
+}
 
 export async function getEnsAvatar(ensName: string | null, alchemyApiKey: string | undefined): Promise<string | null> {
   if (!ensName || !alchemyApiKey) {
@@ -40,9 +43,9 @@ export async function getEnsAvatar(ensName: string | null, alchemyApiKey: string
       return null;
     }
 
-    const avatar = await resolver.getAvatar();
+    const avatar = await resolver.getAvatar() as Avatar | null; //Type assertion
 
-    if (avatar) {
+    if (avatar && avatar.url) {
       return avatar.url;
     }
 
