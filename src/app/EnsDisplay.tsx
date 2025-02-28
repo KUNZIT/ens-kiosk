@@ -1,9 +1,8 @@
-// app/EnsDisplay.tsx
 "use client";
 import { useState, useEffect } from 'react';
 import { useAccount, useEnsAvatar } from 'wagmi';
 import { normalize } from 'viem/ens';
-import { getEnsName } from './ensUtils'; // Import getEnsName
+import { getEnsName } from './ensUtils';
 
 export function EnsDisplay() {
   const { address, isConnected } = useAccount();
@@ -22,14 +21,10 @@ export function EnsDisplay() {
         try {
           const resolvedName = await getEnsName(address, process.env.NEXT_PUBLIC_ALCHEMY_ID);
           setEnsName(resolvedName);
-          
           if (resolvedName) {
-            // Play beep from MP3
-            const audio = new Audio('/assets/beep.mp3'); // Path to your MP3 file
+            const audio = new Audio('/assets/beep.mp3');
             audio.play();
           }
-          
-          
         } catch (err) {
           console.error("Error fetching ENS data:", err);
           setError("Error fetching ENS data.");
@@ -48,21 +43,21 @@ export function EnsDisplay() {
     return <p>Connect your wallet to see your ENS profile.</p>;
   }
 
+  let displayError: string | Error | null = error;
+
+  if (displayError) {
+    if (typeof displayError === 'string') {
+      return <p>Error fetching ENS profile: {displayError}</p>;
+    } else if (displayError instanceof Error && displayError.message) {
+      return <p>Error fetching ENS profile: {displayError.message}</p>;
+    } else {
+      return <p>Error fetching ENS profile: Unknown error</p>;
+    }
+  }
+
   if (loading) {
     return <p>Loading ENS profile...</p>;
   }
-
-  let displayError: string | Error | null = error; // Add explicit type
-
-if (displayError) {
-  if (typeof displayError === 'string') {
-    return <p>Error fetching ENS profile: {displayError}</p>;
-  } else if (displayError instanceof Error && displayError.message) {
-    return <p>Error fetching ENS profile: {displayError.message}</p>;
-  } else {
-    return <p>Error fetching ENS profile: Unknown error</p>;
-  }
-}
 
   return (
     <div>
