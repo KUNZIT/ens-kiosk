@@ -43,6 +43,10 @@ export function EnsDisplay() {
     return <p>Connect your wallet to see your ENS profile.</p>;
   }
 
+  if (avatarError) {
+    return <p>Error fetching ENS avatar: {avatarError}</p>;
+  }
+
   let displayError: string | Error | null = error;
 
   if (displayError) {
