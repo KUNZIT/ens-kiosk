@@ -3,14 +3,14 @@
 import { useEffect } from 'react';
 import { useAccount, useConnect, useDisconnect, useEnsName } from 'wagmi';
 import { EnsDisplay } from './EnsDisplay';
-import { checkIfWhitelisted } from './whitelist'; // Import whitelist function
+
 
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address: account.address });
-
+  const [isWhitelisted, setIsWhitelisted] = useState<boolean | null>(null);
   useEffect(() => {
     async function checkWhitelist() {
       if (ensName) {
