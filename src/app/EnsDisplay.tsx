@@ -9,6 +9,7 @@ export function EnsDisplay() {
   const [ensName, setEnsName] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [avatarErrorMessage, setAvatarErrorMessage] = useState<string | null>(null); // New state
   const { data: avatarUrl, isLoading: avatarLoading, error: avatarError } = useEnsAvatar({
     name: ensName ? normalize(ensName) : undefined,
   });
@@ -39,24 +40,24 @@ export function EnsDisplay() {
     fetchEnsData();
   }, [address, isConnected]);
 
+  useEffect(() => {
+    if (avatarError) {
+      setAvatarErrorMessage(avatarError.message || String(avatarError)); // Stringify error
+    } else {
+      setAvatarErrorMessage(null);
+    }
+  }, [avatarError]);
+
   if (!isConnected) {
     return <p>Connect your wallet to see your ENS profile.</p>;
   }
 
-  if (avatarError) {
-    return <p>Error fetching ENS avatar: {avatarError.message || String(avatarError)}</p>;
+  if (avatarErrorMessage) {
+    return <p>Error fetching ENS avatar: {avatarErrorMessage}</p>;
   }
 
-  let displayError: string | Error | null = error;
-
-  if (displayError) {
-    if (typeof displayError === 'string') {
-      return <p>Error fetching ENS profile: {displayError}</p>;
-    } else if (displayError instanceof Error && displayError.message) {
-      return <p>Error fetching ENS profile: {displayError.message}</p>;
-    } else {
-      return <p>Error fetching ENS profile: Unknown error</p>;
-    }
+  if (error) {
+    return <p>Error fetching ENS profile: {error}</p>;
   }
 
   if (loading) {
