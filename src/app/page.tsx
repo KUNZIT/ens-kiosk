@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useAccount, useConnect, useDisconnect, useEnsName } from 'wagmi';
 import { EnsDisplay } from './EnsDisplay';
-
+import { useState } from 'react';
 
 function App() {
   const account = useAccount();
