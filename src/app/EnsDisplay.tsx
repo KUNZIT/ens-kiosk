@@ -52,11 +52,13 @@ export function EnsDisplay() {
     return <p>Loading ENS profile...</p>;
   }
 
-  if (error) {
-  if (typeof error === 'string') {
-    return <p>Error fetching ENS profile: {error}</p>;
-  } else if (error instanceof Error && error.message) {
-    return <p>Error fetching ENS profile: {error.message}</p>;
+  let displayError: string | Error | null = error; // Add explicit type
+
+if (displayError) {
+  if (typeof displayError === 'string') {
+    return <p>Error fetching ENS profile: {displayError}</p>;
+  } else if (displayError instanceof Error && displayError.message) {
+    return <p>Error fetching ENS profile: {displayError.message}</p>;
   } else {
     return <p>Error fetching ENS profile: Unknown error</p>;
   }
