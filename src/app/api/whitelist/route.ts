@@ -5,33 +5,19 @@ import { getRedisClient } from '@/app/redis'; // Import from your Redis client m
 export async function POST(request: Request) {
   try {
     const redis = await getRedisClient(); // Get the Redis client
+    const { ensName } = await request.json(); // Get ensName from the request body
 
-    const result = await redis.get('item');
+    if (!ensName) {
+      return NextResponse.json({ error: 'ENS name is required' }, { status: 400 });
+    }
 
-    return NextResponse.json({ result }); // Use NextResponse.json()
+    const result = await redis.get(`whitelisted:${ensName}`); // Retrieve data based on ensName
+
+    const isWhitelisted = result === 'true'; // Convert result to boolean
+
+    return NextResponse.json({ isWhitelisted }); // Return isWhitelisted
   } catch (error) {
     console.error('Error fetching data from Redis:', error);
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
-  }
-}
-
-// app/redis.ts (Example Redis client module)
-import { createClient } from 'redis';
-
-const redisUrl = process.env.REDIS_URL; // Get Redis URL from environment variables
-
-const client = createClient({
-  url: redisUrl,
-});
-
-export async function getRedisClient() {
-  try {
-    if (!client.isOpen) {
-      await client.connect(); // Connect only if not already connected
-    }
-    return client;
-  } catch (error) {
-    console.error('Error connecting to Redis:', error);
-    throw error; // Re-throw the error to be handled by the calling function
   }
 }
