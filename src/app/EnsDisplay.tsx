@@ -53,8 +53,14 @@ export function EnsDisplay() {
   }
 
   if (error) {
-    return <p>Error fetching ENS profile: {error?.message}</p>;
+  if (typeof error === 'string') {
+    return <p>Error fetching ENS profile: {error}</p>;
+  } else if (error instanceof Error && error.message) {
+    return <p>Error fetching ENS profile: {error.message}</p>;
+  } else {
+    return <p>Error fetching ENS profile: Unknown error</p>;
   }
+}
 
   return (
     <div>
