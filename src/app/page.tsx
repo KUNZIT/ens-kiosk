@@ -14,14 +14,24 @@ function App() {
   useEffect(() => {
     async function checkWhitelist() {
       if (ensName) {
-        const isWhitelisted = await checkIfWhitelisted(ensName);
-        if (isWhitelisted) {
-          alert(`${ensName} is whitelisted!`);
-        }
+      
+      const response = await fetch('/api/whitelist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ensName }),
+        });
+        const data = await response.json();
+        setIsWhitelisted(data.isWhitelisted);
       }
     }
     checkWhitelist();
   }, [ensName]);
+
+  useEffect(() => {
+    if (isWhitelisted === true) {
+      alert(`${ensName} is whitelisted!`);
+    }
+  }, [isWhitelisted, ensName]);
 
   return (
     <>
