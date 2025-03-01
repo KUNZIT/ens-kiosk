@@ -1,6 +1,6 @@
 import { configureChains, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
-import { WalletConnectConnector } from '@wagmi/connectors/walletConnect'; // Import from correct path
+import { WalletConnectConnector } from '@wagmi/connectors/walletConnect'; // Correct import path
 import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, publicClient } = configureChains(
@@ -13,7 +13,7 @@ export const config = createConfig({
   connectors: [
     new WalletConnectConnector({
       chains,
-      projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '', // Ensure projectId is provided
+      projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '',
     }),
   ],
   publicClient,
