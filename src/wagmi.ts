@@ -1,3 +1,4 @@
+import { http, createConfig } from 'wagmi'
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { walletConnect } from 'wagmi/connectors';
