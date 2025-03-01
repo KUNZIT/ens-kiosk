@@ -1,11 +1,15 @@
 import { configureChains, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
-import { WalletConnectConnector } from '@wagmi/connectors/walletConnect'; // Correct import path
-import { publicProvider } from 'wagmi/providers/public';
+import { WalletConnectConnector } from '@wagmi/connectors/walletConnect';
+import { alchemyProvider } from 'wagmi/providers/alchemy'; // Import Alchemy provider
 
-const { chains, publicClient } = configureChains(
+const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, sepolia],
-  [publicProvider()]
+  [
+    alchemyProvider({
+      apiKey: process.env.ALCHEMY_API_KEY || '', // Your Alchemy API key
+    }),
+  ]
 );
 
 export const config = createConfig({
@@ -17,6 +21,7 @@ export const config = createConfig({
     }),
   ],
   publicClient,
+  webSocketPublicClient,
 });
 
 export { chains };
