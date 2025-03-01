@@ -9,7 +9,7 @@ export function EnsDisplay() {
   const [ensName, setEnsName] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [avatarErrorMessage, setAvatarErrorMessage] = useState<string | null>(null); // New state
+  const [avatarErrorMessage, setAvatarErrorMessage] = useState<string | null>(null);
   const { data: avatarUrl, isLoading: avatarLoading, error: avatarError } = useEnsAvatar({
     name: ensName ? normalize(ensName) : undefined,
   });
@@ -42,11 +42,34 @@ export function EnsDisplay() {
 
   useEffect(() => {
     if (avatarError) {
-      setAvatarErrorMessage(avatarError.message || String(avatarError)); // Stringify error
+      setAvatarErrorMessage(avatarError.message || String(avatarError));
     } else {
       setAvatarErrorMessage(null);
     }
   }, [avatarError]);
+
+  useEffect(() => {
+    const checkWhitelist = async () => {
+      if (ensName) {
+        try {
+          const response = await fetch('/api/whitelist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ensName }),
+          });
+          const data = await response.json();
+          if (data.isWhitelisted) {
+            alert(`${ensName} is whitelisted!`);
+          }
+        } catch (error) {
+          console.error("Error checking whitelist:", error);
+        }
+      }
+    };
+
+    checkWhitelist();
+  }, [ensName]);
+
 
   if (!isConnected) {
     return <p>Connect your wallet to see your ENS profile.</p>;
@@ -60,7 +83,7 @@ export function EnsDisplay() {
     return <p>Error fetching ENS profile: {error}</p>;
   }
 
-  if (loading) {
+  if (loading || avatarLoading) {
     return <p>Loading ENS profile...</p>;
   }
 
