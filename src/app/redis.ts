@@ -1,23 +1,20 @@
 // app/redis.ts
-import Redis from 'ioredis';
+import { createClient } from 'redis';
 
-let redisClient: Redis | null = null;
+const redisUrl = process.env.REDIS_URL;
 
-export async function getRedisClient(): Promise<Redis> {
-  if (redisClient) {
-    return redisClient;
+const client = createClient({
+  url: redisUrl,
+});
+
+export async function getRedisClient() {
+  try {
+    if (!client.isOpen) {
+      await client.connect();
+    }
+    return client;
+  } catch (error) {
+    console.error('Error connecting to Redis:', error);
+    throw error;
   }
-
-  const redisUrl = process.env.REDIS_URL;
-  if (!redisUrl) {
-    throw new Error('Redis URL is not defined in .env.local');
-  }
-
-  redisClient = new Redis(redisUrl);
-
-  redisClient.on('error', (err) => {
-    console.error('Redis error:', err);
-  });
-
-  return redisClient;
 }

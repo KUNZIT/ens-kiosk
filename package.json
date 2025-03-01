@@ -12,7 +12,6 @@
     "@tanstack/react-query": "5.45.1",
     "dotenv": "^16.4.7",
     "ethers": "^6.13.5",
-    "ioredis": "^5.5.0",
     "next": "14.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
