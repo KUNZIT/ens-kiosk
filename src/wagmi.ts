@@ -1,27 +1,24 @@
-import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
+import { configureChains, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
-import { walletConnect } from 'wagmi/connectors';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { publicProvider } from 'wagmi/providers/public';
 
+const { chains, publicClient } = configureChains(
+  [mainnet, sepolia],
+  [publicProvider()]
+);
 
-export function getConfig() {
-  return createConfig({
-    chains: [mainnet, sepolia],
-    connectors: [
-      ...(process.env.NEXT_PUBLIC_WC_PROJECT_ID ? [walletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID })] : []),
-    ],
-    storage: createStorage({
-      storage: cookieStorage,
+export const config = createConfig({
+  autoConnect: true,
+  connectors: [
+    new MetaMaskConnector({ chains }),
+    new WalletConnectConnector({
+      chains,
+      projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '', // Ensure projectId is provided
     }),
-    ssr: true,
-    transports: {
-      [mainnet.id]: http(),
-      [sepolia.id]: http(),
-    },
-  });
-}
+  ],
+  publicClient,
+});
 
-declare module 'wagmi' {
-  interface Register {
-    config: ReturnType<typeof getConfig>;
-  }
-}
+export { chains };
