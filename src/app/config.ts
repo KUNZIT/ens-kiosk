@@ -2,7 +2,7 @@ import { createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { walletConnect } from 'wagmi/connectors';
 
-const { publicClient, webSocketPublicClient } =(
+const { webSocketPublicClient } =(
   [mainnet, sepolia],
   [] // Removed alchemy provider temporarily
 );
