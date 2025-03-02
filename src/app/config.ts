@@ -1,7 +1,7 @@
 import { http, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
-import { alchemyProvider } from '@wagmi/core/providers/alchemy';
+
 import { configureChains } from 'wagmi';
 
 const { publicClient } = configureChains(
