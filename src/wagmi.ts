@@ -1,4 +1,5 @@
-import { configureChains, createConfig } from 'wagmi';
+import { createConfig } from 'wagmi';
+import { configureChains } from '@wagmi/core';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'; // Correct import
 import { alchemyProvider } from '@wagmi/core/providers/alchemy';
