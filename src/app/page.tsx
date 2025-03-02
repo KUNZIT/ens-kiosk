@@ -8,7 +8,7 @@ function App() {
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
 
-console.log('Connectors:', connectors); // Log the connectors array
+  console.log('Connectors:', connectors); // Log the connectors array
 
   return (
     <>
@@ -33,10 +33,10 @@ console.log('Connectors:', connectors); // Log the connectors array
         {connectors.map((connector) => (
           <button
             key={connector.uid}
-            onClick={() =>
-            
-            console.log('Connecting with:', connector.name); // Log the connector being used
-             connect({ connector })}
+            onClick={() => { // Corrected onClick handler
+              console.log('Connecting with:', connector.name);
+              connect({ connector });
+            }}
             type="button"
           >
             {connector.name}
