@@ -1,9 +1,10 @@
-import { configureChains, createConfig } from 'wagmi';
+import { http, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { alchemyProvider } from '@wagmi/core/providers/alchemy';
+import { configureChains } from 'wagmi';
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
+const { publicClient } = configureChains(
   [mainnet, sepolia],
   [
     alchemyProvider({
@@ -14,14 +15,16 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 
 export const config = createConfig({
   autoConnect: true,
+  chains: [mainnet, sepolia],
   connectors: [
     new WalletConnectConnector({
-      chains,
+      chains: [mainnet, sepolia],
       projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '',
     }),
   ],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
   publicClient,
-  webSocketPublicClient,
 });
-
-export { chains };
