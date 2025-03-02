@@ -1,28 +1,10 @@
-import {  http, cookieStorage,createConfig, createStorage } from 'wagmi';
-import { mainnet, sepolia } from 'wagmi/chains';
-import { walletConnect } from 'wagmi/connectors';
+import { http, createConfig } from 'wagmi'
+import { mainnet, sepolia } from 'wagmi/chains'
 
-
-
-export function getConfig() {
-  return createConfig({
-    chains: [mainnet, sepolia],
-    connectors: [
-      walletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID ?? '', }),
-    ],
-    storage: createStorage({
-      storage: cookieStorage,
-    }),
-    ssr: true,
-    transports: {
-      [mainnet.id]: http(),
-      [sepolia.id]: http(),
-    },
-  });
-}
-
-declare module 'config' {
-  interface Register {
-    config: ReturnType<typeof getConfig>;
-  }
-}
+export const config = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+})
