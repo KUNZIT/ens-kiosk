@@ -1,4 +1,4 @@
-import { configureChains, createConfig } from 'wagmi';
+import { createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { walletConnect } from 'wagmi/connectors';
 
