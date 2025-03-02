@@ -20,3 +20,9 @@ export function getConfig() {
     },
   });
 }
+
+declare module 'config' {
+  interface Register {
+    config: ReturnType<typeof getConfig>;
+  }
+}
