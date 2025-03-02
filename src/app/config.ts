@@ -6,12 +6,8 @@ import { walletConnect } from 'wagmi/connectors';
 
 export const config = createConfig({
   
-  connectors: [
-    new WalletConnectConnector({
-      chains,
-      projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '',
+  connectors: [ WalletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '',
     }),
   ],
-  publicClient,
-  webSocketPublicClient,
+  
 });
