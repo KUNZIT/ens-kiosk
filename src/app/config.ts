@@ -5,7 +5,7 @@ import { walletConnect } from 'wagmi/connectors';
 
 
 export const config = createConfig({
-  autoConnect: true,
+  
   connectors: [
     new WalletConnectConnector({
       chains,
