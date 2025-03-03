@@ -24,7 +24,11 @@ const Button = ({ onClick, disabled, children }: ButtonProps) => (
 )
 
 export function ConnectButton() {
-  const { connect, connectors, isLoading, error } = useConnect()
+  // In wagmi v2, useConnect() returns an object with different structure
+  const { connectors, connect, status, error } = useConnect()
+
+  // Check if connecting is in progress
+  const isPending = status === "connecting"
 
   // Debug logging
   console.log("Connectors:", connectors)
@@ -42,8 +46,8 @@ export function ConnectButton() {
   return (
     <div className="flex flex-col gap-2">
       {connectors.map((connector) => (
-        <Button key={connector.uid} onClick={() => connect({ connector })} disabled={isLoading}>
-          {isLoading ? "Connecting..." : `Connect with ${connector.name}`}
+        <Button key={connector.uid} onClick={() => connect({ connector })} disabled={isPending}>
+          {isPending ? "Connecting..." : `Connect with ${connector.name}`}
         </Button>
       ))}
       {error && <p className="text-red-500 text-sm">{error.message}</p>}
