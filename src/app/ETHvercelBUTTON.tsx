@@ -1,9 +1,17 @@
 "use client"
 
 import { useConnect } from "wagmi"
+import type React from "react"
 
-// Simple button component
-const Button = ({ onClick, disabled, children }) => (
+// Define proper types for the Button component
+interface ButtonProps {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  disabled?: boolean
+  children: React.ReactNode
+}
+
+// Simple button component with proper TypeScript types
+const Button = ({ onClick, disabled, children }: ButtonProps) => (
   <button
     onClick={onClick}
     disabled={disabled}
