@@ -2,10 +2,11 @@
 
 import type React from "react"
 
-import { createConfig, http, WagmiProvider } from "wagmi"
+import { createConfig, WagmiProvider } from "wagmi"
 import { mainnet } from "wagmi/chains"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { walletConnect, injected } from "wagmi/connectors"
+import { http } from "viem"
 
 // Create a query client
 const queryClient = new QueryClient()
