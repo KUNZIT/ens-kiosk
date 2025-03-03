@@ -11,17 +11,21 @@ import { walletConnect, injected } from "wagmi/connectors"
 const queryClient = new QueryClient()
 
 // Make sure your WalletConnect ID is properly accessed
-const walletConnectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_ID
+const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_ID
 
-// Create wagmi config with explicit connectors
-export const config = createConfig({
+if (!walletConnectProjectId) {
+  console.error("WalletConnect Project ID is not set")
+}
+
+// Create wagmi config
+const config = createConfig({
   chains: [mainnet],
   transports: {
     [mainnet.id]: http(),
   },
   connectors: [
     walletConnect({
-      projectId: walletConnectId || "", // Fallback to empty string if undefined
+      projectId: walletConnectProjectId!,
       metadata: {
         name: "ENS Kiosk",
         description: "ENS Profile Display",
