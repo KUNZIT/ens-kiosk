@@ -27,8 +27,8 @@ export function ConnectButton() {
   // In wagmi v2, useConnect() returns an object with different structure
   const { connectors, connect, status, error } = useConnect()
 
-  // Check if connecting is in progress
-  const isPending = status === "connecting"
+  // Check if connecting is in progress (status is "pending" in wagmi v2)
+  const isPending = status === "pending"
 
   // Debug logging
   console.log("Connectors:", connectors)
