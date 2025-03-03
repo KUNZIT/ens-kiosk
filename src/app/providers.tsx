@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { createConfig, WagmiProvider } from "wagmi"
+import { createConfig, WagmiProvider, type Config } from "wagmi"
 import { mainnet } from "wagmi/chains"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { walletConnect, injected } from "wagmi/connectors"
@@ -19,7 +19,7 @@ if (!walletConnectProjectId) {
 }
 
 // Create wagmi config
-const config = createConfig({
+const config: Config = createConfig({
   chains: [mainnet],
   transports: {
     [mainnet.id]: http(),
