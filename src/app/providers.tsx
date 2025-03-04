@@ -1,22 +1,47 @@
-"use client";
+"use client"
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type ReactNode, useState } from 'react';
-import { type State, WagmiConfig } from 'wagmi';
-import { WagmiProvider } from 'wagmi';
+
+import { createConfig, http, WagmiProvider } from "wagmi"
+import { mainnet } from "wagmi/chains"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { walletConnect, injected } from "wagmi/connectors"
 import { config } from './config';
+// Create a query client
+const queryClient = new QueryClient()
 
-export function Providers(props: {
-  children: ReactNode;
-  initialState?: State;
-}) {
-  const [queryClient] = useState(() => new QueryClient());
+// Make sure your WalletConnect ID is properly accessed
+const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_ID
 
-  return (
-    <WagmiConfig config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        {props.children}
-      </QueryClientProvider>
-    </WagmiConfig>
-  );
+if (!walletConnectProjectId) {
+  console.error("WalletConnect Project ID is not set")
 }
+
+// Create wagmi config
+const config = createConfig({
+  chains: [mainnet],
+  transports: {
+    [mainnet.id]: http(),
+  },
+  connectors: [
+    walletConnect({
+      projectId: walletConnectProjectId!,
+      metadata: {
+        name: "ENS Kiosk",
+        description: "ENS Profile Display",
+        url: "https://ens-kiosk.vercel.app",
+        icons: ["https://avatars.githubusercontent.com/u/37784886"],
+      },
+    }),
+    injected(),
+  ],
+})
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </WagmiProvider>
+  )
+}
+
