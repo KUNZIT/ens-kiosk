@@ -41,7 +41,8 @@ const WhitelistedModal = ({ message, onClose }) => {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)', // Darker shadow for black background
           zIndex: 1001,
           color: 'white', // White text
-          textAlign: 'center', // Center text
+          textAlign: 'center',
+          fontSize: '1.2em', 
         }}
       >
         
