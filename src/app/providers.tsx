@@ -33,7 +33,7 @@ const config = createConfig({
         icons: ["https://avatars.githubusercontent.com/u/37784886"],
       },
     }),
-    injected(),
+    
   ],
 })
 
