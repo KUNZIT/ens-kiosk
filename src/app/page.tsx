@@ -2,53 +2,59 @@
 
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { EnsDisplay } from './EnsDisplay';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react'; // Import useRef
 import { useRouter } from 'next/navigation';
 
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
-  const [timerActive, setTimerActive] = useState(false);
-  const [remainingTime, setRemainingTime] = useState(30); // Initialize with 30 seconds
+  const [remainingTime, setRemainingTime] = useState(30);
   const router = useRouter();
-
-  console.log('Connectors:', connectors);
+  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null); // Use useRef for interval
+  const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Use useRef for timeout
 
   useEffect(() => {
-    let timerInterval: ReturnType<typeof setInterval> | null = null;
-    let timerTimeout: ReturnType<typeof setTimeout> | null = null;
-
-    if (account.isConnected && !timerActive) {
-      setTimerActive(true);
-      setRemainingTime(30); // Reset timer
-
-      timerInterval = setInterval(() => {
-        setRemainingTime((prevTime) => prevTime - 1);
+    if (account.isConnected) {
+      setRemainingTime(30); // Reset timer when connected
+      timerIntervalRef.current = setInterval(() => {
+        setRemainingTime((prevTime) => {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          } else {
+            clearInterval(timerIntervalRef.current!);
+            return 0; // Prevent negative time
+          }
+        });
       }, 1000);
 
-      timerTimeout = setTimeout(() => {
+      timerTimeoutRef.current = setTimeout(() => {
         disconnect();
         router.refresh();
-        setTimerActive(false);
-        clearInterval(timerInterval!);
-        setRemainingTime(30); // Reset timer
       }, 30000);
+    } else {
+      // Clear timers when disconnected
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+      if (timerTimeoutRef.current) {
+        clearTimeout(timerTimeoutRef.current);
+        timerTimeoutRef.current = null;
+      }
+      setRemainingTime(30); // Reset timer
+    }
 
-      return () => {
-        if (timerTimeout) clearTimeout(timerTimeout);
-        if (timerInterval) clearInterval(timerInterval);
-        setTimerActive(false);
-        setRemainingTime(30); // Reset timer
-      };
-    }
-    if(!account.isConnected){
-      setTimerActive(false);
-      setRemainingTime(30);
-      if(timerInterval) clearInterval(timerInterval);
-      if(timerTimeout) clearTimeout(timerTimeout);
-    }
-  }, [account.isConnected, disconnect, router, timerActive]);
+    return () => {
+      // Cleanup on unmount
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+      if (timerTimeoutRef.current) {
+        clearTimeout(timerTimeoutRef.current);
+      }
+    };
+  }, [account.isConnected, disconnect, router]);
 
   return (
     <>
@@ -66,7 +72,7 @@ function App() {
             <button type="button" onClick={() => disconnect()}>
               Disconnect
             </button>
-            {timerActive && <div>Time remaining: {remainingTime} seconds</div>}
+            <div>Time remaining: {remainingTime} seconds</div>
           </>
         )}
       </div>
