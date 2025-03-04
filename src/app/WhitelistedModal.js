@@ -22,7 +22,7 @@ const WhitelistedModal = ({ message, onClose }) => {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'blue'
+          background: 'blue',
           backgroundSize: 'cover', // Ensures the image covers the entire background
           backgroundRepeat: 'repeat', // Repeats the image to fill the space
           animation: 'waveAnimation 10s linear infinite', // Add wave animation
