@@ -15,11 +15,10 @@ export function EnsDisplay() {
     name: ensName ? normalize(ensName) : undefined,
   });
 
-const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
-  const handleWhitelisted = (ensName) => {
+  const handleWhitelisted = (ensName: string) => {
     setModalMessage(`${ensName} is whitelisted!`);
     setIsModalOpen(true);
   };
@@ -27,7 +26,6 @@ const MyPage = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
 
   useEffect(() => {
     async function fetchEnsData() {
@@ -74,12 +72,7 @@ const MyPage = () => {
           });
           const data = await response.json();
           if (data.isWhitelisted) {
-          
-          
-            showModal(WhitelistedModal);
-            
-            
-            
+            handleWhitelisted(ensName); //Open Modal
           }
         } catch (error) {
           console.error("Error checking whitelist:", error);
@@ -88,8 +81,7 @@ const MyPage = () => {
     };
 
     checkWhitelist();
-  }, [ensName]);
-
+  }, [ensName, handleWhitelisted]); // Add handleWhitelisted to dependency array
 
   if (!isConnected) {
     return <p>Connect your wallet to see your ENS profile.</p>;
@@ -117,7 +109,7 @@ const MyPage = () => {
         />
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
-       {isModalOpen && <WhitelistedModal message={modalMessage} onClose={closeModal}}
+      {isModalOpen && <WhitelistedModal message={modalMessage} onClose={closeModal} />}
     </div>
   );
 }
