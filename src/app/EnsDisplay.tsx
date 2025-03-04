@@ -123,7 +123,7 @@ export function EnsDisplay() {
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
       {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} />}
-      {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} onClose={closeNotWhitelistedModal} />}
+      {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} />}
     </div>
   );
 }
