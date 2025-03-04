@@ -10,23 +10,43 @@ function App() {
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
   const [timerActive, setTimerActive] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(30); // Initialize with 30 seconds
   const router = useRouter();
 
-  console.log('Connectors:', connectors); // Log the connectors array
+  console.log('Connectors:', connectors);
 
   useEffect(() => {
+    let timerInterval: ReturnType<typeof setInterval> | null = null;
+    let timerTimeout: ReturnType<typeof setTimeout> | null = null;
+
     if (account.isConnected && !timerActive) {
       setTimerActive(true);
-      const timer = setTimeout(() => {
+      setRemainingTime(30); // Reset timer
+
+      timerInterval = setInterval(() => {
+        setRemainingTime((prevTime) => prevTime - 1);
+      }, 1000);
+
+      timerTimeout = setTimeout(() => {
         disconnect();
-        router.refresh(); // Refresh the page after disconnect
+        router.refresh();
         setTimerActive(false);
-      }, 30000); // 30 seconds
+        clearInterval(timerInterval!);
+        setRemainingTime(30); // Reset timer
+      }, 30000);
 
       return () => {
-        clearTimeout(timer);
+        if (timerTimeout) clearTimeout(timerTimeout);
+        if (timerInterval) clearInterval(timerInterval);
         setTimerActive(false);
+        setRemainingTime(30); // Reset timer
       };
+    }
+    if(!account.isConnected){
+      setTimerActive(false);
+      setRemainingTime(30);
+      if(timerInterval) clearInterval(timerInterval);
+      if(timerTimeout) clearTimeout(timerTimeout);
     }
   }, [account.isConnected, disconnect, router, timerActive]);
 
@@ -42,9 +62,12 @@ function App() {
           chainId: {account.chainId}
         </div>
         {account.status === 'connected' && (
-          <button type="button" onClick={() => disconnect()}>
-            Disconnect
-          </button>
+          <>
+            <button type="button" onClick={() => disconnect()}>
+              Disconnect
+            </button>
+            {timerActive && <div>Time remaining: {remainingTime} seconds</div>}
+          </>
         )}
       </div>
 
