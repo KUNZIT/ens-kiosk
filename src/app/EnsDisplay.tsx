@@ -117,7 +117,7 @@ const MyPage = () => {
         />
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
-       {isModalOpen && <WhitelistedModal message={modalMessage} onClose={closeModal} />}
+       {isModalOpen && <WhitelistedModal message={modalMessage} onClose={closeModal}}
     </div>
   );
 }
