@@ -25,7 +25,7 @@ const WhitelistedModal = ({ message, onClose }) => {
           background: 'blue',
           backgroundSize: 'cover', // Ensures the image covers the entire background
           backgroundRepeat: 'repeat', // Repeats the image to fill the space
-          animation: 'waveAnimation 10s linear infinite', // Add wave animation
+          
         }}
       ></div>
       <div
@@ -44,22 +44,7 @@ const WhitelistedModal = ({ message, onClose }) => {
           textAlign: 'center', // Center text
         }}
       >
-        <p id="modal-message">{message}</p>
-        <button
-          id="modal-close"
-          onClick={onClose}
-          style={{
-            background: '#2575fc', // Blue button
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginTop: '15px',
-          }}
-        >
-          Close
-        </button>
+        
       </div>
     </div>
   );
