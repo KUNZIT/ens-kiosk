@@ -3,10 +3,9 @@ import React from 'react';
 
 interface NotWhitelistedModalProps {
   message: string;
-  onClose: () => void;
 }
 
-const NotWhitelistedModal: React.FC<NotWhitelistedModalProps> = ({ message, onClose }) => {
+const NotWhitelistedModal: React.FC<NotWhitelistedModalProps> = ({ message }) => {
   return (
     <div
       style={{
@@ -14,14 +13,15 @@ const NotWhitelistedModal: React.FC<NotWhitelistedModalProps> = ({ message, onCl
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        backgroundColor: 'white',
+        backgroundColor: 'black',
         padding: '20px',
-        border: '1px solid black',
+        border: '1px solid red', // Red border for emphasis
         zIndex: 1000,
+        borderRadius: '8px', // Rounded corners
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Add a subtle shadow
       }}
     >
-      <p>{message}</p>
-      <button onClick={onClose}>Close</button>
+      <p style={{ color: 'red', fontWeight: 'bold', fontSize: '1.2em' }}>{message}</p>
     </div>
   );
 };
