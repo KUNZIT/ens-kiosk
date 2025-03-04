@@ -1,6 +1,6 @@
 import React from 'react';
 
-const WhitelistedModal = ({ message, onClose }) => {
+const WhitelistedModal = ({ message }) => { // Removed onClose prop
   return (
     <div
       id="modal-container"
@@ -23,8 +23,8 @@ const WhitelistedModal = ({ message, onClose }) => {
           width: '100%',
           height: '100%',
           background: 'blue',
-          backgroundSize: 'cover', // Ensures the image covers the entire background
-          backgroundRepeat: 'repeat', // Repeats the image to fill the space
+          backgroundSize: 'cover',
+          backgroundRepeat: 'repeat',
           
         }}
       ></div>
@@ -35,17 +35,16 @@ const WhitelistedModal = ({ message, onClose }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          background: 'black', // Black background for the message
+          background: 'black',
           padding: '20px',
           borderRadius: '8px',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)', // Darker shadow for black background
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
           zIndex: 1001,
-          color: 'white', // White text
+          color: 'white',
           textAlign: 'center',
-          fontSize: '1.2em', 
         }}
       >
-        
+        <p id="modal-message" style={{ fontSize: '1.2em' }}>{message}</p>
       </div>
     </div>
   );
