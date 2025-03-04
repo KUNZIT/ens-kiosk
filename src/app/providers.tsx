@@ -6,7 +6,7 @@ import { createConfig, http, WagmiProvider } from "wagmi"
 import { mainnet } from "wagmi/chains"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { walletConnect } from "wagmi/connectors"
-
+import { type State, WagmiConfig } from 'wagmi';
 // Create a query client
 const queryClient = new QueryClient()
 
