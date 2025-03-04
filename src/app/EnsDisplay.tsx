@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAccount, useEnsAvatar } from 'wagmi';
 import { normalize } from 'viem/ens';
 import { getEnsName } from './ensUtils';
+import WhitelistedModal from './WhitelistedModal';
 
 export function EnsDisplay() {
   const { address, isConnected } = useAccount();
@@ -13,6 +14,20 @@ export function EnsDisplay() {
   const { data: avatarUrl, isLoading: avatarLoading, error: avatarError } = useEnsAvatar({
     name: ensName ? normalize(ensName) : undefined,
   });
+
+const MyPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const handleWhitelisted = (ensName) => {
+    setModalMessage(`${ensName} is whitelisted!`);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   useEffect(() => {
     async function fetchEnsData() {
@@ -59,7 +74,12 @@ export function EnsDisplay() {
           });
           const data = await response.json();
           if (data.isWhitelisted) {
-            alert(`${ensName} is whitelisted!`);
+          
+          
+            showModal(WhitelistedModal);
+            
+            
+            
           }
         } catch (error) {
           console.error("Error checking whitelist:", error);
@@ -97,6 +117,7 @@ export function EnsDisplay() {
         />
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
+       {isModalOpen && <WhitelistedModal message={modalMessage} onClose={closeModal} />}
     </div>
   );
 }
