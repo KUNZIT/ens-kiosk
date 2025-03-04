@@ -1,6 +1,6 @@
 import { http, createConfig } from 'wagmi'
 import { mainnet, sepolia } from 'wagmi/chains'
-
+import { walletConnect } from 'wagmi/connectors'
 const projectId = '<WALLETCONNECT_PROJECT_ID>'
 
 export const config = createConfig({
