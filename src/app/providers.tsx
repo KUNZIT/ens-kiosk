@@ -1,43 +1,17 @@
-"use client"
+"use client";
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type ReactNode, useState } from 'react';
-
-import { createConfig, http, WagmiProvider } from "wagmi"
-import { mainnet } from "wagmi/chains"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { walletConnect } from "wagmi/connectors"
 import { type State, WagmiConfig } from 'wagmi';
-// Create a query client
-const queryClient = new QueryClient()
+import { WagmiProvider } from 'wagmi';
+import { config } from './config';
 
-// Make sure your WalletConnect ID is properly accessed
-const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_ID
+export function Providers(props: {
+  children: ReactNode;
+  initialState?: State;
+}) {
+  const [queryClient] = useState(() => new QueryClient());
 
-if (!walletConnectProjectId) {
-  console.error("WalletConnect Project ID is not set")
-}
-
-// Create wagmi config
-const config = createConfig({
-  chains: [mainnet],
-  transports: {
-    [mainnet.id]: http(),
-  },
-  connectors: [
-    walletConnect({
-      projectId: walletConnectProjectId!,
-      metadata: {
-        name: "ENS Kiosk",
-        description: "ENS Profile Display",
-        url: "https://ens-kiosk.vercel.app",
-        icons: ["https://avatars.githubusercontent.com/u/37784886"],
-      },
-    }),
-    
-  ],
-})
-
-export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiConfig config={config} initialState={props.initialState}>
       <QueryClientProvider client={queryClient}>
@@ -46,4 +20,3 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </WagmiConfig>
   );
 }
-
