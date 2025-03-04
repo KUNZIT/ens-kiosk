@@ -1,51 +1,24 @@
 import React from 'react';
 
-const WhitelistedModal = ({ message }) => { // Removed onClose prop
+const WhitelistedModal = ({ message }) => {
   return (
     <div
-      id="modal-container"
       style={{
-        display: 'block',
         position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 1000,
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
+        zIndex: 1001,
+        color: 'black', // Changed to black for better contrast
+        textAlign: 'center',
+        border: '1px solid green', // Added green border
       }}
     >
-      <div
-        id="modal-background"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'blue',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'repeat',
-          
-        }}
-      ></div>
-      <div
-        id="modal-content"
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'black',
-          padding: '20px',
-          borderRadius: '8px',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
-          zIndex: 1001,
-          color: 'white',
-          textAlign: 'center',
-        }}
-      >
-        <p id="modal-message" style={{ fontSize: '1.2em' }}>{message}</p>
-      </div>
+      <p style={{ fontSize: '1.2em', color: 'green' }}>{message}</p>
     </div>
   );
 };
