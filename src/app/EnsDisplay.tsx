@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react'; // Added useCallback
 import { useAccount, useEnsAvatar } from 'wagmi';
 import { normalize } from 'viem/ens';
 import { getEnsName } from './ensUtils';
 import WhitelistedModal from './WhitelistedModal';
+import NotWhitelistedModal from './NotWhitelistedModal'; // Import the new modal
 
 export function EnsDisplay() {
   const { address, isConnected } = useAccount();
@@ -15,16 +16,26 @@ export function EnsDisplay() {
     name: ensName ? normalize(ensName) : undefined,
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWhitelistedModalOpen, setIsWhitelistedModalOpen] = useState(false);
+  const [isNotWhitelistedModalOpen, setIsNotWhitelistedModalOpen] = useState(false); // New modal state
   const [modalMessage, setModalMessage] = useState('');
 
-  const handleWhitelisted = (ensName: string) => {
+  const handleWhitelisted = useCallback((ensName: string) => { // Use useCallback
     setModalMessage(`${ensName} is whitelisted!`);
-    setIsModalOpen(true);
+    setIsWhitelistedModalOpen(true);
+  }, []);
+
+  const handleNotWhitelisted = useCallback((ensName: string) => { // Use useCallback
+      setModalMessage(`${ensName} is not whitelisted.`);
+      setIsNotWhitelistedModalOpen(true);
+  }, []);
+
+  const closeWhitelistedModal = () => {
+    setIsWhitelistedModalOpen(false);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeNotWhitelistedModal = () => { // New modal close function
+    setIsNotWhitelistedModalOpen(false);
   };
 
   useEffect(() => {
@@ -72,7 +83,9 @@ export function EnsDisplay() {
           });
           const data = await response.json();
           if (data.isWhitelisted) {
-            handleWhitelisted(ensName); //Open Modal
+            handleWhitelisted(ensName); // Open Whitelisted Modal
+          } else {
+            handleNotWhitelisted(ensName); // Open Not Whitelisted Modal
           }
         } catch (error) {
           console.error("Error checking whitelist:", error);
@@ -81,7 +94,7 @@ export function EnsDisplay() {
     };
 
     checkWhitelist();
-  }, [ensName, handleWhitelisted]); // Add handleWhitelisted to dependency array
+  }, [ensName, handleWhitelisted, handleNotWhitelisted]); // Add handleNotWhitelisted to dependency array
 
   if (!isConnected) {
     return <p>Connect your wallet to see your ENS profile.</p>;
@@ -109,7 +122,8 @@ export function EnsDisplay() {
         />
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
-      {isModalOpen && <WhitelistedModal message={modalMessage}  />}
+      {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} onClose={closeWhitelistedModal} />}
+      {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} onClose={closeNotWhitelistedModal} />}
     </div>
   );
 }
