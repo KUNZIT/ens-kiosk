@@ -2,7 +2,7 @@ import React from 'react';
 
 interface WhitelistedModalProps {
   message: string;
-  remainingTime?: number; // Optional remaining time prop
+  remainingTime?: number;
 }
 
 const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingTime }) => {
@@ -26,7 +26,7 @@ const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingT
       <p style={{ fontSize: '1.2em', color: 'green' }}>{message}</p>
       {remainingTime !== undefined && (
         <p style={{ fontSize: '1.1em', marginTop: '10px' }}>
-          Already checked. Please come back after: {remainingTime} hours
+          Already checked. Please come back after: {remainingTime} minutes
         </p>
       )}
     </div>

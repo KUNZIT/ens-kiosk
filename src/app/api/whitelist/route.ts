@@ -18,10 +18,10 @@ export async function POST(request: Request) {
       const oneHour = 3600000;
 
       if (lastChecked && now - parseInt(lastChecked) < oneHour) {
-        const remainingTime = (oneHour - (now - parseInt(lastChecked))) / 3600000;
-        return NextResponse.json({ isWhitelisted: true, alreadyChecked: true, remainingTime });
+        const remainingMinutes = Math.round((oneHour - (now - parseInt(lastChecked))) / 60000); // Calculate minutes
+        return NextResponse.json({ isWhitelisted: true, alreadyChecked: true, remainingTime: remainingMinutes });
       } else {
-        await redis.set(`lastChecked:${ensName}`, now.toString()); // Set last checked time
+        await redis.set(`lastChecked:${ensName}`, now.toString());
         return NextResponse.json({ isWhitelisted: true, alreadyChecked: false });
       }
     } else {
