@@ -21,11 +21,17 @@ export function EnsDisplay() {
   const [modalMessage, setModalMessage] = useState('');
   const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false); // Add this state
 
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
     console.log("handleWhitelisted called:", ensName, "remainingTime:", remainingTime);
     setModalMessage(`${ensName} is whitelisted!`);
     setRemainingCheckTime(remainingTime);
+    if (remainingTime === undefined) {
+      setIsFirstTimeWhitelisted(true); // Set to true only if remainingTime is undefined
+    } else {
+      setIsFirstTimeWhitelisted(false);
+    }
     setIsWhitelistedModalOpen(true);
   }, []);
 
@@ -38,6 +44,7 @@ export function EnsDisplay() {
   const closeWhitelistedModal = () => {
     setIsWhitelistedModalOpen(false);
     setRemainingCheckTime(undefined);
+    setIsFirstTimeWhitelisted(false); // Reset when modal is closed
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -57,10 +64,6 @@ export function EnsDisplay() {
           const resolvedName = await getEnsName(address, process.env.NEXT_PUBLIC_ALCHEMY_ID);
           setEnsName(resolvedName);
           console.log("Fetched ENS Name:", resolvedName);
-          if (resolvedName) {
-            const audio = new Audio('/assets/beep.mp3');
-            audio.play();
-          }
         } catch (err) {
           console.error("Error fetching ENS data:", err);
           setError("Error fetching ENS data.");
@@ -96,11 +99,7 @@ export function EnsDisplay() {
           const data = await response.json();
           console.log("API response:", data);
           if (data.isWhitelisted) {
-            if (data.alreadyChecked) {
-              handleWhitelisted(ensName, data.remainingTime);
-            } else {
-              handleWhitelisted(ensName);
-            }
+            handleWhitelisted(ensName, data.remainingTime);
           } else {
             handleNotWhitelisted(ensName);
           }
@@ -128,7 +127,7 @@ export function EnsDisplay() {
             return undefined;
           }
         });
-      }, 3600000);
+      }, 60000); // 1 minute
 
       return () => {
         if (timerRef.current) {
@@ -138,6 +137,13 @@ export function EnsDisplay() {
       };
     }
   }, [isWhitelistedModalOpen, remainingCheckTime]);
+
+  useEffect(() => {
+    if (isWhitelistedModalOpen && isFirstTimeWhitelisted) {
+      const audio = new Audio('/assets/beep.mp3');
+      audio.play();
+    }
+  }, [isWhitelistedModalOpen, isFirstTimeWhitelisted]);
 
   if (!isConnected) {
     return <p>Connect your wallet to see your ENS profile.</p>;
