@@ -13,7 +13,7 @@ const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingT
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        backgroundColor: 'white',
+        backgroundColor: 'black',
         padding: '20px',
         borderRadius: '8px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
@@ -23,9 +23,9 @@ const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingT
         border: '1px solid green',
       }}
     >
-      <p style={{ fontSize: '1.2em', color: 'green' }}>{message}</p>
+      <p style={{ fontSize: '1.2em', color: 'white' }}>{message}</p>
       {remainingTime !== undefined && (
-        <p style={{ fontSize: '1.1em', marginTop: '10px' }}>
+        <p style={{ fontSize: '1.2em',color: 'red', marginTop: '10px' }}>
           Already checked. Please come back after: {remainingTime} minutes
         </p>
       )}
