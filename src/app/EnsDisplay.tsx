@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect, useCallback } from 'react'; // Added useCallback
+import { useState, useEffect, useCallback } from 'react';
 import { useAccount, useEnsAvatar } from 'wagmi';
 import { normalize } from 'viem/ens';
 import { getEnsName } from './ensUtils';
 import WhitelistedModal from './WhitelistedModal';
-import NotWhitelistedModal from './NotWhitelistedModal'; // Import the new modal
+import NotWhitelistedModal from './NotWhitelistedModal';
+import IsCheckedModal from './IsCheckedModal'; // Import the new modal
 
 export function EnsDisplay() {
   const { address, isConnected } = useAccount();
@@ -17,25 +18,36 @@ export function EnsDisplay() {
   });
 
   const [isWhitelistedModalOpen, setIsWhitelistedModalOpen] = useState(false);
-  const [isNotWhitelistedModalOpen, setIsNotWhitelistedModalOpen] = useState(false); // New modal state
+  const [isNotWhitelistedModalOpen, setIsNotWhitelistedModalOpen] = useState(false);
+  const [isAlreadyCheckedModalOpen, setIsAlreadyCheckedModalOpen] = useState(false); // New modal state
   const [modalMessage, setModalMessage] = useState('');
+  const [remainingCheckTime, setRemainingCheckTime] = useState(0); // New state for remaining time
 
-  const handleWhitelisted = useCallback((ensName: string) => { // Use useCallback
+  const handleWhitelisted = useCallback((ensName: string) => {
     setModalMessage(`${ensName} is whitelisted!`);
     setIsWhitelistedModalOpen(true);
   }, []);
 
-  const handleNotWhitelisted = useCallback((ensName: string) => { // Use useCallback
-      setModalMessage(`${ensName} is not whitelisted.`);
-      setIsNotWhitelistedModalOpen(true);
+  const handleNotWhitelisted = useCallback((ensName: string) => {
+    setModalMessage(`${ensName} is not whitelisted.`);
+    setIsNotWhitelistedModalOpen(true);
+  }, []);
+
+  const handleAlreadyChecked = useCallback((time: number) => {
+    setRemainingCheckTime(time);
+    setIsAlreadyCheckedModalOpen(true);
   }, []);
 
   const closeWhitelistedModal = () => {
     setIsWhitelistedModalOpen(false);
   };
 
-  const closeNotWhitelistedModal = () => { // New modal close function
+  const closeNotWhitelistedModal = () => {
     setIsNotWhitelistedModalOpen(false);
+  };
+
+  const closeAlreadyCheckedModal = () => {
+    setIsAlreadyCheckedModalOpen(false);
   };
 
   useEffect(() => {
@@ -83,9 +95,13 @@ export function EnsDisplay() {
           });
           const data = await response.json();
           if (data.isWhitelisted) {
-            handleWhitelisted(ensName); // Open Whitelisted Modal
+            if (data.alreadyChecked) {
+              handleAlreadyChecked(data.remainingTime);
+            } else {
+              handleWhitelisted(ensName);
+            }
           } else {
-            handleNotWhitelisted(ensName); // Open Not Whitelisted Modal
+            handleNotWhitelisted(ensName);
           }
         } catch (error) {
           console.error("Error checking whitelist:", error);
@@ -94,7 +110,7 @@ export function EnsDisplay() {
     };
 
     checkWhitelist();
-  }, [ensName, handleWhitelisted, handleNotWhitelisted]); // Add handleNotWhitelisted to dependency array
+  }, [ensName, handleWhitelisted, handleNotWhitelisted, handleAlreadyChecked]);
 
   if (!isConnected) {
     return <p>Connect your wallet to see your ENS profile.</p>;
@@ -124,6 +140,7 @@ export function EnsDisplay() {
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
       {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} />}
       {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} />}
+      {isAlreadyCheckedModalOpen && <IsCheckedModal remainingTime={remainingCheckTime} />}
     </div>
   );
 }
