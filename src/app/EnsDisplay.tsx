@@ -5,7 +5,6 @@ import { normalize } from 'viem/ens';
 import { getEnsName } from './ensUtils';
 import WhitelistedModal from './WhitelistedModal';
 import NotWhitelistedModal from './NotWhitelistedModal';
-import IsCheckedModal from './IsCheckedModal';
 
 export function EnsDisplay() {
   const { address, isConnected } = useAccount();
@@ -19,15 +18,14 @@ export function EnsDisplay() {
 
   const [isWhitelistedModalOpen, setIsWhitelistedModalOpen] = useState(false);
   const [isNotWhitelistedModalOpen, setIsNotWhitelistedModalOpen] = useState(false);
-  const [isAlreadyCheckedModalOpen, setIsAlreadyCheckedModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [remainingCheckTime, setRemainingCheckTime] = useState(0);
-  const [initialCheckTime, setInitialCheckTime] = useState(0);
+  const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const handleWhitelisted = useCallback((ensName: string) => {
-    console.log("handleWhitelisted called:", ensName);
+  const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
+    console.log("handleWhitelisted called:", ensName, "remainingTime:", remainingTime);
     setModalMessage(`${ensName} is whitelisted!`);
+    setRemainingCheckTime(remainingTime);
     setIsWhitelistedModalOpen(true);
   }, []);
 
@@ -37,23 +35,17 @@ export function EnsDisplay() {
     setIsNotWhitelistedModalOpen(true);
   }, []);
 
-  const handleAlreadyChecked = useCallback((time: number) => {
-    console.log("handleAlreadyChecked called, time:", time);
-    setInitialCheckTime(time);
-    setRemainingCheckTime(time);
-    setIsAlreadyCheckedModalOpen(true);
-  }, []);
-
   const closeWhitelistedModal = () => {
     setIsWhitelistedModalOpen(false);
+    setRemainingCheckTime(undefined); // Reset remaining time when modal is closed
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
   };
 
   const closeNotWhitelistedModal = () => {
     setIsNotWhitelistedModalOpen(false);
-  };
-
-  const closeAlreadyCheckedModal = () => {
-    setIsAlreadyCheckedModalOpen(false);
   };
 
   useEffect(() => {
@@ -105,7 +97,7 @@ export function EnsDisplay() {
           console.log("API response:", data);
           if (data.isWhitelisted) {
             if (data.alreadyChecked) {
-              handleAlreadyChecked(data.remainingTime);
+              handleWhitelisted(ensName, data.remainingTime);
             } else {
               handleWhitelisted(ensName);
             }
@@ -119,20 +111,21 @@ export function EnsDisplay() {
     };
 
     checkWhitelist();
-  }, [ensName, handleWhitelisted, handleNotWhitelisted, handleAlreadyChecked]);
+  }, [ensName, handleWhitelisted, handleNotWhitelisted]);
 
   useEffect(() => {
-    if (isAlreadyCheckedModalOpen) {
-      console.log("Starting timer, initialCheckTime:", initialCheckTime);
+    if (isWhitelistedModalOpen && remainingCheckTime !== undefined) {
+      console.log("Starting timer, remainingCheckTime:", remainingCheckTime);
       timerRef.current = setInterval(() => {
         setRemainingCheckTime((prevTime) => {
-          if (prevTime > 0) {
-            console.log("Remaining time:", prevTime);
+          if (prevTime && prevTime > 0) {
+            console.log("Remaining time:", prevTime - 1);
             return prevTime - 1;
           } else {
             console.log("Timer finished");
             clearInterval(timerRef.current!);
-            return 0;
+            timerRef.current = null;
+            return undefined;
           }
         });
       }, 3600000);
@@ -143,15 +136,8 @@ export function EnsDisplay() {
           clearInterval(timerRef.current);
         }
       };
-    } else {
-      if (timerRef.current) {
-        console.log("Clearing timer");
-        clearInterval(timerRef.current);
-      }
-      console.log("Resetting remaining time to initialCheckTime:", initialCheckTime);
-      setRemainingCheckTime(initialCheckTime);
     }
-  }, [isAlreadyCheckedModalOpen, initialCheckTime]);
+  }, [isWhitelistedModalOpen, remainingCheckTime]);
 
   if (!isConnected) {
     return <p>Connect your wallet to see your ENS profile.</p>;
@@ -179,9 +165,8 @@ export function EnsDisplay() {
         />
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
-      {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} />}
+      {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} remainingTime={remainingCheckTime} />}
       {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} />}
-      {isAlreadyCheckedModalOpen && <IsCheckedModal remainingTime={remainingCheckTime} />}
     </div>
   );
 }
