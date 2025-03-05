@@ -30,7 +30,7 @@ function App() {
 
       timerTimeoutRef.current = setTimeout(() => {
         disconnect();
-        router.refresh();
+        window.location.reload(); // Perform full page reload
       }, 30000);
     } else {
       // Clear timers when disconnected
