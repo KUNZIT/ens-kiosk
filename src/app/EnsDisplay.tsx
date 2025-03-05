@@ -22,20 +22,23 @@ export function EnsDisplay() {
   const [isAlreadyCheckedModalOpen, setIsAlreadyCheckedModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [remainingCheckTime, setRemainingCheckTime] = useState(0);
-  const [initialCheckTime, setInitialCheckTime] = useState(0); // Store initial time
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null); // Use useRef for timer
+  const [initialCheckTime, setInitialCheckTime] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const handleWhitelisted = useCallback((ensName: string) => {
+    console.log("handleWhitelisted called:", ensName);
     setModalMessage(`${ensName} is whitelisted!`);
     setIsWhitelistedModalOpen(true);
   }, []);
 
   const handleNotWhitelisted = useCallback((ensName: string) => {
+    console.log("handleNotWhitelisted called:", ensName);
     setModalMessage(`${ensName} is not whitelisted.`);
     setIsNotWhitelistedModalOpen(true);
   }, []);
 
   const handleAlreadyChecked = useCallback((time: number) => {
+    console.log("handleAlreadyChecked called, time:", time);
     setInitialCheckTime(time);
     setRemainingCheckTime(time);
     setIsAlreadyCheckedModalOpen(true);
@@ -120,26 +123,32 @@ export function EnsDisplay() {
 
   useEffect(() => {
     if (isAlreadyCheckedModalOpen) {
+      console.log("Starting timer, initialCheckTime:", initialCheckTime);
       timerRef.current = setInterval(() => {
         setRemainingCheckTime((prevTime) => {
           if (prevTime > 0) {
+            console.log("Remaining time:", prevTime);
             return prevTime - 1;
           } else {
+            console.log("Timer finished");
             clearInterval(timerRef.current!);
             return 0;
           }
         });
-      }, 3600000); // 1 hour in milliseconds
+      }, 3600000);
 
       return () => {
         if (timerRef.current) {
+          console.log("Clearing timer");
           clearInterval(timerRef.current);
         }
       };
     } else {
       if (timerRef.current) {
+        console.log("Clearing timer");
         clearInterval(timerRef.current);
       }
+      console.log("Resetting remaining time to initialCheckTime:", initialCheckTime);
       setRemainingCheckTime(initialCheckTime);
     }
   }, [isAlreadyCheckedModalOpen, initialCheckTime]);
