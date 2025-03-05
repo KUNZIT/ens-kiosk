@@ -2,7 +2,7 @@
 
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { EnsDisplay } from './EnsDisplay';
-import { useEffect, useState, useRef } from 'react'; // Import useRef
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 function App() {
@@ -11,29 +11,29 @@ function App() {
   const { disconnect } = useDisconnect();
   const [remainingTime, setRemainingTime] = useState(30);
   const router = useRouter();
-  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null); // Use useRef for interval
-  const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Use useRef for timeout
+  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const disconnectCompleteRef = useRef(false); // Add ref to track disconnection
 
   useEffect(() => {
     if (account.isConnected) {
-      setRemainingTime(30); // Reset timer when connected
+      setRemainingTime(30);
       timerIntervalRef.current = setInterval(() => {
         setRemainingTime((prevTime) => {
           if (prevTime > 0) {
             return prevTime - 1;
           } else {
             clearInterval(timerIntervalRef.current!);
-            return 0; // Prevent negative time
+            return 0;
           }
         });
       }, 1000);
 
       timerTimeoutRef.current = setTimeout(() => {
         disconnect();
-        window.location.reload(); // Perform full page reload
+        disconnectCompleteRef.current = true; // Set flag when disconnect is initiated
       }, 30000);
     } else {
-      // Clear timers when disconnected
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
         timerIntervalRef.current = null;
@@ -42,11 +42,10 @@ function App() {
         clearTimeout(timerTimeoutRef.current);
         timerTimeoutRef.current = null;
       }
-      setRemainingTime(30); // Reset timer
+      setRemainingTime(30);
     }
 
     return () => {
-      // Cleanup on unmount
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
       }
@@ -55,6 +54,13 @@ function App() {
       }
     };
   }, [account.isConnected, disconnect, router]);
+
+  useEffect(() => {
+    if (!account.isConnected && disconnectCompleteRef.current) {
+      window.location.reload(); // Reload only after disconnect is complete
+      disconnectCompleteRef.current = false; // Reset the flag
+    }
+  }, [account.isConnected]);
 
   return (
     <>
