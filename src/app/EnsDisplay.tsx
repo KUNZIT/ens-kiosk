@@ -37,7 +37,7 @@ export function EnsDisplay() {
 
   const closeWhitelistedModal = () => {
     setIsWhitelistedModalOpen(false);
-    setRemainingCheckTime(undefined); // Reset remaining time when modal is closed
+    setRemainingCheckTime(undefined);
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
