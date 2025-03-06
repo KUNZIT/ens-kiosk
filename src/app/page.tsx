@@ -71,8 +71,18 @@ function App() {
         </div>
         {account.status === 'connected' && (
           <>
-            <button type="button" onClick={() => disconnect()}>
+            <button type="button" onClick={() => disconnect()}style={{
+              padding: '0.5rem 1rem', // Adjust padding
+              fontSize: '0.8rem', // Adjust font size
+              backgroundColor: '#e74c3c', // Red background color
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}>
               Disconnect
+              
+              
             </button>
             <div>Time remaining: {remainingTime} seconds</div>
           </>
