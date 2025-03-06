@@ -63,12 +63,11 @@ function App() {
   }, [account.isConnected]);
 
   return (
-    <>
-     <div style={{ textAlign: 'center', marginTop: '2rem' }}> {/* Center the content */}
+    <div style={{ textAlign: 'center', marginTop: '2rem' }}>
       <div>
         <h2></h2>
         <div>
-          
+          {/* Empty div */}
         </div>
         {account.status === 'connected' && (
           <>
@@ -80,20 +79,31 @@ function App() {
         )}
       </div>
 
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h2>ENS KIOSK</h2>
-        {connectors.map((connector) => (
-          <button
-            key={connector.uid}
-            onClick={() => {
-              console.log('Connecting with:', connector.name);
-              connect({ connector });
-            }}
-            type="button"
-          >
-            {connector.name}
-          </button>
-        ))}
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+          {connectors.map((connector) => (
+            <button
+              key={connector.uid}
+              onClick={() => {
+                console.log('Connecting with:', connector.name);
+                connect({ connector });
+              }}
+              type="button"
+              style={{
+                padding: '1rem 2rem',
+                fontSize: '1rem',
+                backgroundColor: '#3498db',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+              }}
+            >
+              {connector.name}
+            </button>
+          ))}
+        </div>
         <div>{status}</div>
         <div>{error?.message}</div>
       </div>
@@ -102,7 +112,7 @@ function App() {
         <h2></h2>
         <EnsDisplay />
       </div>
-    </>
+    </div>
   );
 }
 
