@@ -146,7 +146,7 @@ export function EnsDisplay() {
   }, [isWhitelistedModalOpen, isFirstTimeWhitelisted]);
 
   if (!isConnected) {
-    return <p>Connect your wallet to see your ENS profile.</p>;
+    return <p>Connect your wallet profile.</p>;
   }
 
   if (avatarErrorMessage) {
