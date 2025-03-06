@@ -65,13 +65,9 @@ function App() {
   return (
     <>
       <div>
-        <h2>Account</h2>
+        <h2></h2>
         <div>
-          status: {account.status}
-          <br />
-          addresses: {JSON.stringify(account.addresses)}
-          <br />
-          chainId: {account.chainId}
+          
         </div>
         {account.status === 'connected' && (
           <>
@@ -84,7 +80,7 @@ function App() {
       </div>
 
       <div>
-        <h2>Connect</h2>
+        <h2>ENS KIOSK</h2>
         {connectors.map((connector) => (
           <button
             key={connector.uid}
@@ -102,7 +98,7 @@ function App() {
       </div>
 
       <div>
-        <h2>ENS Display</h2>
+        <h2></h2>
         <EnsDisplay />
       </div>
     </>
