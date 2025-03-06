@@ -146,7 +146,7 @@ export function EnsDisplay() {
   }, [isWhitelistedModalOpen, isFirstTimeWhitelisted]);
 
   if (!isConnected) {
-    return <p>Connect your wallet profile.</p>;
+    return <p></p>;
   }
 
   if (avatarErrorMessage) {
