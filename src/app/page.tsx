@@ -73,13 +73,19 @@ function App() {
           <>
             <button type="button" onClick={() => disconnect()}style={{
               padding: '0.5rem 1rem', // Adjust padding
-              fontSize: '0.8rem', // Adjust font size
-              backgroundColor: '#e74c3c', // Red background color
+              fontSize: '1rem', // Adjust font size
+              backgroundColor: 'black', // Red background color
               color: 'white',
-              border: 'none',
+              border: 'white',
               borderRadius: '5px',
               cursor: 'pointer',
-            }}>
+            }}
+             onMouseEnter={(e) => {
+    e.currentTarget.style.backgroundColor = 'red'; // Change background color on hover
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = 'black'; // Revert to original color
+  }}>
               Disconnect
               
               
@@ -103,9 +109,9 @@ function App() {
               style={{
                 padding: '1rem 2rem',
                 fontSize: '1rem',
-                backgroundColor: '#3498db',
+                backgroundColor: 'black',
                 color: 'white',
-                border: 'none',
+                border: 'white',
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
