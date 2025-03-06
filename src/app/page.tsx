@@ -115,7 +115,13 @@ function App() {
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
-            >
+              
+              onMouseEnter={(e) => {
+    e.currentTarget.style.backgroundColor = 'blue'; // Change background color on hover
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = 'black'; // Revert to original color
+  }}>
               {connector.name}
             </button>
           ))}
