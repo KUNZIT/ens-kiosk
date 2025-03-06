@@ -96,7 +96,7 @@ function App() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <h2 style={{ fontSize: '2rem', color: 'blue' }}>ENS KIOSK</h2>
+        <h2 style={{ fontSize: '8rem', color: 'blue' }}>ENS KIOSK</h2>
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
           {connectors.map((connector) => (
             <button
