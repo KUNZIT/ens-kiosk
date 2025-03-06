@@ -76,7 +76,7 @@ function App() {
               fontSize: '1rem', // Adjust font size
               backgroundColor: 'black', // Red background color
               color: 'white',
-              border: 'white',
+              border: '2px solid white',
               borderRadius: '5px',
               cursor: 'pointer',
             }}
@@ -111,7 +111,7 @@ function App() {
                 fontSize: '1rem',
                 backgroundColor: 'black',
                 color: 'white',
-                border: 'white',
+                border: '1px solid white',
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
