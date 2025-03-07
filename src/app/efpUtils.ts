@@ -1,8 +1,8 @@
-const gradoAddress = '0x14546125429faac7f3aa78da1807069692ec7464'; // Grado's address
+
 
 export async function getGradoFollowing(): Promise<any> {
   try {
-    const response = await fetch(`https://api.ethfollow.xyz/api/v1/users/${gradoAddress}/following?limit=1000`);
+    const response = await fetch(`https://api.ethfollow.xyz/api/v1/users/grado.eth/following?limit=1000`);
     const data = await response.json();
     return data.following; // Assuming the API response structure
   } catch (error) {
