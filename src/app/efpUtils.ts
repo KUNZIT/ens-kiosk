@@ -2,7 +2,7 @@
 
 export async function getGradoFollowing(): Promise<any> {
   try {
-    const response = await fetch(`https://api.ethfollow.xyz/api/v1/users/grado.eth/following?limit=1000`);
+    const response = await fetch(`https://api.ethfollow.xyz/api/v1/users/grado.eth/following?limit=2000`);
     const data = await response.json();
     return data.following; // Assuming the API response structure
   } catch (error) {
