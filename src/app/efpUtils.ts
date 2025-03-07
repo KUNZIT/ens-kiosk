@@ -11,6 +11,16 @@ export async function getGradoFollowing(): Promise<any> {
   }
 }
 
+export interface Follow { // Add "export" here
+  efp_list_nft_token_id: string;
+  address: string;
+  tags: string;
+  is_following: boolean;
+  is_blocked: boolean;
+  is_muted: boolean;
+  updated_at: string;
+}
+
 export async function isUserFollowedByGrado(userAddress: string): Promise<boolean> {
   try {
     const following = await getGradoFollowing();
