@@ -1,3 +1,5 @@
+// EnsDisplay.tsx
+
 "use client";
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAccount, useEnsAvatar } from 'wagmi';
@@ -5,14 +7,13 @@ import { normalize } from 'viem/ens';
 import { getEnsName } from './ensUtils';
 import WhitelistedModal from './WhitelistedModal';
 import NotWhitelistedModal from './NotWhitelistedModal';
-import { isUserFollowedByGrado } from './efpUtils'; // Import from your EFP API file
-
+import { isUserFollowedByGrado } from './efpUtils';
 
 interface EnsDisplayProps {
   efpMessage: string; // Add efpMessage to the props type
 }
 
-export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
+export function EnsDisplay({ efpMessage }: EnsDisplayProps) { // Add efpMessage to the props
   const { address, isConnected } = useAccount();
   const [ensName, setEnsName] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,14 +28,14 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   const [modalMessage, setModalMessage] = useState('');
   const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false); // Add this state
+  const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false);
 
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
     console.log("handleWhitelisted called:", ensName, "remainingTime:", remainingTime);
     setModalMessage(`${ensName} is whitelisted!`);
     setRemainingCheckTime(remainingTime);
     if (remainingTime === undefined) {
-      setIsFirstTimeWhitelisted(true); // Set to true only if remainingTime is undefined
+      setIsFirstTimeWhitelisted(true);
     } else {
       setIsFirstTimeWhitelisted(false);
     }
@@ -50,7 +51,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   const closeWhitelistedModal = () => {
     setIsWhitelistedModalOpen(false);
     setRemainingCheckTime(undefined);
-    setIsFirstTimeWhitelisted(false); // Reset when modal is closed
+    setIsFirstTimeWhitelisted(false);
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -117,30 +118,6 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
 
     checkWhitelist();
   }, [ensName, handleWhitelisted, handleNotWhitelisted]);
-  
-  
-  const [efpMessage, setEfpMessage] = useState(''); // State for EFP message
-
-  useEffect(() => {
-    const checkEfpFollow = async () => {
-      if (address) {
-        try {
-          const isFollowed = await isUserFollowedByGrado(address);
-          if (isFollowed) {
-            setEfpMessage('grado.eth follows you!');
-          } else {
-            setEfpMessage('grado.eth does NOT follow you.');
-          }
-        } catch (error) {
-          console.error('Error checking EFP follow status:', error);
-          // Handle the error, e.g., show an error message
-        }
-      }
-    };
-
-    checkEfpFollow();
-  }, [address]);
-  
 
   useEffect(() => {
     if (isWhitelistedModalOpen && remainingCheckTime !== undefined) {
@@ -175,6 +152,26 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     }
   }, [isWhitelistedModalOpen, isFirstTimeWhitelisted]);
 
+  useEffect(() => {
+    const checkEfpFollow = async () => {
+      if (address) {
+        try {
+          const isFollowed = await isUserFollowedByGrado(address);
+          if (isFollowed) {
+            // setEfpMessage('grado.eth follows you!'); No longer needed here.
+          } else {
+            // setEfpMessage('grado.eth does NOT follow you.'); No longer needed here.
+          }
+        } catch (error) {
+          console.error('Error checking EFP follow status:', error);
+          // Handle the error, e.g., show an error message
+        }
+      }
+    };
+
+    checkEfpFollow();
+  }, [address]);
+
   if (!isConnected) {
     return <p></p>;
   }
@@ -201,8 +198,13 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
         />
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
-      <div className="efp-message">{efpMessage}</div> {/* Display EFP message */}
-      {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} remainingTime={remainingCheckTime} efpMessage={efpMessage} />}
+      {isWhitelistedModalOpen && (
+        <WhitelistedModal
+          message={modalMessage}
+          remainingTime={remainingCheckTime}
+          efpMessage={efpMessage}
+        />
+      )}
       {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} />}
     </div>
   );
