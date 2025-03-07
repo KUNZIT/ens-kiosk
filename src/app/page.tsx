@@ -14,7 +14,9 @@ function App() {
   const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const disconnectCompleteRef = useRef(false); // Add ref to track disconnection
-
+  const [efpMessage, setEfpMessage] = useState(''); // State for EFP message
+  
+  
   useEffect(() => {
     if (account.isConnected) {
       setRemainingTime(30);
@@ -61,6 +63,29 @@ function App() {
       disconnectCompleteRef.current = false; // Reset the flag
     }
   }, [account.isConnected]);
+
+
+
+useEffect(() => {
+    const checkEfpFollow = async () => {
+      if (account.address) {
+        try {
+          const isFollowed = await isUserFollowedByGrado(account.address); // Assuming you have this function
+          if (isFollowed) {
+            setEfpMessage('grado.eth follows you!');
+          } else {
+            setEfpMessage('grado.eth does NOT follow you.');
+          }
+        } catch (error) {
+          console.error('Error checking EFP follow status:', error);
+          // Handle the error, e.g., show an error message
+        }
+      }
+    };
+
+    checkEfpFollow();
+  }, [account.address]);
+
 
   return (
     <div style={{ textAlign: 'center', marginTop: '2rem' }}>
@@ -133,7 +158,11 @@ function App() {
       <div>
         <h2></h2>
         <EnsDisplay />
+        
+        
       </div>
+      
+      <div className="efp-message">{efpMessage}</div> {/* Display EFP message */}
     </div>
   );
 }

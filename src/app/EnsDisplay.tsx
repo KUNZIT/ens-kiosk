@@ -5,6 +5,8 @@ import { normalize } from 'viem/ens';
 import { getEnsName } from './ensUtils';
 import WhitelistedModal from './WhitelistedModal';
 import NotWhitelistedModal from './NotWhitelistedModal';
+import { isUserFollowedByGrado } from './efpUtils'; // Import from your EFP API file
+
 
 export function EnsDisplay() {
   const { address, isConnected } = useAccount();
@@ -111,6 +113,30 @@ export function EnsDisplay() {
 
     checkWhitelist();
   }, [ensName, handleWhitelisted, handleNotWhitelisted]);
+  
+  
+  const [efpMessage, setEfpMessage] = useState(''); // State for EFP message
+
+  useEffect(() => {
+    const checkEfpFollow = async () => {
+      if (address) {
+        try {
+          const isFollowed = await isUserFollowedByGrado(address);
+          if (isFollowed) {
+            setEfpMessage('grado.eth follows you!');
+          } else {
+            setEfpMessage('grado.eth does NOT follow you.');
+          }
+        } catch (error) {
+          console.error('Error checking EFP follow status:', error);
+          // Handle the error, e.g., show an error message
+        }
+      }
+    };
+
+    checkEfpFollow();
+  }, [address]);
+  
 
   useEffect(() => {
     if (isWhitelistedModalOpen && remainingCheckTime !== undefined) {
@@ -171,6 +197,7 @@ export function EnsDisplay() {
         />
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
+      <div className="efp-message">{efpMessage}</div> {/* Display EFP message */}
       {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} remainingTime={remainingCheckTime} />}
       {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} />}
     </div>
