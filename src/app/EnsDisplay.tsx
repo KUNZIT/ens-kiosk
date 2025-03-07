@@ -8,7 +8,11 @@ import NotWhitelistedModal from './NotWhitelistedModal';
 import { isUserFollowedByGrado } from './efpUtils'; // Import from your EFP API file
 
 
-export function EnsDisplay() {
+interface EnsDisplayProps {
+  efpMessage: string; // Add efpMessage to the props type
+}
+
+export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   const { address, isConnected } = useAccount();
   const [ensName, setEnsName] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
