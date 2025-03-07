@@ -3,6 +3,7 @@ import React from 'react';
 interface WhitelistedModalProps {
   message: string;
   remainingTime?: number;
+  efpMessage?: string; // Add efpMessage prop
 }
 
 const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingTime }) => {
