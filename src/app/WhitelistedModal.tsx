@@ -1,3 +1,5 @@
+// WhitelistedModal.tsx
+
 import React from 'react';
 
 interface WhitelistedModalProps {
@@ -6,7 +8,7 @@ interface WhitelistedModalProps {
   efpMessage?: string; // Add efpMessage prop
 }
 
-const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingTime }) => {
+const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingTime, efpMessage }) => { // Destructure efpMessage
   return (
     <div
       style={{
@@ -28,11 +30,12 @@ const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingT
       {remainingTime !== undefined && (
         <p style={{ fontSize: '1.2em',color: 'red', marginTop: '10px' }}>
           Already checked. Please come back after: {remainingTime} minutes
-          
-          {efpMessage && ( // Conditionally render efpMessage
+        </p>
+      )}
+
+      {efpMessage && ( // Move this block outside the remainingTime block
         <p style={{ fontSize: '1.2em', marginTop: '10px' }}>
           {efpMessage}
-          
         </p>
       )}
     </div>
