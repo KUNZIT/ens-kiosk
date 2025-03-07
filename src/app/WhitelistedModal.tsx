@@ -28,6 +28,11 @@ const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingT
       {remainingTime !== undefined && (
         <p style={{ fontSize: '1.2em',color: 'red', marginTop: '10px' }}>
           Already checked. Please come back after: {remainingTime} minutes
+          
+          {efpMessage && ( // Conditionally render efpMessage
+        <p style={{ fontSize: '1.2em', marginTop: '10px' }}>
+          {efpMessage}
+          
         </p>
       )}
     </div>
