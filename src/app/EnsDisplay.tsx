@@ -198,7 +198,7 @@ export function EnsDisplay() {
       )}
       {ensName ? <p>ENS Name: {ensName}</p> : <p>No ENS name found for {address}</p>}
       <div className="efp-message">{efpMessage}</div> {/* Display EFP message */}
-      {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} remainingTime={remainingCheckTime} />}
+      {isWhitelistedModalOpen && <WhitelistedModal message={modalMessage} remainingTime={remainingCheckTime} efpMessage={efpMessage} />}
       {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} />}
     </div>
   );
