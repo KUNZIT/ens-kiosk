@@ -158,12 +158,12 @@ useEffect(() => {
 
       <div>
         <h2></h2>
-        <EnsDisplay />
+        <EnsDisplay efpMessage={efpMessage} />
         
         
       </div>
       
-      <div className="efp-message">{efpMessage}</div> {/* Display EFP message */}
+      
     </div>
   );
 }
