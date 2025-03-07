@@ -14,7 +14,7 @@ export async function getGradoFollowing(): Promise<any> {
 export async function isUserFollowedByGrado(userAddress: string): Promise<boolean> {
   try {
     const following = await getGradoFollowing();
-    return following.some(follow => follow.address.toLowerCase() === userAddress.toLowerCase());
+    return following.some((follow: Follow) => follow.address.toLowerCase() === userAddress.toLowerCase());
   } catch (error) {
     console.error('Error checking if user is followed by grado.eth:', error);
     return false;
