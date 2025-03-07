@@ -4,6 +4,7 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { EnsDisplay } from './EnsDisplay';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { isUserFollowedByGrado } from './efpUtils'; // Import from efpUtils.ts
 
 function App() {
   const account = useAccount();
