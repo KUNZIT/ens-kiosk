@@ -29,7 +29,6 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) { // Add efpMessage 
   const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0); // Add loadingProgress
 
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
     console.log("handleWhitelisted called:", ensName, "remainingTime:", remainingTime);
@@ -153,26 +152,6 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) { // Add efpMessage 
     }
   }, [isWhitelistedModalOpen, isFirstTimeWhitelisted]);
 
-
-useEffect(() => {
-    if (loading || avatarLoading) {
-      const interval = setInterval(() => {
-        setLoadingProgress((prevProgress) => {
-          if (prevProgress < 100) {
-            return prevProgress + 10;
-          } else {
-            return 100;
-          }
-        });
-      }, 500); // Adjust interval for speed
-
-      return () => clearInterval(interval);
-    } else {
-      setLoadingProgress(100); // Set to 100 when loading is done
-    }
-  }, [loading, avatarLoading]);
-
-
   useEffect(() => {
     const checkEfpFollow = async () => {
       if (address) {
@@ -206,19 +185,7 @@ useEffect(() => {
   }
 
   if (loading || avatarLoading) {
-    return (
-      <div style={{ marginTop: '10px' }}>
-        <div
-          style={{
-            width: `${loadingProgress}%`,
-            height: '5px',
-            backgroundColor: 'green',
-            transition: 'width 0.5s linear',
-          }}
-        ></div>
-        <p style={{ fontSize: '1.2em', color: 'white', marginTop: '5px' }}>Loading ENS profile...</p>
-      </div>
-    );
+    return <p>Loading ENS profile...</p>;
   }
 
   return (
