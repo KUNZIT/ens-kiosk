@@ -13,6 +13,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+
+
+
+
 @media (prefers-color-scheme: light) {
   :root {
     background-color: #f8f8f8;
@@ -20,3 +24,7 @@
   }
 }
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
