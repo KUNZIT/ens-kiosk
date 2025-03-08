@@ -1,10 +1,12 @@
+// page.tsx
+
 'use client';
 
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { EnsDisplay } from './EnsDisplay';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { isUserFollowedByGrado } from './efpUtils'; // Import from efpUtils.ts
+import { isUserFollowedByGrado } from './efpUtils';
 
 function App() {
   const account = useAccount();
@@ -14,16 +16,20 @@ function App() {
   const router = useRouter();
   const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const disconnectCompleteRef = useRef(false); // Add ref to track disconnection
-  const [efpMessage, setEfpMessage] = useState(''); // State for EFP message
+  const disconnectCompleteRef = useRef(false);
+  const [efpMessage, setEfpMessage] = useState('');
+  const [timerSectors, setTimerSectors] = useState<number>();
   
   
   useEffect(() => {
     if (account.isConnected) {
       setRemainingTime(30);
+      setTimerSectors(Array.from({ length: 30 }, (_, i) => i + 1));
+
       timerIntervalRef.current = setInterval(() => {
         setRemainingTime((prevTime) => {
           if (prevTime > 0) {
+            setTimerSectors((prevSectors) => prevSectors.slice(0, prevTime - 1));
             return prevTime - 1;
           } else {
             clearInterval(timerIntervalRef.current!);
@@ -34,8 +40,10 @@ function App() {
 
       timerTimeoutRef.current = setTimeout(() => {
         disconnect();
-        disconnectCompleteRef.current = true; // Set flag when disconnect is initiated
+        disconnectCompleteRef.current = true;
       }, 30000);
+      
+      
     } else {
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
@@ -89,6 +97,7 @@ useEffect(() => {
 
 
   return (
+    <main className="flex min-h-screen flex-col items-center p-24">
     <div style={{ textAlign: 'center', marginTop: '2rem' }}>
       <div>
         <h2></h2>
@@ -116,7 +125,27 @@ useEffect(() => {
               
               
             </button>
-            <div>Time remaining: {remainingTime} seconds</div>
+            <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl lg:static lg:w-auto  dark:from-black dark:to-transparent lg:!bg-red-200">
+        {account.isConnected && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', width: '300px', height: '10px', backgroundColor: '#f0f0f0' }}>
+              {timerSectors.map((sector) => (
+                <div
+                  key={sector}
+                  style={{
+                    width: `${100 / 30}%`,
+                    height: '100%',
+                    backgroundColor: 'green',
+                  }}
+                />
+              ))}
+            </div>
+
+            <p>Time remaining: {remainingTime} seconds</p>
+            <EnsDisplay efpMessage={efpMessage} />
+          </div>
+        )}
+      </div>
           </>
         )}
       </div>
@@ -165,6 +194,7 @@ useEffect(() => {
       
       
     </div>
+    </main>
   );
 }
 
