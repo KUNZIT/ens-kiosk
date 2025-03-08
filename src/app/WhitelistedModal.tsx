@@ -5,10 +5,10 @@ import React from 'react';
 interface WhitelistedModalProps {
   message: string;
   remainingTime?: number;
-  efpMessage?: string; // Add efpMessage prop
+  efpMessage?: string;
 }
 
-const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingTime, efpMessage }) => { // Destructure efpMessage
+const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingTime, efpMessage }) => {
   return (
     <div
       style={{
@@ -28,13 +28,17 @@ const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingT
     >
       <p style={{ fontSize: '1.2em', color: 'white' }}>{message}</p>
       {remainingTime !== undefined && (
-        <p style={{ fontSize: '1.2em',color: 'red', marginTop: '10px' }}>
+        <p style={{ fontSize: '1.2em', color: 'red', marginTop: '10px' }}>
           Already checked. Please come back after: {remainingTime} minutes
         </p>
       )}
 
-      {efpMessage && ( // Move this block outside the remainingTime block
-        <p style={{ fontSize: '1.2em',color: 'white', marginTop: '10px' }}>
+      {!efpMessage && ( // Show "Checking EFP status..." only when efpMessage is not available
+        <p style={{ fontSize: '1.2em', color: 'white', marginTop: '10px' }}>Checking EFP status...</p>
+      )}
+
+      {efpMessage && ( // Show efpMessage when available
+        <p style={{ fontSize: '1.2em', color: 'white', marginTop: '10px' }}>
           {efpMessage}
         </p>
       )}
