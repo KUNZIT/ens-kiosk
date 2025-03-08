@@ -19,8 +19,7 @@ function App() {
   const disconnectCompleteRef = useRef(false);
   const [efpMessage, setEfpMessage] = useState('');
   const [timerSectors, setTimerSectors] = useState<number>();
-  
-  
+
   useEffect(() => {
     if (account.isConnected) {
       setRemainingTime(30);
@@ -29,7 +28,6 @@ function App() {
       timerIntervalRef.current = setInterval(() => {
         setRemainingTime((prevTime) => {
           if (prevTime > 0) {
-            setTimerSectors(Array.from({ length: 30 }, (_, i) => i + 1)); // Initialize timerSectors
             return prevTime - 1;
           } else {
             clearInterval(timerIntervalRef.current!);
@@ -42,8 +40,6 @@ function App() {
         disconnect();
         disconnectCompleteRef.current = true;
       }, 30000);
-      
-      
     } else {
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
@@ -54,7 +50,7 @@ function App() {
         timerTimeoutRef.current = null;
       }
       setRemainingTime(30);
-     
+      setTimerSectors();
     }
 
     return () => {
@@ -63,25 +59,22 @@ function App() {
       }
       if (timerTimeoutRef.current) {
         clearTimeout(timerTimeoutRef.current);
-        setTimerSectors(); // Clear timerSectors
       }
     };
   }, [account.isConnected, disconnect, router]);
 
   useEffect(() => {
     if (!account.isConnected && disconnectCompleteRef.current) {
-      window.location.reload(); // Reload only after disconnect is complete
-      disconnectCompleteRef.current = false; // Reset the flag
+      window.location.reload();
+      disconnectCompleteRef.current = false;
     }
   }, [account.isConnected]);
 
-
-
-useEffect(() => {
+  useEffect(() => {
     const checkEfpFollow = async () => {
       if (account.address) {
         try {
-          const isFollowed = await isUserFollowedByGrado(account.address); // Assuming you have this function
+          const isFollowed = await isUserFollowedByGrado(account.address);
           if (isFollowed) {
             setEfpMessage('grado.eth follows you!');
           } else {
@@ -89,7 +82,6 @@ useEffect(() => {
           }
         } catch (error) {
           console.error('Error checking EFP follow status:', error);
-          // Handle the error, e.g., show an error message
         }
       }
     };
@@ -97,37 +89,42 @@ useEffect(() => {
     checkEfpFollow();
   }, [account.address]);
 
+  useEffect(() => {
+    if (account.isConnected) {
+      const interval = setInterval(() => {
+        setTimerSectors((prevSectors) => {
+          if (remainingTime > 0) {
+            return prevSectors.slice(0, remainingTime - 1);
+          } else {
+            clearInterval(interval); // Clear interval when remainingTime reaches 0
+            return;
+          }
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [account.isConnected, remainingTime]);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-    <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-      <div>
-        <h2></h2>
-        <div>
-          {/* Empty div */}
+      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+          Remember the current location is Latvia.
+        </p>
+        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
+          <a
+            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
+            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {/* Removed ConnectButton here */}
+          </a>
         </div>
-        {account.status === 'connected' && (
-          <>
-            <button type="button" onClick={() => disconnect()}style={{
-              padding: '0.5rem 1rem', // Adjust padding
-              fontSize: '1rem', // Adjust font size
-              backgroundColor: 'black', // Red background color
-              color: 'white',
-              border: '2px solid white',
-              borderRadius: '5px',
-              cursor: 'pointer',
-            }}
-             onMouseEnter={(e) => {
-    e.currentTarget.style.backgroundColor = 'red'; // Change background color on hover
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.backgroundColor = 'black'; // Revert to original color
-  }}>
-              Disconnect
-              
-              
-            </button>
-            <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl lg:static lg:w-auto  dark:from-black dark:to-transparent lg:!bg-red-200">
+      </div>
+
+      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl lg:static lg:w-auto  dark:from-black dark:to-transparent lg:!bg-red-200">
         {account.isConnected && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'flex', width: '300px', height: '10px', backgroundColor: '#f0f0f0' }}>
@@ -146,9 +143,6 @@ useEffect(() => {
             <p>Time remaining: {remainingTime} seconds</p>
             <EnsDisplay efpMessage={efpMessage} />
           </div>
-        )}
-      </div>
-          </>
         )}
       </div>
 
@@ -172,13 +166,13 @@ useEffect(() => {
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
-              
               onMouseEnter={(e) => {
-    e.currentTarget.style.backgroundColor = 'blue'; // Change background color on hover
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.backgroundColor = 'black'; // Revert to original color
-  }}>
+                e.currentTarget.style.backgroundColor = 'blue';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'black';
+              }}
+            >
               {connector.name}
             </button>
           ))}
@@ -186,16 +180,6 @@ useEffect(() => {
         <div>{status}</div>
         <div>{error?.message}</div>
       </div>
-
-      <div>
-        <h2></h2>
-        <EnsDisplay efpMessage={efpMessage} />
-        
-        
-      </div>
-      
-      
-    </div>
     </main>
   );
 }
