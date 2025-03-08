@@ -34,7 +34,7 @@ const WhitelistedModal: React.FC<WhitelistedModalProps> = ({ message, remainingT
       )}
 
       {efpMessage && ( // Move this block outside the remainingTime block
-        <p style={{ fontSize: '1.2em', marginTop: '10px' }}>
+        <p style={{ fontSize: '1.2em',color: 'white' marginTop: '10px' }}>
           {efpMessage}
         </p>
       )}
