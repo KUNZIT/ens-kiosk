@@ -185,7 +185,16 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) { // Add efpMessage 
   }
 
   if (loading || avatarLoading) {
-    return <p>Loading ENS profile...</p>;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
+        <img
+          src="/assets/loading.gif" // Replace with the path to your GIF
+          alt="Loading"
+          style={{ width: '30px', height: '30px' }} // Adjust size as needed
+        />
+        <p style={{ fontSize: '1.2em', color: 'white', marginLeft: '10px' }}>Loading ENS profile...</p>
+      </div>
+    );
   }
 
   return (
