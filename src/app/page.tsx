@@ -29,7 +29,7 @@ function App() {
       timerIntervalRef.current = setInterval(() => {
         setRemainingTime((prevTime) => {
           if (prevTime > 0) {
-            setTimerSectors((prevSectors) => prevSectors.slice(0, prevTime - 1));
+            setTimerSectors(Array.from({ length: 30 }, (_, i) => i + 1)); // Initialize timerSectors
             return prevTime - 1;
           } else {
             clearInterval(timerIntervalRef.current!);
@@ -54,6 +54,7 @@ function App() {
         timerTimeoutRef.current = null;
       }
       setRemainingTime(30);
+     
     }
 
     return () => {
@@ -62,6 +63,7 @@ function App() {
       }
       if (timerTimeoutRef.current) {
         clearTimeout(timerTimeoutRef.current);
+        setTimerSectors(); // Clear timerSectors
       }
     };
   }, [account.isConnected, disconnect, router]);
