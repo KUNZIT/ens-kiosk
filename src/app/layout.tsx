@@ -20,7 +20,7 @@ export default function RootLayout(props: { children: ReactNode }) {
         
         <head>
                 {/* Existing metadata from 'next/head' will be here */}
-                <link rel="icon" href="/assets/loading.gif" /> {/* Add your favicon link here */}
+                <link rel="icon" href="/assets/logo.jpg" /> {/* Add your favicon link here */}
             </head>
         
         
