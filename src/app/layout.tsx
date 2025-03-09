@@ -17,6 +17,14 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: ReactNode }) {
     return (
         <html lang="en">
+        
+        <head>
+                {/* Existing metadata from 'next/head' will be here */}
+                <link rel="icon" href="/assets/loading.gif" /> {/* Add your favicon link here */}
+            </head>
+        
+        
+        
             <body className={inter.className}>
                 <Providers>
                     <InitializeWhitelist/>
