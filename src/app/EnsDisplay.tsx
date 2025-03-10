@@ -8,10 +8,11 @@ import NotWhitelistedModal from "./NotWhitelistedModal"
 import { isUserFollowedByGrado } from "./efpUtils"
 
 interface EnsDisplayProps {
-  efpMessage: string
+  efpMessage: string // Add efpMessage to the props type
 }
 
 export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
+  // Add efpMessage to the props
   const { address, isConnected } = useAccount()
   const [ensName, setEnsName] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -31,8 +32,6 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false)
-
-  const usbWriter = useRef<WritableStreamDefaultWriter | null>(null)
 
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
     console.log("handleWhitelisted called:", ensName, "remainingTime:", remainingTime)
@@ -149,45 +148,10 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     }
   }, [isWhitelistedModalOpen, remainingCheckTime])
 
-  // Connect to USB once at startup
-  useEffect(() => {
-    async function setupUSB() {
-      if (typeof navigator !== "undefined" && "serial" in navigator) {
-        try {
-          const ports = await navigator.serial.getPorts()
-          const port = ports.length > 0 ? ports[0] : await navigator.serial.requestPort()
-
-          await port.open({ baudRate: 9600 })
-
-          usbWriter.current = port.writable.getWriter()
-          console.log("USB connected permanently")
-        } catch (err) {
-          console.error("USB setup failed:", err)
-        }
-      } else {
-        console.warn("Web Serial API is not supported in this environment")
-      }
-    }
-
-    if (typeof window !== "undefined") {
-      setupUSB()
-    }
-  }, [])
-
   useEffect(() => {
     if (isWhitelistedModalOpen && isFirstTimeWhitelisted && efpMessage === "grado.eth follows you!") {
       const audio = new Audio("/assets/beep.mp3")
       audio.play()
-
-      // Send '1' to USB
-      if (usbWriter.current) {
-        usbWriter.current.write(new TextEncoder().encode("1")).catch((e) => console.error("Failed to send 1:", e))
-
-        // Send '0' after 3 seconds
-        setTimeout(() => {
-          usbWriter.current?.write(new TextEncoder().encode("0")).catch((e) => console.error("Failed to send 0:", e))
-        }, 3000)
-      }
     }
   }, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage])
 
