@@ -8,7 +8,9 @@ import NotWhitelistedModal from "./NotWhitelistedModal"
 import { isUserFollowedByGrado } from "./efpUtils"
 
 interface EnsDisplayProps {
-  efpMessage: string // Add efpMessage to the props type
+  isWhitelistedModalOpen: boolean
+  isFirstTimeWhitelisted: boolean
+  efpMessage: string
 }
 
 export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
@@ -65,8 +67,9 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     setIsNotWhitelistedModalOpen(false)
   }
 
-// Store USB writer reference
+const EnsDisplay: React.FC<EnsDisplayProps> = ({ isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage }) => {
   const usbWriter = useRef<WritableStreamDefaultWriter | null>(null)
+
 
 
   useEffect(() => {
@@ -156,31 +159,35 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
 // Connect to USB once at startup
   useEffect(() => {
     async function setupUSB() {
-      try {
-        // Get ports or request a port if none available
-        const ports = await navigator.serial.getPorts()
-        const port = ports.length > 0 ? ports[0] : await navigator.serial.requestPort()
+      if (typeof navigator !== "undefined" && "serial" in navigator) {
+        try {
+          // Get ports or request a port if none available
+          const ports = await navigator.serial.getPorts()
+          const port = ports.length > 0 ? ports[0] : await navigator.serial.requestPort()
 
-        // Open connection
-        await port.open({ baudRate: 9600 })
+          // Open connection
+          await port.open({ baudRate: 9600 })
 
-        // Get writer
-        usbWriter.current = port.writable.getWriter()
-        console.log("USB connected permanently")
-      } catch (err) {
-        console.error("USB setup failed:", err)
+          // Get writer
+          usbWriter.current = port.writable.getWriter()
+          console.log("USB connected permanently")
+        } catch (err) {
+          console.error("USB setup failed:", err)
+        }
+      } else {
+        console.warn("Web Serial API is not supported in this browser or environment")
       }
     }
 
-    setupUSB()
+    // Only run in browser environment
+    if (typeof window !== "undefined") {
+      setupUSB()
+    }
     // No cleanup - connection is permanent
   }, [])
 
-
-
-
-
-   useEffect(() => {
+  // Also update the USB command effect with proper type checking
+  useEffect(() => {
     if (isWhitelistedModalOpen && isFirstTimeWhitelisted && efpMessage === "grado.eth follows you!") {
       const audio = new Audio("/assets/beep.mp3")
       audio.play()
@@ -191,7 +198,9 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
 
         // Send '0' after 3 seconds
         setTimeout(() => {
-          usbWriter.current?.write(new TextEncoder().encode("0")).catch((e) => console.error("Failed to send 0:", e))
+          if (usbWriter.current) {
+            usbWriter.current.write(new TextEncoder().encode("0")).catch((e) => console.error("Failed to send 0:", e))
+          }
         }, 3000)
       }
     }
