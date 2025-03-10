@@ -65,6 +65,10 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     setIsNotWhitelistedModalOpen(false)
   }
 
+// Store USB writer reference
+  const usbWriter = useRef<WritableStreamDefaultWriter | null>(null)
+
+
   useEffect(() => {
     async function fetchEnsData() {
       if (isConnected && address) {
@@ -148,12 +152,55 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     }
   }, [isWhitelistedModalOpen, remainingCheckTime])
 
+
+// Connect to USB once at startup
   useEffect(() => {
+    async function setupUSB() {
+      try {
+        // Get ports or request a port if none available
+        const ports = await navigator.serial.getPorts()
+        const port = ports.length > 0 ? ports[0] : await navigator.serial.requestPort()
+
+        // Open connection
+        await port.open({ baudRate: 9600 })
+
+        // Get writer
+        usbWriter.current = port.writable.getWriter()
+        console.log("USB connected permanently")
+      } catch (err) {
+        console.error("USB setup failed:", err)
+      }
+    }
+
+    setupUSB()
+    // No cleanup - connection is permanent
+  }, [])
+
+
+
+
+
+   useEffect(() => {
     if (isWhitelistedModalOpen && isFirstTimeWhitelisted && efpMessage === "grado.eth follows you!") {
       const audio = new Audio("/assets/beep.mp3")
       audio.play()
+
+      // Send '1' to USB
+      if (usbWriter.current) {
+        usbWriter.current.write(new TextEncoder().encode("1")).catch((e) => console.error("Failed to send 1:", e))
+
+        // Send '0' after 3 seconds
+        setTimeout(() => {
+          usbWriter.current?.write(new TextEncoder().encode("0")).catch((e) => console.error("Failed to send 0:", e))
+        }, 3000)
+      }
     }
   }, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage])
+
+
+
+
+
 
   useEffect(() => {
     const checkEfpFollow = async () => {
