@@ -13,9 +13,9 @@ This Next.js application verifies if the user is whitelisted in a Redis database
  
 It will play audio alerts (beep) if the connected wallet meets these three requirements:
 
-*The user's ENS name is included in the database.
-*The user's wallet is connected for the first time within a specific time period.
-*The user's ENS name is followed by grado.eth on EFP.
+1. The user's ENS name is included in the database.
+2. The user's wallet is connected for the first time within a specific time period.
+3. The user's ENS name is followed by grado.eth on EFP.
 
 ## Potential Use Case
 
@@ -28,7 +28,7 @@ This application can be deployed in a vending machine to distribute water or oth
 2. Alchemy API Key
 3 .Redis database URL
 
-Ethereum Follow Protocol integration : src/app/efpUtils.ts
+Ethereum Follow Protocol integration : src/app/efpUtils.ts Please change for your needs
 EFP public API endpoint `https://api.ethfollow.xyz/api/v1/users/grado.eth/following?limit=2000`
 
 ## Installation
