@@ -8,7 +8,7 @@ https://ens-kiosk.vercel.app
 ![q](https://github.com/user-attachments/assets/e50d542f-f1d3-4a55-ac94-30e5849de8ae)
 
 
-This application verifies if the user is whitelisted in a Redis database,
+This Next.js application verifies if the user is whitelisted in a Redis database,
  and shows EFP (Ethereum Follow Protocol) data.
  
 It will play audio alerts (beep) if the connected wallet meets these three requirements:
@@ -17,7 +17,12 @@ It will play audio alerts (beep) if the connected wallet meets these three requi
 *The user's wallet is connected for the first time within a specific time period.
 *The user's ENS name is followed by grado.eth on EFP.
 
-To enable this functionality, the following environment variables are required:
+## Potential Use Case
+
+This application can be deployed in a vending machine to distribute water or other products
+ based on unique ENS identity and Ethereum Follow Protocol data.
+
+## Environment Variables
 
 Reown (WalletConnect) Project ID
 Alchemy API Key
