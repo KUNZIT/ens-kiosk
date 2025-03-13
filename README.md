@@ -24,9 +24,9 @@ This application can be deployed in a vending machine to distribute water or oth
 
 ## Environment Variables
 
-Reown (WalletConnect) Project ID
-Alchemy API Key
-Redis database URL
+1. Reown (WalletConnect) Project ID
+2. Alchemy API Key
+3 .Redis database URL
 
 Ethereum Follow Protocol integration : src/app/efpUtils.ts
 EFP public API endpoint `https://api.ethfollow.xyz/api/v1/users/grado.eth/following?limit=2000`
