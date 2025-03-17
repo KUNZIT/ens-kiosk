@@ -8,11 +8,10 @@ import NotWhitelistedModal from "./NotWhitelistedModal"
 import { isUserFollowedByGrado } from "./efpUtils"
 
 interface EnsDisplayProps {
-  efpMessage: string // Add efpMessage to the props type
+  efpMessage: string
 }
 
 export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
-  // Add efpMessage to the props
   const { address, isConnected } = useAccount()
   const [ensName, setEnsName] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -34,7 +33,6 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false)
 
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
-    console.log("handleWhitelisted called:", ensName, "remainingTime:", remainingTime)
     setModalMessage(`${ensName} is whitelisted!`)
     setRemainingCheckTime(remainingTime)
     if (remainingTime === undefined) {
@@ -46,7 +44,6 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   }, [])
 
   const handleNotWhitelisted = useCallback((ensName: string) => {
-    console.log("handleNotWhitelisted called:", ensName)
     setModalMessage(`${ensName} is not whitelisted.`)
     setIsNotWhitelistedModalOpen(true)
   }, [])
@@ -73,9 +70,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
         try {
           const resolvedName = await getEnsName(address, process.env.NEXT_PUBLIC_ALCHEMY_ID)
           setEnsName(resolvedName)
-          console.log("Fetched ENS Name:", resolvedName)
         } catch (err) {
-          console.error("Error fetching ENS data:", err)
           setError("Error fetching ENS data.")
         } finally {
           setLoading(false)
@@ -100,21 +95,18 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     const checkWhitelist = async () => {
       if (ensName) {
         try {
-          console.log("Checking whitelist for:", ensName)
           const response = await fetch("/api/whitelist", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ensName }),
           })
           const data = await response.json()
-          console.log("API response:", data)
           if (data.isWhitelisted) {
             handleWhitelisted(ensName, data.remainingTime)
           } else {
             handleNotWhitelisted(ensName)
           }
         } catch (error) {
-          console.error("Error checking whitelist:", error)
         }
       }
     }
@@ -124,24 +116,20 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
 
   useEffect(() => {
     if (isWhitelistedModalOpen && remainingCheckTime !== undefined) {
-      console.log("Starting timer, remainingCheckTime:", remainingCheckTime)
       timerRef.current = setInterval(() => {
         setRemainingCheckTime((prevTime) => {
           if (prevTime && prevTime > 0) {
-            console.log("Remaining time:", prevTime - 1)
             return prevTime - 1
           } else {
-            console.log("Timer finished")
             clearInterval(timerRef.current!)
             timerRef.current = null
             return undefined
           }
         })
-      }, 60000) // 1 minute
+      }, 60000)
 
       return () => {
         if (timerRef.current) {
-          console.log("Clearing timer")
           clearInterval(timerRef.current)
         }
       }
@@ -159,15 +147,8 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     const checkEfpFollow = async () => {
       if (address) {
         try {
-          const isFollowed = await isUserFollowedByGrado(address)
-          if (isFollowed) {
-            // setEfpMessage('grado.eth follows you!'); No longer needed here.
-          } else {
-            // setEfpMessage('grado.eth does NOT follow you.'); No longer needed here.
-          }
+          await isUserFollowedByGrado(address)
         } catch (error) {
-          console.error("Error checking EFP follow status:", error)
-          // Handle the error, e.g., show an error message
         }
       }
     }
@@ -222,4 +203,3 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     </div>
   )
 }
-
