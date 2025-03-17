@@ -1,11 +1,9 @@
-// app/ensUtils.ts
 import { createPublicClient, http } from 'viem';
 import { mainnet } from 'viem/chains';
-import { JsonRpcProvider } from 'ethers'; // Correct import
+import { JsonRpcProvider } from 'ethers';
 
 export async function getEnsName(address: string, alchemyApiKey: string | undefined): Promise<string | null> {
   if (!alchemyApiKey) {
-    console.error("Alchemy API key is missing.");
     return null;
   }
 
@@ -15,13 +13,12 @@ export async function getEnsName(address: string, alchemyApiKey: string | undefi
       transport: http(`https://eth-mainnet.alchemyapi.io/v2/${alchemyApiKey}`),
     });
 
-    const provider = new JsonRpcProvider(`https://eth-mainnet.alchemyapi.io/v2/${alchemyApiKey}`); // Correct usage
+    const provider = new JsonRpcProvider(`https://eth-mainnet.alchemyapi.io/v2/${alchemyApiKey}`);
 
     const ensName = await provider.lookupAddress(address);
 
     return ensName;
   } catch (error) {
-    console.error("Error resolving ENS name:", error);
     return null;
   }
 }
@@ -43,7 +40,7 @@ export async function getEnsAvatar(ensName: string | null, alchemyApiKey: string
       return null;
     }
 
-    const avatar = await resolver.getAvatar() as Avatar | null; //Type assertion
+    const avatar = await resolver.getAvatar() as Avatar | null;
 
     if (avatar && avatar.url) {
       return avatar.url;
@@ -51,7 +48,6 @@ export async function getEnsAvatar(ensName: string | null, alchemyApiKey: string
 
     return null;
   } catch (error) {
-    console.error("Error fetching ENS avatar:", error);
     return null;
   }
 }
