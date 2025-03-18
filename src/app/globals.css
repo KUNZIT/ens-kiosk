@@ -24,6 +24,7 @@ h2.ens-kiosk {
   padding-top: 1rem;
   padding-bottom: 1rem;
   position: relative;
+  overflow: hidden; /* Prevent overflow of water jets */
 }
 
 h2.ens-kiosk::after {
@@ -35,6 +36,28 @@ h2.ens-kiosk::after {
   height: 50%;
   background: repeating-linear-gradient(to right, lightgray, lightgray 10px, white 10px, white 20px);
   z-index: -1;
+  overflow: hidden; /* Prevent overflow of water jets */
+}
+
+.water-jet {
+  position: absolute;
+  background-color: black;
+  width: 5px;
+  height: 20px;
+  border-radius: 2px;
+  animation: waterJetDrop 1s ease-out;
+  pointer-events: none; /* Make it non-interactive */
+}
+
+@keyframes waterJetDrop {
+  0% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
 }
 
 
