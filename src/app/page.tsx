@@ -166,7 +166,8 @@ function App() {
                     style={{
                       padding: "1rem 2rem",
                       fontSize: "1rem",
-                      backgroundColor: "black",
+                      background: `linear-gradient(to bottom, blue 50%, black 50%), repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)`,
+                      backgroundSize: "100% 200%, auto",
                       color: "white",
                       border: "1px solid white",
                       borderRadius: "5px",
