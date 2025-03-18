@@ -89,9 +89,20 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
-      <h2 style={{ fontSize: "7rem", color: "blue", position: "sticky", top: "0", backgroundColor: "rgba(0, 0, 0, 0.5)", border: "1px solid white",  borderRadius: "5px", zIndex: isModalOpen ? "50" : "100", paddingTop: "1rem", paddingBottom: "1rem" }}>
-        ENS KIOSK
-      </h2>
+      <h2 style={{ 
+  fontSize: "7rem", 
+  color: "blue", 
+  position: "sticky", 
+  top: "0", 
+  background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 50%, repeating-linear-gradient(to right, lightgray, lightgray 10px, white 10px, white 20px))", 
+  border: "1px solid white", 
+  borderRadius: "5px", 
+  zIndex: isModalOpen ? "50" : "100", 
+  paddingTop: "1rem", 
+  paddingBottom: "1rem" 
+}}>
+  ENS KIOSK
+</h2>
 
       <div style={{ display: "flex", width: "100%", marginTop: "2rem" }}>
         <div style={{ flex: "1", padding: "2rem", backgroundColor:  "rgba(0, 0, 0, 0.5)",border: "1px solid white",  borderRadius: "5px", textAlign: "left" }}>
