@@ -99,10 +99,11 @@ function App() {
       <div style={{ display: "flex", width: "100%", marginTop: "2rem" }}>
         <div style={{ flex: "1", padding: "2rem", backgroundColor:  "rgba(0, 0, 0, 0.5)",border: "1px solid white",  borderRadius: "5px", textAlign: "left" }}>
           <p>
-            Welcome to the ENS snack bar! Connect your wallet to check out with your ENS profile.
+            Welcome to the ENS snack bar!
+            Connect your wallet to check out with your ENS profile.
             Tap the connect button and scan the QR code with your mobile wallet.
             If your name is whitelisted and grado.eth folows you on EFP ,
-            the app will unlock your cnack bag and play audio ,a notification will appear.
+            the app will unlock your snack bag and play audio ,a notification will appear.
             This kiosk will automatically disconnect after 30 seconds.
             
           </p>
