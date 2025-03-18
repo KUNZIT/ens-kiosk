@@ -16,6 +16,7 @@ function App() {
   const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const disconnectCompleteRef = useRef(false)
   const [efpMessage, setEfpMessage] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (account.isConnected) {
@@ -81,9 +82,14 @@ function App() {
     checkEfpFollow()
   }, [account.address])
 
+  const handleConnect = (connector) => {
+    setIsModalOpen(true);
+    connect({ connector });
+  };
+
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
-      <h2 style={{ fontSize: "7rem", color: "blue", position: "sticky", top: "0", backgroundColor: "white", zIndex: "100", paddingTop: "1rem", paddingBottom: "1rem" }}>
+      <h2 style={{ fontSize: "7rem", color: "blue", position: "sticky", top: "0", backgroundColor: "white", zIndex: isModalOpen ? "50" : "100", paddingTop: "1rem", paddingBottom: "1rem" }}>
         ENS KIOSK
       </h2>
 
@@ -148,9 +154,7 @@ function App() {
                 {connectors.map((connector) => (
                   <button
                     key={connector.uid}
-                    onClick={() => {
-                      connect({ connector })
-                    }}
+                    onClick={() => handleConnect(connector)}
                     type="button"
                     style={{
                       padding: "1rem 2rem",
