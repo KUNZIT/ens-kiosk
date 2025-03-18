@@ -89,7 +89,7 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
-      <h2 style={{ fontSize: "7rem", color: "blue", position: "sticky", top: "0", backgroundColor: "white", zIndex: isModalOpen ? "50" : "100", paddingTop: "1rem", paddingBottom: "1rem" }}>
+      <h2 style={{ fontSize: "7rem", color: "blue", position: "sticky", top: "0", backgroundColor: "rgba(0, 0, 0, 0.5)", border: "1px solid white",  borderRadius: "5px", zIndex: isModalOpen ? "50" : "100", paddingTop: "1rem", paddingBottom: "1rem" }}>
         ENS KIOSK
       </h2>
 
