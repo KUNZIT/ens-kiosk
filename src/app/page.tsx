@@ -174,10 +174,10 @@ function App() {
                       cursor: "pointer",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = "blue"
+                      e.currentTarget.style.background = "blue"
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)"
+                      e.currentTarget.style.background = "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)"
                     }}
                   >
                     {connector.name}
