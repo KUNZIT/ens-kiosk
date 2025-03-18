@@ -45,15 +45,15 @@ h2.ens-kiosk::after {
   width: 8px;
   height: 20px;
   border-radius: 4px 4px 6px 6px; /* Slightly oval shape */
-  transform: rotate(10deg); /* Slight rotation */
-  animation: waterJetDrop 0.1s ease-out;
+  transform: rotate(20deg); /* Slight rotation */
+  animation: waterJetDrop 1s ease-out;
   pointer-events: none;
 }
 
 @keyframes waterJetDrop {
   0% {
     transform: translateY(-20px);
-    opacity: 1;
+    opacity: 0;
   }
   90% {
     opacity: 0;
