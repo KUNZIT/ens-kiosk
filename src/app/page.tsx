@@ -88,30 +88,33 @@ function App() {
   };
 
 useEffect(() => {
-    const ensKiosk = document.querySelector(".ens-kiosk");
-    if (!ensKiosk) return;
+  const ensKiosk = document.querySelector(".ens-kiosk");
+  if (!ensKiosk) return;
 
-    const addWaterJet = () => {
-      const jet = document.createElement("div");
-      jet.classList.add("water-jet");
+  const addWaterJet = () => {
+    const jet = document.createElement("div");
+    jet.classList.add("water-jet");
 
-      const kioskRect = ensKiosk.getBoundingClientRect();
-      const afterRect = ensKiosk.querySelector("::after")?.getBoundingClientRect() || kioskRect;
+    const kioskRect = ensKiosk.getBoundingClientRect();
+    const kioskHeight = kioskRect.height; // Get the height of the h2 element
+    const y = kioskHeight / 2; // Calculate the middle point (top of the stripes)
 
-      const x = Math.random() * kioskRect.width;
-      const y = afterRect.top - kioskRect.top;
+    const x = Math.random() * kioskRect.width;
 
-      jet.style.left = `${x}px`;
-      jet.style.top = `${y}px`;
+    jet.style.left = `${x}px`;
+    jet.style.top = `${y}px`;
 
-      ensKiosk.appendChild(jet);
+    ensKiosk.appendChild(jet);
 
-      jet.addEventListener("animationend", () => {
-        jet.remove();
-      });
-    };
+    jet.addEventListener("animationend", () => {
+      jet.remove();
+    });
+  };
 
-    const interval = setInterval(addWaterJet, 1000); // Adjust interval as needed
+  const interval = setInterval(addWaterJet, 1000); // Adjust interval as needed
+
+  return () => clearInterval(interval);
+}, []);
 
     return () => clearInterval(interval);
   }, []); // Run only once after initial render
