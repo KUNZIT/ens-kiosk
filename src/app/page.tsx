@@ -87,52 +87,6 @@ function App() {
     connect({ connector });
   };
 
-useEffect(() => {
-  const ensKiosk = document.querySelector(".ens-kiosk");
-  if (!ensKiosk) return;
-
-  const addWaterJet = () => {
-    const jet = document.createElement("div");
-    jet.classList.add("water-jet");
-
-    const kioskRect = ensKiosk.getBoundingClientRect();
-    const kioskHeight = kioskRect.height;
-    const y = kioskHeight / 2;
-
-    // Calculate white stripe positions
-    const stripeWidth = 10; // Width of each stripe
-    const numStripes = Math.floor(kioskRect.width / (stripeWidth * 2)); // Number of white stripes
-
-    let x;
-    let attempts = 0;
-    const maxAttempts = 100; // Prevent infinite loop
-
-    while (attempts < maxAttempts) {
-      x = Math.random() * kioskRect.width;
-      const stripeIndex = Math.floor(x / (stripeWidth * 2));
-      const stripeStart = stripeIndex * (stripeWidth * 2) + stripeWidth;
-
-      if (x >= stripeStart && x < stripeStart + stripeWidth) {
-        break; // Drop is within a white stripe
-      }
-
-      attempts++;
-    }
-
-    jet.style.left = `${x}px`;
-    jet.style.top = `${y}px`;
-
-    ensKiosk.appendChild(jet);
-
-    jet.addEventListener("animationend", () => {
-      jet.remove();
-    });
-  };
-
-  const interval = setInterval(addWaterJet, 200); // Adjust interval as needed
-
-  return () => clearInterval(interval);
-}, []);
 
    
   
