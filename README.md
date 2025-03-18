@@ -4,8 +4,9 @@
 Display ENS name and verify if whitelisted
 
 https://ens-kiosk.vercel.app
+![ens](https://github.com/user-attachments/assets/95ff12a4-8560-4fc1-9e48-2e5c543bcf71)
 
-![q](https://github.com/user-attachments/assets/e50d542f-f1d3-4a55-ac94-30e5849de8ae)
+
 
 
 This Next.js application verifies if the user is whitelisted in a Redis database,
