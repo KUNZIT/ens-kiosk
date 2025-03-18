@@ -87,6 +87,37 @@ function App() {
     connect({ connector });
   };
 
+useEffect(() => {
+    const ensKiosk = document.querySelector(".ens-kiosk");
+    if (!ensKiosk) return;
+
+    const addWaterJet = () => {
+      const jet = document.createElement("div");
+      jet.classList.add("water-jet");
+
+      const kioskRect = ensKiosk.getBoundingClientRect();
+      const afterRect = ensKiosk.querySelector("::after")?.getBoundingClientRect() || kioskRect;
+
+      const x = Math.random() * kioskRect.width;
+      const y = afterRect.top - kioskRect.top;
+
+      jet.style.left = `${x}px`;
+      jet.style.top = `${y}px`;
+
+      ensKiosk.appendChild(jet);
+
+      jet.addEventListener("animationend", () => {
+        jet.remove();
+      });
+    };
+
+    const interval = setInterval(addWaterJet, 1000); // Adjust interval as needed
+
+    return () => clearInterval(interval);
+  }, []); // Run only once after initial render
+
+
+  
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
       <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
