@@ -115,7 +115,7 @@ useEffect(() => {
     addWaterJet(); // Add one drop
     addWaterJet(); // Add another drop
     addWaterJet(); // Add a third drop (adjust as needed)
-  }, 500);
+  }, 200);
 
   return () => clearInterval(interval);
 }, []);
