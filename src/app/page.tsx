@@ -4,7 +4,7 @@ import { useAccount, useConnect, useDisconnect } from "wagmi"
 import { EnsDisplay } from "./EnsDisplay"
 import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { isUserFollowedByGrado } from "./efpUtils" // Import from efpUtils.ts
+import { isUserFollowedByGrado } from "./efpUtils"
 
 function App() {
   const account = useAccount()
@@ -14,8 +14,8 @@ function App() {
   const router = useRouter()
   const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const disconnectCompleteRef = useRef(false) // Add ref to track disconnection
-  const [efpMessage, setEfpMessage] = useState("") // State for EFP message
+  const disconnectCompleteRef = useRef(false)
+  const [efpMessage, setEfpMessage] = useState("")
 
   useEffect(() => {
     if (account.isConnected) {
@@ -33,7 +33,7 @@ function App() {
 
       timerTimeoutRef.current = setTimeout(() => {
         disconnect()
-        disconnectCompleteRef.current = true // Set flag when disconnect is initiated
+        disconnectCompleteRef.current = true
       }, 30000)
     } else {
       if (timerIntervalRef.current) {
@@ -59,8 +59,8 @@ function App() {
 
   useEffect(() => {
     if (!account.isConnected && disconnectCompleteRef.current) {
-      window.location.reload() // Reload only after disconnect is complete
-      disconnectCompleteRef.current = false // Reset the flag
+      window.location.reload()
+      disconnectCompleteRef.current = false
     }
   }, [account.isConnected])
 
@@ -68,16 +68,13 @@ function App() {
     const checkEfpFollow = async () => {
       if (account.address) {
         try {
-          const isFollowed = await isUserFollowedByGrado(account.address) // Assuming you have this function
+          const isFollowed = await isUserFollowedByGrado(account.address)
           if (isFollowed) {
             setEfpMessage("grado.eth follows you!")
           } else {
             setEfpMessage("grado.eth does NOT follow you.")
           }
-        } catch (error) {
-          console.error("Error checking EFP follow status:", error)
-          // Handle the error, e.g., show an error message
-        }
+        } catch (error) {}
       }
     }
 
@@ -86,99 +83,103 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
-      <div>
-        <h2></h2>
-        <div>{/* Empty div */}</div>
-        {account.status === "connected" && (
-          <>
-            <button
-              type="button"
-              onClick={() => disconnect()}
-              style={{
-                padding: "0.5rem 1rem", // Adjust padding
-                fontSize: "1rem", // Adjust font size
-                backgroundColor: "black", // Red background color
-                color: "white",
-                border: "2px solid white",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "red" // Change background color on hover
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "black" // Revert to original color
-              }}
-            >
-              Disconnect
-            </button>
-            <div>Time remaining: {remainingTime} seconds</div>
-            {/* Visual timer animation */}
-            <div
-              style={{
-                width: "200px",
-                height: "10px",
-                backgroundColor: "#333",
-                borderRadius: "5px",
-                margin: "10px auto",
-                overflow: "hidden",
-              }}
-            >
+      <h2 style={{ fontSize: "7rem", color: "blue", position: "sticky", top: "0", backgroundColor: "white", zIndex: "100", paddingTop: "1rem", paddingBottom: "1rem" }}>
+        ENS KIOSK
+      </h2>
+
+      <div style={{ display: "flex", width: "100%", marginTop: "2rem" }}>
+        <div style={{ flex: "1", padding: "2rem", backgroundColor: "#f0f0f0", textAlign: "left" }}>
+          <p>
+            Welcome to the ENS Kiosk. Connect your wallet to display your ENS profile and avatar. This kiosk will automatically disconnect after 30 seconds of inactivity.
+            If grado.eth follows you, a notification will appear.
+          </p>
+        </div>
+
+        <div style={{ flex: "1", padding: "2rem", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+          {account.status === "connected" ? (
+            <>
+              <EnsDisplay efpMessage={efpMessage} />
+              <button
+                type="button"
+                onClick={() => disconnect()}
+                style={{
+                  padding: "0.5rem 1rem",
+                  fontSize: "1rem",
+                  backgroundColor: "black",
+                  color: "white",
+                  border: "2px solid white",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  marginTop: "1rem",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "red"
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "black"
+                }}
+              >
+                Disconnect
+              </button>
+              <div>Time remaining: {remainingTime} seconds</div>
               <div
                 style={{
-                  height: "100%",
-                  width: `${(remainingTime / 30) * 100}%`,
-                  backgroundColor: "green",
-                  transition: "width 1s linear",
+                  width: "200px",
+                  height: "10px",
+                  backgroundColor: "#333",
+                  borderRadius: "5px",
+                  margin: "10px auto",
+                  overflow: "hidden",
                 }}
-              ></div>
-            </div>
-          </>
-        )}
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <h2 style={{ fontSize: "7rem", color: "blue" }}>ENS KIOSK</h2>
-        <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
-          {connectors.map((connector) => (
-            <button
-              key={connector.uid}
-              onClick={() => {
-                console.log("Connecting with:", connector.name)
-                connect({ connector })
-              }}
-              type="button"
-              style={{
-                padding: "1rem 2rem",
-                fontSize: "1rem",
-                backgroundColor: "black",
-                color: "white",
-                border: "1px solid white",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "blue" // Change background color on hover
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "black" // Revert to original color
-              }}
-            >
-              {connector.name}
-            </button>
-          ))}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    width: `${(remainingTime / 30) * 100}%`,
+                    backgroundColor: "green",
+                    transition: "width 1s linear",
+                  }}
+                ></div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
+                {connectors.map((connector) => (
+                  <button
+                    key={connector.uid}
+                    onClick={() => {
+                      connect({ connector })
+                    }}
+                    type="button"
+                    style={{
+                      padding: "1rem 2rem",
+                      fontSize: "1rem",
+                      backgroundColor: "black",
+                      color: "white",
+                      border: "1px solid white",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = "blue"
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "black"
+                    }}
+                  >
+                    {connector.name}
+                  </button>
+                ))}
+              </div>
+              <div>{status}</div>
+              <div>{error?.message}</div>
+            </>
+          )}
         </div>
-        <div>{status}</div>
-        <div>{error?.message}</div>
-      </div>
-
-      <div>
-        <h2></h2>
-        <EnsDisplay efpMessage={efpMessage} />
       </div>
     </div>
   )
 }
 
 export default App
-
