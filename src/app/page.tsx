@@ -94,7 +94,7 @@ function App() {
       </h2>
 
       <div style={{ display: "flex", width: "100%", marginTop: "2rem" }}>
-        <div style={{ flex: "1", padding: "2rem", backgroundColor: "#f0f0f0", textAlign: "left" }}>
+        <div style={{ flex: "1", padding: "2rem", backgroundColor:  "rgba(0, 0, 0, 0.5)", textAlign: "left" }}>
           <p>
             Welcome to the ENS Kiosk. Connect your wallet to display your ENS profile and avatar. This kiosk will automatically disconnect after 30 seconds of inactivity.
             If grado.eth follows you, a notification will appear.
