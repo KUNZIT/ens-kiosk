@@ -129,7 +129,7 @@ useEffect(() => {
     });
   };
 
-  const interval = setInterval(addWaterJet, 500); // Adjust interval as needed
+  const interval = setInterval(addWaterJet, 200); // Adjust interval as needed
 
   return () => clearInterval(interval);
 }, []);
