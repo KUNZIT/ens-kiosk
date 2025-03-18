@@ -24,6 +24,8 @@ h2.ens-kiosk {
   padding-top: 1rem;
   padding-bottom: 1rem;
   position: relative;
+  -webkit-text-stroke: 1px white; /* Add white border */
+  text-stroke: 1px white; /* Standard CSS property */
   
 }
 
