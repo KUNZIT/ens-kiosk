@@ -177,7 +177,7 @@ function App() {
                       e.currentTarget.style.backgroundColor = "blue"
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "black"
+                      e.currentTarget.style.backgroundColor = "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)"
                     }}
                   >
                     {connector.name}
