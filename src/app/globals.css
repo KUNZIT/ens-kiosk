@@ -36,7 +36,7 @@ h2.ens-kiosk::after {
   height: 50%;
   background: repeating-linear-gradient(to right, lightgray, lightgray 10px, white 10px, white 20px);
   z-index: -1;
-  overflow: hidden; /* Prevent overflow of water jets */
+  
 }
 
 .water-jet {
@@ -45,7 +45,7 @@ h2.ens-kiosk::after {
   width: 8px;
   height: 20px;
   border-radius: 4px 4px 6px 6px; /* Slightly oval shape */
-  transform: rotate(20deg); /* Slight rotation */
+  transform: rotate(5deg); /* Slight rotation */
   animation: waterJetDrop 1s ease-out;
   pointer-events: none;
 }
