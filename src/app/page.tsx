@@ -111,7 +111,11 @@ useEffect(() => {
     });
   };
 
-  const interval = setInterval(addWaterJet, 1000); // Adjust interval as needed
+  const interval = setInterval(() => {
+    addWaterJet(); // Add one drop
+    addWaterJet(); // Add another drop
+    addWaterJet(); // Add a third drop (adjust as needed)
+  }, 500);
 
   return () => clearInterval(interval);
 }, []);
