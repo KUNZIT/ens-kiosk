@@ -1,6 +1,6 @@
 "use client"
 
-import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { useAccount, useConnect, useDisconnect, Connector } from "wagmi" // Import Connector type
 import { EnsDisplay } from "./EnsDisplay"
 import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
@@ -82,7 +82,7 @@ function App() {
     checkEfpFollow()
   }, [account.address])
 
-  const handleConnect = (connector) => {
+  const handleConnect = (connector: Connector) => { // Add type annotation here
     setIsModalOpen(true);
     connect({ connector });
   };
