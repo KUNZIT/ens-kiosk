@@ -116,10 +116,7 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, []);
 
-    return () => clearInterval(interval);
-  }, []); // Run only once after initial render
-
-
+   
   
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
