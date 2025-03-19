@@ -16,7 +16,7 @@
 h2.ens-kiosk {
   font-size: 7rem;
   color: blue;
-  position: sticky;
+  
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid white;
