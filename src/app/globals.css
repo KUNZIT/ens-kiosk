@@ -28,6 +28,8 @@ h2.ens-kiosk {
   font-family: Helvetica, Arial, sans-serif;
   color: black; /* Base color */
   overflow: hidden; /* Clip the falling color */
+  -webkit-background-clip: text; /* Clip gradient to text */
+  background-clip: text;
 }
 
 h2.ens-kiosk::before {
