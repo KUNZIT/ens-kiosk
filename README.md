@@ -4,10 +4,8 @@
 Display ENS name and verify if whitelisted
 
 https://ens-kiosk.vercel.app
-![ens](https://github.com/user-attachments/assets/95ff12a4-8560-4fc1-9e48-2e5c543bcf71)
 
-
-
+![kiosk](https://github.com/user-attachments/assets/6f48a9da-9564-48a3-b2e2-68c66e28f809)
 
 This Next.js application verifies if the user is whitelisted in a Redis database,
  and shows EFP (Ethereum Follow Protocol) data.
