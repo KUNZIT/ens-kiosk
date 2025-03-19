@@ -26,7 +26,7 @@ h2.ens-kiosk {
   position: relative;
   -webkit-text-stroke: 1px white; /* Add white border */
   text-stroke: 1px white; /* Standard CSS property */
-  
+  font-family: "Times New Roman", Times, serif;
 }
 
 h2.ens-kiosk::after {
