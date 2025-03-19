@@ -15,6 +15,7 @@
 
 h2.ens-kiosk {
   font-size: 7rem;
+  color: blue;
   position: sticky;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
@@ -23,24 +24,9 @@ h2.ens-kiosk {
   padding-top: 1rem;
   padding-bottom: 1rem;
   position: relative;
-  -webkit-text-stroke: 1px white;
-  text-stroke: 1px white;
+  -webkit-text-stroke: 1px white; /* Add white border */
+  text-stroke: 1px white; /* Standard CSS property */
   font-family: Helvetica, Arial, sans-serif;
-  background-image: linear-gradient(to bottom, blue, black); /* Gradient background */
-  background-size: 100% 300%; /* Cover entire text area */
-  -webkit-background-clip: text; /* Clip gradient to text */
-  background-clip: text;
-  color: transparent; /* Make text transparent */
-  animation: gradientColorChange 6s infinite linear; /* Gradient animation */
-}
-
-@keyframes gradientColorChange {
-  0% {
-    background-position: 0% 10%; /* Start at middle */
-  }
-  100% {
-    background-position: 0% 150%; /* Move gradient down */
-  }
 }
 
 h2.ens-kiosk::after {
