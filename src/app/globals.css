@@ -26,7 +26,7 @@ h2.ens-kiosk {
   -webkit-text-stroke: 1px white;
   text-stroke: 1px white;
   font-family: Helvetica, Arial, sans-serif;
-  background-image: linear-gradient(to bottom, blue, black, blue); /* Gradient background */
+  background-image: linear-gradient(to bottom, blue, black); /* Gradient background */
   background-size: 100% 300%; /* Cover entire text area */
   -webkit-background-clip: text; /* Clip gradient to text */
   background-clip: text;
@@ -36,7 +36,7 @@ h2.ens-kiosk {
 
 @keyframes gradientColorChange {
   0% {
-    background-position: 0% 100%; /* Start at middle */
+    background-position: 0% 10%; /* Start at middle */
   }
   100% {
     background-position: 0% 150%; /* Move gradient down */
