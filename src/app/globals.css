@@ -26,30 +26,20 @@ h2.ens-kiosk {
   -webkit-text-stroke: 1px white;
   text-stroke: 1px white;
   font-family: Helvetica, Arial, sans-serif;
-  color: black; /* Base color */
-  overflow: hidden; /* Clip the falling color */
-}
-
-h2.ens-kiosk::before {
-  content: "";
-  position: absolute;
-  top: -100%; /* Start above the text */
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(to bottom, blue, blue); /* Falling color */
-  animation: fallingColor 4s infinite linear;
+  background-image: linear-gradient(to bottom, blue, black, blue); /* Gradient background */
+  background-size: 100% 300%; /* Cover entire text area */
   -webkit-background-clip: text; /* Clip gradient to text */
   background-clip: text;
   color: transparent; /* Make text transparent */
+  animation: gradientColorChange 6s infinite linear; /* Gradient animation */
 }
 
-@keyframes fallingColor {
+@keyframes gradientColorChange {
   0% {
-    top: -100%;
+    background-position: 0% 50%; /* Start at middle */
   }
   100% {
-    top: 100%; /* Fall to the bottom */
+    background-position: 0% 150%; /* Move gradient down */
   }
 }
 
