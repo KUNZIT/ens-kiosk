@@ -30,7 +30,7 @@ h2.ens-kiosk {
   background-size: 100% 300%; /* Cover entire text area */
   -webkit-background-clip: text; /* Clip gradient to text */
   background-clip: text;
-  color: transparent; /* Make text transparent */
+  color: blue; /* Make text transparent */
   animation: gradientColorChange 6s infinite linear; /* Gradient animation */
 }
 
