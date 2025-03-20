@@ -160,29 +160,37 @@ function App() {
             <>
               <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
                 {connectors.map((connector) => (
-                  <button
-                    key={connector.uid}
-                    onClick={() => handleConnect(connector)}
-                    type="button"
-                    style={{
-                      padding: "1rem 2rem",
-                      fontSize: "1rem",
-                      background: "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
-                      
-                      color: "white",
-                      border: "1px solid white",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "blue"
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)"
-                    }}
-                  >
-                    {connector.name}
-                  </button>
+
+              <button
+  key={connector.uid}
+  onClick={() => {
+    handleConnect(connector);
+    setIsButtonClicked(true); // Set state to true on click
+  }}
+  type="button"
+  style={{
+    padding: "1rem 2rem",
+    fontSize: "1rem",
+    background: isButtonClicked
+      ? "url('/your-image.jpg')" // Replace with your image path
+      : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
+    color: "white",
+    border: "1px solid white",
+    borderRadius: "5px",
+    cursor: "pointer",
+    backgroundSize: 'cover', // Recommended for image backgrounds
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.background = "blue";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.background = isButtonClicked
+      ? "url('/your-image.jpg')"
+      : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
+  }}
+>
+  {connector.name}
+</button>;
                 ))}
               </div>
              
