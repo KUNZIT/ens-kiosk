@@ -185,8 +185,9 @@ function App() {
                   >
                     {connector.name}
                   </button>
+               {!isButtonClicked && <p>idle</p>} {/* Conditionally render "idle" */}
                 ))}
-                 {!isButtonClicked && <p>idle</p>} {/* Conditionally render "idle" */}
+                
               </div>
               <div>{status}</div>
               <div>{error?.message}</div>
