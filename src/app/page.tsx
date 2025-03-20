@@ -175,38 +175,37 @@ function App() {
             <>
               <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
                 {connectors.map((connector) => (
-                  <button
-            key={connector.uid}
-            onClick={() => {
-              handleConnect(connector);
-              setIsButtonClicked(true);
-            }}
-            type="button"
-            style={{
-              padding: "1rem 2rem",
-              fontSize: "1rem",
-              background: isButtonClicked
-                ? "linear-gradient(to right, #007bff, #6610f2)"
-                : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
-              color: "white",
-              border: "1px solid white",
-              borderRadius: "5px",
-              cursor: "pointer",
-              backgroundSize: "200% 100%",
-              transition: "background 2s linear",
-              animation: isButtonClicked ? "gradientAnimation 2s linear infinite" : "none",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "blue";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = isButtonClicked
-                ? "linear-gradient(to right, #007bff, #6610f2)"
-                : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
-            }}
-          >
-            {connector.name}
-          </button>
+                 <button
+  key={connector.uid}
+  onClick={() => {
+    handleConnect(connector);
+    setIsButtonClicked(true);
+  }}
+  type="button"
+  style={{
+    padding: "1rem 2rem",
+    fontSize: "1rem",
+    background: isButtonClicked
+      ? "linear-gradient(to right, transparent 0px, blue 10px, transparent 20px)"
+      : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
+    color: "white",
+    border: "1px solid white",
+    borderRadius: "5px",
+    cursor: "pointer",
+    backgroundSize: "200px 100%",
+    animation: isButtonClicked ? "stripesAnimation 4s linear infinite" : "none",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.background = "blue";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.background = isButtonClicked
+      ? "linear-gradient(to right, transparent 0px, blue 10px, transparent 20px)"
+      : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
+  }}
+>
+  {connector.name}
+</button>
                 ))}
               </div>
 
