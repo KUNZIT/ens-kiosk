@@ -192,7 +192,7 @@ function App() {
                       border: "1px solid white",
                       borderRadius: "5px",
                       cursor: "pointer",
-                      backgroundSize: "cover",
+                      backgroundSize: "contain",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = "blue";
