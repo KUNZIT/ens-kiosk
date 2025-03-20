@@ -172,7 +172,7 @@ function App() {
     padding: "1rem 2rem",
     fontSize: "1rem",
     background: isButtonClicked
-      ? "url('/your-image.jpg')" // Replace with your image path
+      ? "/assets/loading.gif" // Replace with your image path
       : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
     color: "white",
     border: "1px solid white",
@@ -185,7 +185,7 @@ function App() {
   }}
   onMouseLeave={(e) => {
     e.currentTarget.style.background = isButtonClicked
-      ? "url('/your-image.jpg')"
+      ? "/assets/loading.gif"
       : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
   }}
 >
