@@ -201,8 +201,8 @@ function App() {
                     {connector.name}
                   </button>
                 ))}
-                {!isButtonClicked && <p>idle</p>}
               </div>
+              {!isButtonClicked && <p>idle</p>}
               <div>{status}</div>
               <div>{error?.message}</div>
             </>
