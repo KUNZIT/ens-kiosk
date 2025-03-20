@@ -185,7 +185,7 @@ function App() {
                   </button>
                 ))}
               </div>
-              <div>{status}</div>
+             
               <div>{error?.message}</div>
             </>
           )}
