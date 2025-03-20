@@ -202,6 +202,7 @@ function App() {
                   </button>
                 ))}
               </div>
+              {isButtonClicked && <p style={{ display: "none" }}>idle</p>}
               {!isButtonClicked && <p>idle</p>}
               <div>{status}</div>
               <div>{error?.message}</div>
