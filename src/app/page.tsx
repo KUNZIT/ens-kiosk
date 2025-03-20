@@ -17,6 +17,7 @@ function App() {
   const disconnectCompleteRef = useRef(false)
   const [efpMessage, setEfpMessage] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(true);
 
   useEffect(() => {
     if (account.isConnected) {
@@ -85,6 +86,7 @@ function App() {
   const handleConnect = (connector: Connector) => { // Add type annotation here
     setIsModalOpen(true);
     connect({ connector });
+    setIsButtonClicked(false);
   };
 
 
@@ -184,6 +186,7 @@ function App() {
                     {connector.name}
                   </button>
                 ))}
+                 {!isButtonClicked && <p>idle</p>} {/* Conditionally render "idle" */}
               </div>
               <div>{status}</div>
               <div>{error?.message}</div>
