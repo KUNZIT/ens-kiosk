@@ -62,11 +62,11 @@ h2.ens-kiosk::after {
   to { transform: rotate(360deg); }
 }
 
-@keyframes gradientAnimation {
+@keyframes stripesAnimation {
   0% {
-    background-position: 200% 0;
+    background-position: 0 0;
   }
   100% {
-    background-position: -200% 0;
+    background-position: 200px 0;
   }
 }
