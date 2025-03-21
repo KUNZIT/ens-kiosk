@@ -186,21 +186,21 @@ function App() {
     padding: "1rem 2rem",
     fontSize: "1rem",
     background: isButtonClicked
-      ? "linear-gradient(to right, transparent 0px, blue 10px, transparent 20px)"
+      ? "linear-gradient(to right, transparent 0px, blue 10px, rgba(0, 0, 255, 0) 20px)"
       : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
     color: "white",
     border: "1px solid white",
     borderRadius: "5px",
     cursor: "pointer",
-    backgroundSize: "200px 100%",
-    animation: isButtonClicked ? "stripesAnimation 4s linear infinite" : "none",
+    backgroundSize: "300px 100%", /* Adjust for stripe width */
+    animation: isButtonClicked ? "stripesAnimation 6s linear infinite" : "none", /* Adjust for speed */
   }}
   onMouseEnter={(e) => {
     e.currentTarget.style.background = "blue";
   }}
   onMouseLeave={(e) => {
     e.currentTarget.style.background = isButtonClicked
-      ? "linear-gradient(to right, transparent 0px, blue 10px, transparent 20px)"
+      ? "linear-gradient(to right, transparent 0px, blue 10px, rgba(0, 0, 255, 0) 20px)"
       : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
   }}
 >
