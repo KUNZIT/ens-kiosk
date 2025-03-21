@@ -118,25 +118,31 @@ function App() {
       </h2>
 
       <div style={{ display: "flex", width: "100%", marginTop: "2rem" }}>
-        <div
-          style={{
-            flex: "1",
-            padding: "2rem",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            border: "1px solid white",
-            borderRadius: "5px",
-            textAlign: "left",
-          }}
-        >
-          <p>
-            Welcome to the ENS snack bar! Simply connect your wallet to check
-            out with your ENS profile. Tap the connect button and scan the QR
-            code with your mobile wallet. If your name is whitelisted and
-            grado.eth follows you on EFP, the app will unlock your snack bag and
-            play audio, a notification will appear. This kiosk will
-            automatically disconnect after 30 seconds.
-          </p>
-        </div>
+  <div
+    style={{
+      flex: "1",
+      padding: "2rem",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      border: "1px solid white",
+      borderRadius: "5px",
+      textAlign: "left",
+      transition: "background-color 0.3s ease", // Add transition for smooth effect
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.backgroundColor = "rgb(3, 54, 126)";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    }}
+  >
+    <p>
+      Welcome to the ENS snack bar! Simply connect your wallet to check out with
+      your ENS profile. Tap the connect button and scan the QR code with your
+      mobile wallet. If your name is whitelisted and grado.eth follows you on
+      EFP, the app will unlock your snack bag and play audio, a notification
+      will appear. This kiosk will automatically disconnect after 30 seconds.
+    </p>
+  </div>
 
         <div
           style={{
@@ -210,7 +216,7 @@ function App() {
                       fontSize: "1rem",
                       background: isButtonClicked
                         ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
-                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
+                        : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)",
                       color: "white",
                       border: "1px solid white",
                       borderRadius: "5px",
@@ -220,12 +226,12 @@ function App() {
                       backgroundColor: "rgba(0,0,0,0.2)",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "blue";
+                      e.currentTarget.style.background = "rgb(3, 54, 126)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = isButtonClicked
                         ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
-                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
+                        : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)";
                     }}
                   >
                     {connector.name}
