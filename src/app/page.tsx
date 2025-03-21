@@ -126,13 +126,13 @@ function App() {
       border: "1px solid white",
       borderRadius: "5px",
       textAlign: "left",
-      transition: "background-color 0.3s ease", // Add transition for smooth effect
+      transition: "background 0.5s ease-in-out", // Add transition for smooth effect
     }}
     onMouseEnter={(e) => {
-      e.currentTarget.style.backgroundColor = "rgb(3, 54, 126)";
+      e.currentTarget.style.background = "linear-gradient(to right, rgba(0, 0, 0, 0.5), rgb(3, 54, 126))";
     }}
     onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      e.currentTarget.style.background = "rgba(0, 0, 0, 0.5)";
     }}
   >
     <p>
