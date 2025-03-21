@@ -96,7 +96,7 @@ function App() {
       if (!account.isConnected) {
         window.location.reload();
       }
-    }, 30000);
+    }, 60000);
 
     setConnectionTimeout(timeoutId);
   };
