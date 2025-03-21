@@ -67,6 +67,6 @@ h2.ens-kiosk::after {
     background-position: 0 0;
   }
   100% {
-    background-position: 300px 0; /* Adjust for animation speed */
+    background-position: 400px 0; /* Adjust for animation speed */
   }
 }
