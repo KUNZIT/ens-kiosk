@@ -17,7 +17,7 @@ function App() {
   const disconnectCompleteRef = useRef(false);
   const [efpMessage, setEfpMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isButtonClicked, setIsButtonClicked] = useState(false); // Initialize to false
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   useEffect(() => {
     if (account.isConnected) {
@@ -87,6 +87,12 @@ function App() {
     setIsModalOpen(true);
     connect({ connector });
   };
+
+  useEffect(() => {
+    if (error && error.message.includes("Connection request reset")) {
+      window.location.reload();
+    }
+  }, [error]);
 
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
@@ -175,42 +181,40 @@ function App() {
             <>
               <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
                 {connectors.map((connector) => (
-                 <button
-  key={connector.uid}
-  onClick={() => {
-    handleConnect(connector);
-    setIsButtonClicked(true);
-  }}
-  type="button"
-  style={{
-    padding: "1rem 2rem",
-    fontSize: "1rem",
-    background: isButtonClicked
-      ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)" // Brighter blue, wider fade
-      : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
-    color: "white",
-    border: "1px solid white",
-    borderRadius: "5px",
-    cursor: "pointer",
-    backgroundSize: "400px 100%", // Increased background size
-    animation: isButtonClicked ? "stripesAnimation 8s linear infinite" : "none", // Increased animation speed
-    backgroundColor: "rgba(0,0,0,0.2)" // Added a subtle background color
-  }}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.background = "blue";
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.background = isButtonClicked
-      ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
-      : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
-  }}
->
-  {connector.name}
-</button>
+                  <button
+                    key={connector.uid}
+                    onClick={() => {
+                      handleConnect(connector);
+                      setIsButtonClicked(true);
+                    }}
+                    type="button"
+                    style={{
+                      padding: "1rem 2rem",
+                      fontSize: "1rem",
+                      background: isButtonClicked
+                        ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
+                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
+                      color: "white",
+                      border: "1px solid white",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      backgroundSize: "400px 100%",
+                      animation: isButtonClicked ? "stripesAnimation 8s linear infinite" : "none",
+                      backgroundColor: "rgba(0,0,0,0.2)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "blue";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = isButtonClicked
+                        ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
+                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
+                    }}
+                  >
+                    {connector.name}
+                  </button>
                 ))}
               </div>
-
-              <div>{error?.message}</div>
             </>
           )}
         </div>
