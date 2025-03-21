@@ -1,95 +1,99 @@
-"use client"
+"use client";
 
-import { useAccount, useConnect, useDisconnect, Connector } from "wagmi" // Import Connector type
-import { EnsDisplay } from "./EnsDisplay"
-import { useEffect, useState, useRef } from "react"
-import { useRouter } from "next/navigation"
-import { isUserFollowedByGrado } from "./efpUtils"
+import { useAccount, useConnect, useDisconnect, Connector } from "wagmi";
+import { EnsDisplay } from "./EnsDisplay";
+import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { isUserFollowedByGrado } from "./efpUtils";
 
 function App() {
-  const account = useAccount()
-  const { connectors, connect, status, error } = useConnect()
-  const { disconnect } = useDisconnect()
-  const [remainingTime, setRemainingTime] = useState(30)
-  const router = useRouter()
-  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const disconnectCompleteRef = useRef(false)
-  const [efpMessage, setEfpMessage] = useState("")
+  const account = useAccount();
+  const { connectors, connect, status, error } = useConnect();
+  const { disconnect } = useDisconnect();
+  const [remainingTime, setRemainingTime] = useState(30);
+  const router = useRouter();
+  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const disconnectCompleteRef = useRef(false);
+  const [efpMessage, setEfpMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   useEffect(() => {
     if (account.isConnected) {
-      setRemainingTime(30)
+      setRemainingTime(30);
       timerIntervalRef.current = setInterval(() => {
         setRemainingTime((prevTime) => {
           if (prevTime > 0) {
-            return prevTime - 1
+            return prevTime - 1;
           } else {
-            clearInterval(timerIntervalRef.current!)
-            return 0
+            clearInterval(timerIntervalRef.current!);
+            return 0;
           }
-        })
-      }, 1000)
+        });
+      }, 1000);
 
       timerTimeoutRef.current = setTimeout(() => {
-        disconnect()
-        disconnectCompleteRef.current = true
-      }, 30000)
+        disconnect();
+        disconnectCompleteRef.current = true;
+      }, 30000);
     } else {
       if (timerIntervalRef.current) {
-        clearInterval(timerIntervalRef.current)
-        timerIntervalRef.current = null
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
       }
       if (timerTimeoutRef.current) {
-        clearTimeout(timerTimeoutRef.current)
-        timerTimeoutRef.current = null
+        clearTimeout(timerTimeoutRef.current);
+        timerTimeoutRef.current = null;
       }
-      setRemainingTime(30)
+      setRemainingTime(30);
     }
 
     return () => {
       if (timerIntervalRef.current) {
-        clearInterval(timerIntervalRef.current)
+        clearInterval(timerIntervalRef.current);
       }
       if (timerTimeoutRef.current) {
-        clearTimeout(timerTimeoutRef.current)
+        clearTimeout(timerTimeoutRef.current);
       }
-    }
-  }, [account.isConnected, disconnect, router])
+    };
+  }, [account.isConnected, disconnect, router]);
 
   useEffect(() => {
     if (!account.isConnected && disconnectCompleteRef.current) {
-      window.location.reload()
-      disconnectCompleteRef.current = false
+      window.location.reload();
+      disconnectCompleteRef.current = false;
     }
-  }, [account.isConnected])
+  }, [account.isConnected]);
 
   useEffect(() => {
     const checkEfpFollow = async () => {
       if (account.address) {
         try {
-          const isFollowed = await isUserFollowedByGrado(account.address)
+          const isFollowed = await isUserFollowedByGrado(account.address);
           if (isFollowed) {
-            setEfpMessage("grado.eth follows you!")
+            setEfpMessage("grado.eth follows you!");
           } else {
-            setEfpMessage("grado.eth does NOT follow you.")
+            setEfpMessage("grado.eth does NOT follow you.");
           }
         } catch (error) {}
       }
-    }
+    };
 
-    checkEfpFollow()
-  }, [account.address])
+    checkEfpFollow();
+  }, [account.address]);
 
-  const handleConnect = (connector: Connector) => { // Add type annotation here
+  const handleConnect = (connector: Connector) => {
     setIsModalOpen(true);
     connect({ connector });
   };
 
+  useEffect(() => {
+    if (error && error.message.includes("Connection request reset")) {
+      window.location.reload();
+    }
+  }, [error]);
 
-   
-  
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
       <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
@@ -97,19 +101,36 @@ function App() {
       </h2>
 
       <div style={{ display: "flex", width: "100%", marginTop: "2rem" }}>
-        <div style={{ flex: "1", padding: "2rem", backgroundColor:  "rgba(0, 0, 0, 0.5)",border: "1px solid white",  borderRadius: "5px", textAlign: "left" }}>
+        <div
+          style={{
+            flex: "1",
+            padding: "2rem",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            border: "1px solid white",
+            borderRadius: "5px",
+            textAlign: "left",
+          }}
+        >
           <p>
-            Welcome to the ENS snack bar!
-            Simply connect your wallet to check out with your ENS profile.
-            Tap the connect button and scan the QR code with your mobile wallet.
-            If your name is whitelisted and grado.eth folows you on EFP ,
-            the app will unlock your snack bag and play audio ,a notification will appear.
-            This kiosk will automatically disconnect after 30 seconds.
-            
+            Welcome to the ENS snack bar! Simply connect your wallet to check
+            out with your ENS profile. Tap the connect button and scan the QR
+            code with your mobile wallet. If your name is whitelisted and
+            grado.eth follows you on EFP, the app will unlock your snack bag and
+            play audio, a notification will appear. This kiosk will
+            automatically disconnect after 30 seconds.
           </p>
         </div>
 
-        <div style={{ flex: "1", padding: "2rem", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <div
+          style={{
+            flex: "1",
+            padding: "2rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {account.status === "connected" ? (
             <>
               <EnsDisplay efpMessage={efpMessage} />
@@ -127,10 +148,10 @@ function App() {
                   marginTop: "1rem",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "red"
+                  e.currentTarget.style.backgroundColor = "red";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "black"
+                  e.currentTarget.style.backgroundColor = "black";
                 }}
               >
                 Disconnect
@@ -162,37 +183,44 @@ function App() {
                 {connectors.map((connector) => (
                   <button
                     key={connector.uid}
-                    onClick={() => handleConnect(connector)}
+                    onClick={() => {
+                      handleConnect(connector);
+                      setIsButtonClicked(true);
+                    }}
                     type="button"
                     style={{
                       padding: "1rem 2rem",
                       fontSize: "1rem",
-                      background: "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
-                      
+                      background: isButtonClicked
+                        ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
+                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
                       color: "white",
                       border: "1px solid white",
                       borderRadius: "5px",
                       cursor: "pointer",
+                      backgroundSize: "400px 100%",
+                      animation: isButtonClicked ? "stripesAnimation 8s linear infinite" : "none",
+                      backgroundColor: "rgba(0,0,0,0.2)",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "blue"
+                      e.currentTarget.style.background = "blue";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)"
+                      e.currentTarget.style.background = isButtonClicked
+                        ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
+                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
                     }}
                   >
                     {connector.name}
                   </button>
                 ))}
               </div>
-             
-              <div>{error?.message}</div>
             </>
           )}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
