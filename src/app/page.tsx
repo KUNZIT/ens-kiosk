@@ -18,6 +18,7 @@ function App() {
   const [efpMessage, setEfpMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [connectionTimeout, setConnectionTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (account.isConnected) {
@@ -56,6 +57,9 @@ function App() {
       if (timerTimeoutRef.current) {
         clearTimeout(timerTimeoutRef.current);
       }
+      if (connectionTimeout) {
+        clearTimeout(connectionTimeout);
+      }
     };
   }, [account.isConnected, disconnect, router]);
 
@@ -86,13 +90,26 @@ function App() {
   const handleConnect = (connector: Connector) => {
     setIsModalOpen(true);
     connect({ connector });
+
+    // Set a timeout to refresh the app if no connection within 30 seconds
+    const timeoutId = setTimeout(() => {
+      if (!account.isConnected) {
+        window.location.reload();
+      }
+    }, 30000);
+
+    setConnectionTimeout(timeoutId);
   };
 
   useEffect(() => {
     if (error && error.message.includes("Connection request reset")) {
       window.location.reload();
     }
-  }, [error]);
+    if (account.isConnected && connectionTimeout) {
+      clearTimeout(connectionTimeout);
+      setConnectionTimeout(null);
+    }
+  }, [error, account.isConnected, connectionTimeout]);
 
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
