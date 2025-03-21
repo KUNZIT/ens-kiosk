@@ -186,7 +186,7 @@ function App() {
     padding: "1rem 2rem",
     fontSize: "1rem",
     background: isButtonClicked
-      ? "linear-gradient(to right, transparent 0px, blue 10px, rgba(0, 0, 255, 0) 20px)"
+      ? "linear-gradient(to right, transparent 0px, blue 10px, rgba(0, 0, 255, 0) 50px)"
       : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
     color: "white",
     border: "1px solid white",
@@ -200,7 +200,7 @@ function App() {
   }}
   onMouseLeave={(e) => {
     e.currentTarget.style.background = isButtonClicked
-      ? "linear-gradient(to right, transparent 0px, blue 10px, rgba(0, 0, 255, 0) 20px)"
+      ? "linear-gradient(to right, transparent 0px, blue 10px, rgba(0, 0, 255, 0) 50px)"
       : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
   }}
 >
