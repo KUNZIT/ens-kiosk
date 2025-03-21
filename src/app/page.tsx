@@ -216,7 +216,7 @@ function App() {
                       fontSize: "1rem",
                       background: isButtonClicked
                         ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
-                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)",
+                        : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)",
                       color: "white",
                       border: "1px solid white",
                       borderRadius: "5px",
@@ -226,12 +226,12 @@ function App() {
                       backgroundColor: "rgba(0,0,0,0.2)",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "blue";
+                      e.currentTarget.style.background = "rgb(3, 54, 126)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = isButtonClicked
                         ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
-                        : "repeating-linear-gradient(to right, black, black 10px, blue 10px, blue 20px)";
+                        : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)";
                     }}
                   >
                     {connector.name}
