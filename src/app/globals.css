@@ -52,6 +52,15 @@ h2.ens-kiosk::after {
   }
 }
 
+@keyframes stripesAnimation {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -62,11 +71,4 @@ h2.ens-kiosk::after {
   to { transform: rotate(360deg); }
 }
 
-@keyframes stripesAnimation {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 400px 0; /* Adjust for animation speed */
-  }
-}
+
