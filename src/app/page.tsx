@@ -126,7 +126,7 @@ function App() {
       border: "1px solid white",
       borderRadius: "5px",
       textAlign: "left",
-      transition: "background 0.5s ease-in-out", // Add transition for smooth effect
+      transition: "background 1s ease-in-out", // Add transition for smooth effect
     }}
     onMouseEnter={(e) => {
       e.currentTarget.style.background = "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgb(3, 54, 126))";
