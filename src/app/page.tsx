@@ -129,7 +129,7 @@ function App() {
       transition: "background-color 0.3s ease", // Add transition for smooth effect
     }}
     onMouseEnter={(e) => {
-      e.currentTarget.style.backgroundColor = "darkblue";
+      e.currentTarget.style.backgroundColor = "rgb(3, 54, 126)";
     }}
     onMouseLeave={(e) => {
       e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
