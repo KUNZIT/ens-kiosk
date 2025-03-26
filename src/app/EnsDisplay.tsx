@@ -1,97 +1,97 @@
-"use client"
-import { useState, useEffect, useCallback, useRef } from "react"
-import { useAccount, useEnsAvatar } from "wagmi"
-import { normalize } from "viem/ens"
-import { getEnsName } from "./ensUtils"
-import WhitelistedModal from "./WhitelistedModal"
-import NotWhitelistedModal from "./NotWhitelistedModal"
-import { isUserFollowedByGrado } from "./efpUtils"
+"use client";
+
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useAccount, useEnsAvatar } from "wagmi";
+import { normalize } from "viem/ens";
+import { getEnsName } from "./ensUtils";
+import WhitelistedModal from "./WhitelistedModal";
+import NotWhitelistedModal from "./NotWhitelistedModal";
+import { isUserFollowedByGrado } from "./efpUtils";
 import SpinningTriangleInCircle from './SpinningTriangleInCircle';
 
-
 interface EnsDisplayProps {
-  efpMessage: string
+  efpMessage: string;
 }
 
 export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
-  const { address, isConnected } = useAccount()
-  const [ensName, setEnsName] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
-  const [avatarErrorMessage, setAvatarErrorMessage] = useState<string | null>(null)
+  const { address, isConnected } = useAccount();
+  const [ensName, setEnsName] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [avatarErrorMessage, setAvatarErrorMessage] = useState<string | null>(null);
   const {
     data: avatarUrl,
     isLoading: avatarLoading,
     error: avatarError,
   } = useEnsAvatar({
     name: ensName ? normalize(ensName) : undefined,
-  })
+  });
 
-  const [isWhitelistedModalOpen, setIsWhitelistedModalOpen] = useState(false)
-  const [isNotWhitelistedModalOpen, setIsNotWhitelistedModalOpen] = useState(false)
-  const [modalMessage, setModalMessage] = useState("")
-  const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false)
+  const [isWhitelistedModalOpen, setIsWhitelistedModalOpen] = useState(false);
+  const [isNotWhitelistedModalOpen, setIsNotWhitelistedModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false);
 
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
-    setModalMessage(`${ensName} is whitelisted!`)
-    setRemainingCheckTime(remainingTime)
+    setModalMessage(`${ensName} is whitelisted!`);
+    setRemainingCheckTime(remainingTime);
     if (remainingTime === undefined) {
-      setIsFirstTimeWhitelisted(true)
+      setIsFirstTimeWhitelisted(true);
     } else {
-      setIsFirstTimeWhitelisted(false)
+      setIsFirstTimeWhitelisted(false);
     }
-    setIsWhitelistedModalOpen(true)
-  }, [])
+    setIsWhitelistedModalOpen(true);
+  }, []);
 
   const handleNotWhitelisted = useCallback((ensName: string) => {
-    setModalMessage(`${ensName} is not whitelisted.`)
-    setIsNotWhitelistedModalOpen(true)
-  }, [])
+    setModalMessage(`${ensName} is not whitelisted.`);
+    setIsNotWhitelistedModalOpen(true);
+  }, []);
 
   const closeWhitelistedModal = () => {
-    setIsWhitelistedModalOpen(false)
-    setRemainingCheckTime(undefined)
-    setIsFirstTimeWhitelisted(false)
+    setIsWhitelistedModalOpen(false);
+    setRemainingCheckTime(undefined);
+    setIsFirstTimeWhitelisted(false);
     if (timerRef.current) {
-      clearInterval(timerRef.current)
-      timerRef.current = null
+      clearInterval(timerRef.current);
+      timerRef.current = null;
     }
-  }
+  };
 
   const closeNotWhitelistedModal = () => {
-    setIsNotWhitelistedModalOpen(false)
-  }
+    setIsNotWhitelistedModalOpen(false);
+  };
 
   useEffect(() => {
     async function fetchEnsData() {
       if (isConnected && address) {
-        setLoading(true)
-        setError(null)
+        setLoading(true);
+        setError(null);
         try {
-          const resolvedName = await getEnsName(address, process.env.NEXT_PUBLIC_ALCHEMY_ID)
-          setEnsName(resolvedName)
+          const resolvedName = await getEnsName(address, process.env.NEXT_PUBLIC_ALCHEMY_ID);
+          setEnsName(resolvedName);
         } catch (err) {
-          setError("Error fetching ENS data.")
+          setError("Error fetching ENS data.");
         } finally {
-          setLoading(false)
+          setLoading(false);
         }
       } else {
-        setEnsName(null)
+        setEnsName(null);
       }
     }
 
-    fetchEnsData()
-  }, [address, isConnected])
+    fetchEnsData();
+  }, [address, isConnected]);
 
   useEffect(() => {
     if (avatarError) {
-      setAvatarErrorMessage(avatarError.message || String(avatarError))
+      setAvatarErrorMessage(avatarError.message || String(avatarError));
     } else {
-      setAvatarErrorMessage(null)
+      setAvatarErrorMessage(null);
     }
-  }, [avatarError])
+  }, [avatarError]);
 
   useEffect(() => {
     const checkWhitelist = async () => {
@@ -101,84 +101,84 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ensName }),
-          })
-          const data = await response.json()
+          });
+          const data = await response.json();
           if (data.isWhitelisted) {
-            handleWhitelisted(ensName, data.remainingTime)
+            handleWhitelisted(ensName, data.remainingTime);
           } else {
-            handleNotWhitelisted(ensName)
+            handleNotWhitelisted(ensName);
           }
         } catch (error) {
+          // Handle error if needed
         }
       }
-    }
+    };
 
-    checkWhitelist()
-  }, [ensName, handleWhitelisted, handleNotWhitelisted])
+    checkWhitelist();
+  }, [ensName, handleWhitelisted, handleNotWhitelisted]);
 
   useEffect(() => {
     if (isWhitelistedModalOpen && remainingCheckTime !== undefined) {
       timerRef.current = setInterval(() => {
         setRemainingCheckTime((prevTime) => {
           if (prevTime && prevTime > 0) {
-            return prevTime - 1
+            return prevTime - 1;
           } else {
-            clearInterval(timerRef.current!)
-            timerRef.current = null
-            return undefined
+            clearInterval(timerRef.current!);
+            timerRef.current = null;
+            return undefined;
           }
-        })
-      }, 60000)
+        });
+      }, 60000);
 
       return () => {
         if (timerRef.current) {
-          clearInterval(timerRef.current)
+          clearInterval(timerRef.current);
         }
-      }
+      };
     }
-  }, [isWhitelistedModalOpen, remainingCheckTime])
+  }, [isWhitelistedModalOpen, remainingCheckTime]);
 
   useEffect(() => {
     if (isWhitelistedModalOpen && isFirstTimeWhitelisted && efpMessage === "grado.eth follows you!") {
-      const audio = new Audio("/assets/beep.mp3")
-      audio.play()
+      const audio = new Audio("/assets/beep.mp3");
+      audio.play();
     }
-  }, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage])
+  }, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage]);
 
   useEffect(() => {
     const checkEfpFollow = async () => {
       if (address) {
         try {
-          await isUserFollowedByGrado(address)
+          await isUserFollowedByGrado(address);
         } catch (error) {
+          // Handle error if needed
         }
       }
-    }
+    };
 
-    checkEfpFollow()
-  }, [address])
+    checkEfpFollow();
+  }, [address]);
 
   if (!isConnected) {
-    return <p></p>
+    return <p></p>;
   }
 
   if (avatarErrorMessage) {
-    return <p>Error fetching ENS avatar: {avatarErrorMessage}</p>
+    return <p>Error fetching ENS avatar: {avatarErrorMessage}</p>;
   }
 
   if (error) {
-    return <p>Error fetching ENS profile: {error}</p>
+    return <p>Error fetching ENS profile: {error}</p>;
   }
 
   if (loading || avatarLoading) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
-        <div
-          <SpinningTriangleInCircle />
-        </div>
+        <SpinningTriangleInCircle />
         <p style={{ fontSize: "1.2em", color: "white", marginLeft: "10px" }}>Loading ENS profile...</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -196,5 +196,5 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
       )}
       {isNotWhitelistedModalOpen && <NotWhitelistedModal message={modalMessage} />}
     </div>
-  )
+  );
 }
