@@ -178,7 +178,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
             borderLeft: "10px solid transparent",
             borderRight: "10px solid transparent",
             borderBottom: "15px solid green",
-            animation: "rotate 1s linear infinite",
+            animation: "spin 1s linear infinite",
           }}
         ></div>
         <p style={{ fontSize: "1.2em", color: "white", marginLeft: "10px" }}>Loading ENS profile...</p>
