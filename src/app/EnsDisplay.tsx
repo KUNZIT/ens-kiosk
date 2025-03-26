@@ -6,6 +6,8 @@ import { getEnsName } from "./ensUtils"
 import WhitelistedModal from "./WhitelistedModal"
 import NotWhitelistedModal from "./NotWhitelistedModal"
 import { isUserFollowedByGrado } from "./efpUtils"
+import SpinningTriangleInCircle from './SpinningTriangleInCircle';
+
 
 interface EnsDisplayProps {
   efpMessage: string
@@ -172,15 +174,8 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
         <div
-          style={{
-            width: 0,
-            height: 0,
-            borderLeft: "10px solid transparent",
-            borderRight: "10px solid transparent",
-            borderBottom: "15px solid green",
-            animation: "spin 1s linear infinite",
-          }}
-        ></div>
+          <SpinningTriangleInCircle />
+        </div>
         <p style={{ fontSize: "1.2em", color: "white", marginLeft: "10px" }}>Loading ENS profile...</p>
       </div>
     )
