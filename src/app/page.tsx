@@ -224,10 +224,10 @@ function App() {
     }}
   >
     <p>
-      Welcome to the ENS snack bar! Simply connect your wallet to check out with
+      Welcome to the ENS kiosk! Simply connect your wallet to check out with
       your ENS profile. Tap the connect button and scan the QR code with your
       mobile wallet. If your name is whitelisted and grado.eth follows you on
-      EFP, the app will unlock your snack bag and play audio, a notification
+      EFP, the app will play audio, a notification
       will appear. This kiosk will automatically disconnect after 30 seconds.
     </p>
   </div>
