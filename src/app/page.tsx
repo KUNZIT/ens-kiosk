@@ -6,6 +6,93 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { isUserFollowedByGrado } from "./efpUtils";
 
+const AnimatedRainCanvasBackground = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rainDrops = 300;
+  const rainArray: {
+    x: number;
+    y: number;
+    length: number;
+    opacity: number;
+    xSpeed: number;
+    ySpeed: number;
+  }[] = [];
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    for (let i = 0; i < rainDrops; i++) {
+      rainArray.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 10 + 5,
+        opacity: Math.random() * 0.5 + 0.5,
+        xSpeed: Math.random() * 2 - 1,
+        ySpeed: Math.random() * 7 + 5,
+      });
+    }
+
+    const animateRain = () => {
+      if (!ctx) return;
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      rainArray.forEach((drop) => {
+        drop.y += drop.ySpeed;
+        drop.x += drop.xSpeed;
+
+        if (drop.y > canvas.height) {
+          drop.y = -drop.length;
+          drop.x = Math.random() * canvas.width;
+          drop.xSpeed = Math.random() * 2 - 1;
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(drop.x, drop.y);
+        ctx.lineTo(drop.x, drop.y + drop.length);
+        ctx.strokeStyle = `rgba(17,41,255,1)`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      requestAnimationFrame(animateRain);
+    };
+
+    animateRain();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: -1,
+      }}
+    />
+  );
+};
+
+
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
