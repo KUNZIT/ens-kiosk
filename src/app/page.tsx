@@ -200,6 +200,7 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
+      <AnimatedRainCanvasBackground /> {/* Add the component here! */}
       <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
         ENS KIOSK
       </h2>
