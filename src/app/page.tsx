@@ -141,7 +141,7 @@ function App() {
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
       }
-      if (timerTimeoutRef.current) {
+      if (connectionTimeout !== null) { // Check for null before clearing.
         clearTimeout(connectionTimeout);
       }
     };
@@ -337,3 +337,4 @@ function App() {
 }
 
 export default App;
+
