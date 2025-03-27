@@ -122,8 +122,7 @@ function App() {
       }, 1000);
 
       timerTimeoutRef.current = setTimeout(() => {
-        disconnect();
-        disconnectCompleteRef.current = true;
+        handleDisconnectLogic();
       }, 30000);
     } else {
       if (timerIntervalRef.current) {
@@ -195,13 +194,24 @@ function App() {
     }
   }, [error, account.isConnected, connectionTimeout]);
 
-  const handleDisconnect = () => {
-    if (timerTimeoutRef.current) { // Clear the timeout
+  const handleDisconnectLogic = () => {
+    if (timerTimeoutRef.current) {
       clearTimeout(timerTimeoutRef.current);
+      timerTimeoutRef.current = null;
     }
     disconnect();
-    window.location.reload();
+    disconnectCompleteRef.current = true; // Set the flag *before* reload
   };
+
+  const handleDisconnect = () => {
+    handleDisconnectLogic();
+  };
+
+  useEffect(() => {
+    if (!account.isConnected && disconnectCompleteRef.current) {
+      window.location.reload();
+    }
+  }, [account.isConnected]);
 
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
