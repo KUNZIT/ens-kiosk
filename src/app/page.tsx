@@ -199,8 +199,9 @@ function App() {
   }, [error, account.isConnected, connectionTimeout]);
 
   const handleDisconnect = () => {
-    disconnect();
-    window.location.reload(); // Add this line to refresh the page
+    disconnect().then(() => { // Wrap reload in a then
+      window.location.reload();
+    });
   };
 
   return (
@@ -252,7 +253,7 @@ function App() {
               <EnsDisplay efpMessage={efpMessage} />
               <button
                 type="button"
-                onClick={handleDisconnect} // Use handleDisconnect here
+                onClick={handleDisconnect}
                 style={{
                   padding: "0.5rem 1rem",
                   fontSize: "1rem",
