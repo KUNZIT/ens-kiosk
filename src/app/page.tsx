@@ -142,9 +142,6 @@ function App() {
         clearInterval(timerIntervalRef.current);
       }
       if (timerTimeoutRef.current) {
-        clearTimeout(timerTimeoutRef.current);
-      }
-      if (connectionTimeout) {
         clearTimeout(connectionTimeout);
       }
     };
@@ -199,9 +196,8 @@ function App() {
   }, [error, account.isConnected, connectionTimeout]);
 
   const handleDisconnect = () => {
-    disconnect().then(() => { // Wrap reload in a then
-      window.location.reload();
-    });
+    disconnect();
+    window.location.reload();
   };
 
   return (
