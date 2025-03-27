@@ -167,7 +167,7 @@ function App() {
           } else {
             setEfpMessage("grado.eth does NOT follow you.");
           }
-        } catch (error) {}
+        } catch (error) { }
       }
     };
 
@@ -178,7 +178,7 @@ function App() {
     setIsModalOpen(true);
     connect({ connector });
 
-    // Set a timeout to refresh the app if no connection within 30 seconds
+    // Set a timeout to refresh the app if no connection within 120 seconds
     const timeoutId = setTimeout(() => {
       if (!account.isConnected) {
         window.location.reload();
@@ -198,39 +198,44 @@ function App() {
     }
   }, [error, account.isConnected, connectionTimeout]);
 
+  const handleDisconnect = () => {
+    disconnect();
+    window.location.reload(); // Add this line to refresh the page
+  };
+
   return (
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
-      <AnimatedRainCanvasBackground /> {/* Add the component here! */}
+      <AnimatedRainCanvasBackground />
       <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
         ENS KIOSK
       </h2>
 
       <div style={{ display: "flex", width: "100%", marginTop: "2rem" }}>
-  <div
-    style={{
-      flex: "1",
-      padding: "2rem",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      border: "1px solid white",
-      borderRadius: "5px",
-      textAlign: "left",
-      transition: "background-color 0.3s ease", // Add transition for smooth effect
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.backgroundColor = "rgb(3, 54, 126)";
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    }}
-  >
-    <p>
-      Welcome to the ENS kiosk! Simply connect your wallet to check out with
-      your ENS profile. Tap the connect button and scan the QR code with your
-      mobile wallet. If your name is whitelisted and grado.eth follows you on
-      EFP, the app will play audio, a notification
-      will appear. This kiosk will automatically disconnect after 30 seconds.
-    </p>
-  </div>
+        <div
+          style={{
+            flex: "1",
+            padding: "2rem",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            border: "1px solid white",
+            borderRadius: "5px",
+            textAlign: "left",
+            transition: "background-color 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "rgb(3, 54, 126)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+          }}
+        >
+          <p>
+            Welcome to the ENS kiosk! Simply connect your wallet to check out with
+            your ENS profile. Tap the connect button and scan the QR code with your
+            mobile wallet. If your name is whitelisted and grado.eth follows you on
+            EFP, the app will play audio, a notification
+            will appear. This kiosk will automatically disconnect after 30 seconds.
+          </p>
+        </div>
 
         <div
           style={{
@@ -247,7 +252,7 @@ function App() {
               <EnsDisplay efpMessage={efpMessage} />
               <button
                 type="button"
-                onClick={() => disconnect()}
+                onClick={handleDisconnect} // Use handleDisconnect here
                 style={{
                   padding: "0.5rem 1rem",
                   fontSize: "1rem",
