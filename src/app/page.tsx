@@ -5,7 +5,7 @@ import { EnsDisplay } from "./EnsDisplay";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { isUserFollowedByGrado } from "./efpUtils";
-import RainSound from "./RainSound";
+
 const AnimatedRainCanvasBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rainDrops = 300;
