@@ -22,7 +22,7 @@ const RainSound = () => {
   }, []);
 
   return (
-    <audio ref={audioRef} src="/sounds/rain_loop_high_quality.mp3" preload="auto" />
+    <audio ref={audioRef} src="public/assets/rain.mp3" preload="auto" />
   );
 };
 
