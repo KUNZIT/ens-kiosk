@@ -6,7 +6,7 @@ const RainSound = () => {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.loop = true;
-      audioRef.current.volume = 0.5; // Adjust volume as needed
+      audioRef.current.volume = 5; // Adjust volume as needed
       audioRef.current.play().catch((error) => {
         console.error("Failed to play audio:", error);
         // Handle potential autoplay errors (browsers may block it)
