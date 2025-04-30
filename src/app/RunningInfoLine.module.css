@@ -8,6 +8,7 @@
   white-space: nowrap; /* Prevents content from wrapping to the next line */
   box-sizing: border-box;
   border-bottom: 1px solid #ccc;
+  position: relative;
   z-index: 10;     /* Example border */
 }
 
