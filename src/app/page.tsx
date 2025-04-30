@@ -403,10 +403,10 @@ export default function HomePage() {
                         backgroundSize: "400px 100%", // For loading animation
                         animation: isButtonClicked ? "stripesAnimation 8s linear infinite" : "none", // CSS animation needed
                         backgroundColor: "rgba(0,0,0,0.2)",
-                        opacity: status === 'connecting' ? 0.6 : 1, // Dim if connecting
+                        opacity: status === 'success' ? 0.6 : 1, // Dim if connecting
                       }}
                       onMouseEnter={(e) => {
-                         if (status !== 'connecting') e.currentTarget.style.background = "rgb(3, 54, 126)"; // Hover effect only if not connecting
+                         if (status !== 'pending') e.currentTarget.style.background = "rgb(3, 54, 126)"; // Hover effect only if not connecting
                       }}
                       onMouseLeave={(e) => {
                         // Reset background based on isButtonClicked state
@@ -415,11 +415,11 @@ export default function HomePage() {
                           : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)";
                       }}
                     >
-                      {status === 'connecting' ? `Connecting...` : connector.name}
+                      {status === 'pending' ? `Connecting...` : connector.name}
                     </button>
                   ))}
                 </div>
-                 {status === 'connecting' && <p>Please approve connection in your wallet...</p>}
+                 {status === 'pending' && <p>Please approve connection in your wallet...</p>}
                  {error && <p style={{color: 'red'}}>Error: {error.message.includes("rejected") ? "Connection rejected by user." : error.message}</p>}
               </>
             )}
