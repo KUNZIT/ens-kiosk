@@ -399,7 +399,7 @@ export default function HomePage() {
                         color: "white",
                         border: "1px solid white",
                         borderRadius: "5px",
-                        cursor: status === 'connecting' ? 'wait' : 'pointer', // Indicate loading state
+                        cursor: status === 'pending' ? 'wait' : 'pointer', // Indicate loading state
                         backgroundSize: "400px 100%", // For loading animation
                         animation: isButtonClicked ? "stripesAnimation 8s linear infinite" : "none", // CSS animation needed
                         backgroundColor: "rgba(0,0,0,0.2)",
