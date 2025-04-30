@@ -384,7 +384,7 @@ export default function HomePage() {
                     <button
                       key={connector.uid}
                       // Disable button if connection is pending for this connector
-                      disabled={status === 'connecting'}
+                      disabled={status === 'pending'}
                       onClick={() => {
                         handleConnect(connector);
                         // setIsButtonClicked(true); // Moved inside handleConnect
