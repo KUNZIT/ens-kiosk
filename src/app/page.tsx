@@ -224,14 +224,18 @@ function App() {
   }, [account.isConnected]);
 
   return (
-    <div 
-     <RunningInfoLine
+
+<div>
+      {/* Add the RunningInfoLine component at the top */}
+      <RunningInfoLine
         infoTexts={infoItems}
         speed={60}        // Optional: Adjust speed (default 50). Higher is faster.
         fontWeight="bold" // Optional: Adjust weight (default 'normal').
       />
+  </div>
+
     
-      style={{ textAlign: "center", marginTop: "2rem" }}>
+    <div  style={{ textAlign: "center", marginTop: "2rem" }}>
       <AnimatedRainCanvasBackground />
       <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
         ENS KIOSK
