@@ -5,7 +5,7 @@ import { EnsDisplay } from "./EnsDisplay"; // Assuming this path is correct
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { isUserFollowedByGrado } from "./efpUtils"; // Assuming this path is correct
-import { RunningInfoLine } from "./RunningInfoLine"; // Assuming this path is correct, might be '@/components/RunningInfoLine'
+import RunningInfoLine from "./RunningInfoLine"; // Assuming this path is correct, might be '@/components/RunningInfoLine'
 
 // Define the AnimatedRainCanvasBackground component directly inside or outside HomePage
 // Keeping it inside as per your original structure is fine for this specific case.
