@@ -28,6 +28,7 @@
   align-items: center; /* Vertically center number and text */
   margin-right: 40px; /* Space between info items */
   font-size: 1rem; /* Adjust as needed */
+  color: black;
 }
 
 /* Styling for the circled number */
