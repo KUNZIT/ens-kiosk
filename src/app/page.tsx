@@ -237,7 +237,7 @@ export default function HomePage() {
     // Set a timeout to potentially refresh if connection doesn't complete
     const timeoutId = setTimeout(() => {
       // Check if still trying to connect after timeout duration
-      if (status === 'connecting' || !account.isConnected) {
+      if (status === 'pending' || !account.isConnected) {
           console.log("Connection timed out after 120s, reloading.");
           window.location.reload();
       }
