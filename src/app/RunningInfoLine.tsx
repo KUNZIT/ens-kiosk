@@ -47,12 +47,13 @@ const RunningInfoLine: React.FC<RunningInfoLineProps> = ({
           </span>
         ))}
         {/* Duplicate instance of the content for seamless loop */}
-        {itemsToDisplay.map((text, index) => (
-          <span key={`item-2-${index}`} className={styles.infoItem}>
-            <span className={styles.numberCircle}>{index + 1}</span>
-            {text}
-          </span>
-        ))}
+
+
+
+
+
+        
+        
       </div>
     </div>
   );
