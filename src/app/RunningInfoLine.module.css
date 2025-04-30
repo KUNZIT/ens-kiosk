@@ -1,0 +1,65 @@
+/* src/components/RunningInfoLine.module.css */
+
+.marqueeContainer {
+  width: 100%;
+  overflow: hidden; /* Crucial: Hides the content that goes outside the container */
+  background-color: #f0f0f0; /* Example background color */
+  padding: 8px 0; /* Example padding */
+  white-space: nowrap; /* Prevents content from wrapping to the next line */
+  box-sizing: border-box;
+  border-bottom: 1px solid #ccc; /* Example border */
+}
+
+.marqueeContent {
+  display: inline-block; /* Allows the element to respect width and animation */
+  /* Animation properties */
+  animation-name: marqueeAnimation;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  padding-left: 100%; /* Start the first set of content off-screen to the right */
+  will-change: transform; /* Optimize animation performance */
+}
+
+/* Individual info item styling */
+.infoItem {
+  display: inline-flex; /* Use flex to align number and text */
+  align-items: center; /* Vertically center number and text */
+  margin-right: 40px; /* Space between info items */
+  font-size: 1rem; /* Adjust as needed */
+}
+
+/* Styling for the circled number */
+.numberCircle {
+  display: inline-flex; /* Use flex to center the number inside */
+  justify-content: center;
+  align-items: center;
+  width: 22px; /* Adjust size */
+  height: 22px; /* Adjust size */
+  background-color: #333; /* Circle background color */
+  color: white; /* Number color */
+  border-radius: 50%; /* Makes it a circle */
+  font-size: 0.8em; /* Number font size relative to infoItem text */
+  font-weight: bold;
+  margin-right: 8px; /* Space between circle and text */
+  flex-shrink: 0; /* Prevent circle from shrinking */
+}
+
+/* The Marquee Animation */
+@keyframes marqueeAnimation {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    /*
+     * Move left by 50% of the total width. Since the total width
+     * contains two copies of the text, this effectively scrolls
+     * one full copy across the screen.
+     */
+    transform: translateX(-50%);
+  }
+}
+
+/* Optional: Pause animation on hover */
+.marqueeContainer:hover .marqueeContent {
+  animation-play-state: paused;
+}
