@@ -113,11 +113,11 @@ const AnimatedRainCanvasBackground = () => {
 export default function HomePage() {
   // Define infoItems here so it's accessible in the return statement
   const infoItems = [
-    "Special offer this week only!",
-    "New product launch announced for next month.",
-    "Server maintenance scheduled for Sunday 2 AM.",
-    "Follow us on social media for updates.",
-    "Customer support hours extended."
+    "-Connect Wallet-",
+    "-Display ENS-",
+    "-Whitelisted-",
+    "-grado.eth follow-",
+    "-Play audio-"
   ];
 
   // --- Logic moved from nested App component to HomePage ---
