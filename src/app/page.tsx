@@ -5,6 +5,16 @@ import { EnsDisplay } from "./EnsDisplay";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { isUserFollowedByGrado } from "./efpUtils";
+import { RunningInfoLine } from "./RunningInfoLine";
+
+export default function HomePage() {
+  const infoItems = [
+    "Special offer this week only!",
+    "New product launch announced for next month.",
+    "Server maintenance scheduled for Sunday 2 AM.",
+    "Follow us on social media for updates.",
+    "Customer support hours extended."
+  ];
 
 const AnimatedRainCanvasBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -214,7 +224,14 @@ function App() {
   }, [account.isConnected]);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "2rem" }}>
+    <div 
+     <RunningInfoLine
+        infoTexts={infoItems}
+        speed={60}        // Optional: Adjust speed (default 50). Higher is faster.
+        fontWeight="bold" // Optional: Adjust weight (default 'normal').
+      />
+    
+      style={{ textAlign: "center", marginTop: "2rem" }}>
       <AnimatedRainCanvasBackground />
       <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
         ENS KIOSK
