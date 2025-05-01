@@ -7,8 +7,8 @@
   padding: 8px 0; /* Example padding */
   white-space: nowrap; /* Prevents content from wrapping to the next line */
   box-sizing: border-box;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: -2px;
+  
+  
   position: relative;
   z-index: 10;     /* Example border */
 }
