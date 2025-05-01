@@ -23,7 +23,7 @@ const RunningInfoLine: React.FC<RunningInfoLineProps> = ({
   // Calculate animation duration based on speed.
   // Lower duration = faster speed. We invert the 'speed' input.
   // Adjust the base duration (e.g., 25s) as needed to feel right with the default speed.
-  const baseDuration = 25; // Base seconds for default speed (50)
+  const baseDuration = 50; // Base seconds for default speed (50)
   const animationDuration = `${(baseDuration * 50) / speed}s`;
 
   // Ensure we only take up to 5 items as per the initial request, though it can handle more
