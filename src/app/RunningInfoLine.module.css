@@ -17,7 +17,7 @@
   /* Animation properties */
   animation-name: marqueeAnimation;
   animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 1;
   padding-left: 100%; /* Start the first set of content off-screen to the right */
   will-change: transform; /* Optimize animation performance */
 }
@@ -50,7 +50,7 @@
 /* The Marquee Animation */
 @keyframes marqueeAnimation {
   0% {
-    transform: translateX(0%);
+    transform: translateX(100%);
   }
   100% {
     /*
@@ -58,7 +58,7 @@
      * contains two copies of the text, this effectively scrolls
      * one full copy across the screen.
      */
-    transform: translateX(-50%);
+    transform: translateX(0%);
   }
 }
 
