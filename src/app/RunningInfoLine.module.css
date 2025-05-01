@@ -19,7 +19,8 @@
   animation-timing-function: linear;
   animation-iteration-count: 1;
   
-  will-change: transform; /* Optimize animation performance */
+  will-change: transform;
+  border-bottom: 2px solid white;/* Optimize animation performance */
 }
 
 /* Individual info item styling */
@@ -31,6 +32,7 @@
   color: black;
   background-color: white;
   padding: 5px 10px; 
+  margin-bottom: -2px;
 }
 
 /* Styling for the circled number */
