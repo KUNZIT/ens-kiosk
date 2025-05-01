@@ -41,8 +41,8 @@ const RunningInfoLine: React.FC<RunningInfoLineProps> = ({
       >
 
         {/* This adds a fixed-width empty space before your content */}
-        <span style={{ display: 'inline-block', width: '300px' }}></span> {/* Adjust '300px' as needed */}
-        {/* ------------------------------------ */}
+        <span style={{ display: 'inline-block', width: '250px' }}></span> {/* Adjust '300px' as needed */}
+        
 
 
         
