@@ -14,15 +14,15 @@
 }
 
 h2.ens-kiosk {
-  font-size: 7rem;
+  font-size: 4rem;
   color: rgb(3, 54, 126);
   position: sticky;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid white;
+  background-color: transparent;
+  
   border-radius: 5px;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 0,5rem;
+  padding-bottom: 0,5rem;
   position: relative;
   -webkit-text-stroke: 1px white; /* Add white border */
   text-stroke: 1px white; /* Standard CSS property */
