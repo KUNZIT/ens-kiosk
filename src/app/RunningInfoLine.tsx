@@ -39,6 +39,13 @@ const RunningInfoLine: React.FC<RunningInfoLineProps> = ({
         className={styles.marqueeContent}
         style={{ animationDuration }} // Apply dynamic duration
       >
+
+        {/* This adds a fixed-width empty space before your content */}
+        <span style={{ display: 'inline-block', width: '300px' }}></span> {/* Adjust '300px' as needed */}
+        {/* ------------------------------------ */}
+
+
+        
         {/* First instance of the content */}
         {itemsToDisplay.map((text, index) => (
           <span key={`item-1-${index}`} className={styles.infoItem}>
