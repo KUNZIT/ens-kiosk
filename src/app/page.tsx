@@ -279,9 +279,9 @@ export default function HomePage() {
       <div style={{ textAlign: "center", marginTop: "2rem", position: 'relative', zIndex: 1 }}> {/* Ensure content is above canvas */}
         <AnimatedRainCanvasBackground /> {/* Render the background */}
 
-        <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? 50 : 100, color: 'white', position: 'relative' }}> {/* Ensure text visible */}
-          ENS KIOSK
-        </h2>
+        <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
+        ENS KIOSK
+      </h2>
 
         <div style={{ display: "flex", width: "100%", marginTop: "2rem", padding: '0 2rem', boxSizing: 'border-box', position: 'relative', zIndex: 1 }}> {/* Padding added */}
           {/* Left Panel */}
