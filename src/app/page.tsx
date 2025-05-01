@@ -323,7 +323,7 @@ export default function HomePage() {
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: "rgba(0, 0, 0, 0.7)", // Match other panel
-              border: "1px solid white", // Add border for consistency
+              // Add border for consistency
               borderRadius: "5px", // Add border radius
               color: 'white', // Ensure text is visible
               marginLeft: '1rem', // Add margin between panels
