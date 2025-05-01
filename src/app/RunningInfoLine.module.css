@@ -62,7 +62,4 @@
   }
 }
 
-/* Optional: Pause animation on hover */
-.marqueeContainer:hover .marqueeContent {
-  animation-play-state: paused;
-}
+
