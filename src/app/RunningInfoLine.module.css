@@ -3,7 +3,7 @@
 .marqueeContainer {
   width: 100%;
   overflow: hidden; /* Crucial: Hides the content that goes outside the container */
-  background-color: #f0f0f0; /* Example background color */
+  background-color: transparent; /* Example background color */
   padding: 8px 0; /* Example padding */
   white-space: nowrap; /* Prevents content from wrapping to the next line */
   box-sizing: border-box;
@@ -29,6 +29,8 @@
   margin-right: 40px; /* Space between info items */
   font-size: 1rem; /* Adjust as needed */
   color: black;
+  background-color: white;
+  padding: 5px 10px; 
 }
 
 /* Styling for the circled number */
