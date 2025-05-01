@@ -322,7 +322,7 @@ export default function HomePage() {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.7)", // Match other panel
+              backgroundColor: "transparent", // Match other panel
               // Add border for consistency
               borderRadius: "5px", // Add border radius
               color: 'white', // Ensure text is visible
