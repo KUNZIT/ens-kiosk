@@ -31,17 +31,14 @@ const RunningInfoLine: React.FC<RunningInfoLineProps> = ({
 
   return (
     <div className={styles.marqueeContainer} style={{ fontWeight }}>
-      {/*
-        The content is duplicated inside the marqueeContent div
-        to create a seamless looping effect.
-      */}
+      
       <div
         className={styles.marqueeContent}
         style={{ animationDuration }} // Apply dynamic duration
       >
 
         {/* This adds a fixed-width empty space before your content */}
-        <span style={{ display: 'inline-block', width: '250px' }}></span> {/* Adjust '300px' as needed */}
+        <span style={{ display: 'inline-block', width: '240px' }}></span> {/* Adjust '300px' as needed */}
         
 
 
@@ -53,7 +50,7 @@ const RunningInfoLine: React.FC<RunningInfoLineProps> = ({
             {text}
           </span>
         ))}
-        {/* Duplicate instance of the content for seamless loop */}
+        
 
 
 
