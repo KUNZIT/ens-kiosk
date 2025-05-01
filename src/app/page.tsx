@@ -290,7 +290,7 @@ export default function HomePage() {
               flex: "1",
               padding: "2rem",
               backgroundColor: "rgba(0, 0, 0, 0.7)", // Slightly more opaque background
-              border: "1px solid white",
+              
               borderRadius: "5px",
               textAlign: "left",
               transition: "background-color 0.3s ease",
