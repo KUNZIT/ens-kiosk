@@ -32,9 +32,9 @@ h2.ens-kiosk {
 h2.ens-kiosk::after {
   content: "";
   position: absolute;
-  left: 5;
+  left: 0;
   bottom: 0;
-  width: 100%;
+  width: 50%;
   height: 50%;
   background: repeating-linear-gradient(to right, rgb(3, 54, 126), rgb(3, 54, 126) 10px, black 10px, black 20px);
   z-index: -1;
