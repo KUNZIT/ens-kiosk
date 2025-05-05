@@ -183,8 +183,8 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   <Image
     src="/assets/logo.jpg" // Replace with the actual path to your image
     alt="Loading" // Important for accessibility
-    width={50} // Adjust as needed
-    height={50} // Adjust as needed
+    width={30} // Adjust as needed
+    height={30} // Adjust as needed
   />
 </div>
 
