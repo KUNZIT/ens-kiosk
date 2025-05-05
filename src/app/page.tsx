@@ -349,7 +349,7 @@ export default function HomePage() {
                     e.currentTarget.style.backgroundColor = "red";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "black";
+                    e.currentTarget.style.backgroundColor = "transparent";
                   }}
                 >
                   Disconnect
