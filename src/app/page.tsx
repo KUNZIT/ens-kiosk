@@ -412,7 +412,7 @@ export default function HomePage() {
                         // Reset background based on isButtonClicked state
                         e.currentTarget.style.background = isButtonClicked
                           ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
-                          : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)";
+                          : "repeating-linear-gradient(to right, transparent, transparent 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)";
                       }}
                     >
                       {status === 'pending' ? `Connecting...` : connector.name}
