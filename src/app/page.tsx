@@ -338,7 +338,7 @@ export default function HomePage() {
                   style={{
                     padding: "0.5rem 1rem",
                     fontSize: "1rem",
-                    backgroundColor: "black",
+                    backgroundColor: "transparent",
                     color: "white",
                     border: "2px solid white",
                     borderRadius: "5px",
