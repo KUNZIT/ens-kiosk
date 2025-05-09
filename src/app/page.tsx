@@ -338,7 +338,7 @@ export default function HomePage() {
                   style={{
                     padding: "0.5rem 1rem",
                     fontSize: "1rem",
-                    backgroundColor: "black",
+                    backgroundColor: "transparent",
                     color: "white",
                     border: "2px solid white",
                     borderRadius: "5px",
@@ -349,7 +349,7 @@ export default function HomePage() {
                     e.currentTarget.style.backgroundColor = "red";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "black";
+                    e.currentTarget.style.backgroundColor = "transparent";
                   }}
                 >
                   Disconnect
@@ -395,7 +395,7 @@ export default function HomePage() {
                         fontSize: "1rem",
                         background: isButtonClicked // Use status instead? Maybe keep isButtonClicked
                           ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)" // Loading animation
-                          : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)", // Default stripe
+                          : "repeating-linear-gradient(to right, transparent, transparent 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)", // Default stripe
                         color: "white",
                         border: "1px solid white",
                         borderRadius: "5px",
@@ -412,7 +412,7 @@ export default function HomePage() {
                         // Reset background based on isButtonClicked state
                         e.currentTarget.style.background = isButtonClicked
                           ? "linear-gradient(to right, transparent 0px, #00BFFF 20px, rgba(0, 191, 255, 0) 40px)"
-                          : "repeating-linear-gradient(to right, black, black 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)";
+                          : "repeating-linear-gradient(to right, transparent, transparent 10px, rgb(3, 54, 126) 10px, rgb(3, 54, 126) 20px)";
                       }}
                     >
                       {status === 'pending' ? `Connecting...` : connector.name}
