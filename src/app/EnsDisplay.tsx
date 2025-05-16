@@ -136,6 +136,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
       }
     }
   }, [isWhitelistedModalOpen, remainingCheckTime])
+const [currentEnsName, setCurrentEnsName] = useState<string | null>(null);
 
   useEffect(() => {
     if (isWhitelistedModalOpen && isFirstTimeWhitelisted && efpMessage === "grado.eth follows you!") {
