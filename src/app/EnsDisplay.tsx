@@ -142,7 +142,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
       const audio = new Audio("/assets/beep.mp3")
       audio.play();
 // Call the API to record the successful check
-    fetch('/api/success-log', {
+    fetch('/api/route.ts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
