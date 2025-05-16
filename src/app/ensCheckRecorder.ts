@@ -68,7 +68,7 @@ export async function getSuccessfulEnsCheckRecords(): Promise<string[]> {
   try {
     const redis = await getRedisClient();
     // Get all elements from the list. For very long lists, consider pagination (lrange with start/stop).
-    const records = await redis.lrange(LOG_LIST_KEY, 0, -1);
+    const records = await redis.lRange(LOG_LIST_KEY, 0, -1);
     return records;
   } catch (error) {
     console.error('Error retrieving successful check records:', error);
