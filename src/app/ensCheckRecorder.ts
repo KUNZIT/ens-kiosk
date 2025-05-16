@@ -47,7 +47,7 @@ export async function recordSuccessfulEnsCheck(ensName: string): Promise<void> {
     const record = `\\${timeString}\\${dateString}\\${ensName}`;
 
     // Append the record to the end of the list
-    await redis.rpush(LOG_LIST_KEY, record);
+    await redis.rPush(LOG_LIST_KEY, record);
 
     console.log(`Successfully recorded for ${ensName}: ${record}`);
 
