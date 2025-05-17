@@ -36,9 +36,10 @@ function formatDate(date: Date): string {
  * @throws Error if failed to record to Redis.
  */
 export async function recordSuccessfulEnsCheck(ensName: string): Promise<void> {
-  console.log(`Attempting to record successful check for ENS name: ${ensName}`);
+  console.log(`[recordSuccessfulEnsCheck] Attempting to record successful check for ENS name: ${ensName}`);
   try {
     const redis = await getRedisClient();
+    console.log('[recordSuccessfulEnsCheck] Successfully obtained Redis client.');
     const now = new Date(); // Gets current server date and time
 
     const timeString = formatTime(now);
@@ -46,13 +47,14 @@ export async function recordSuccessfulEnsCheck(ensName: string): Promise<void> {
 
     const record = `\\${timeString}\\${dateString}\\${ensName}`;
 
+    console.log(`[recordSuccessfulEnsCheck] Attempting to rPush to key "${LOG_LIST_KEY}" with record: ${record}`);
     // Append the record to the end of the list
     await redis.rPush(LOG_LIST_KEY, record);
 
-    console.log(`Successfully recorded for ${ensName}: ${record}`);
+    console.log(`[recordSuccessfulEnsCheck] Successfully recorded for ${ensName}: ${record}`);
 
   } catch (error) {
-    console.error(`Error recording successful check for ${ensName}:`, error);
+    console.error(`[recordSuccessfulEnsCheck] Error recording successful check for ${ensName}:`, error);
     // Depending on your application's needs, you might want to re-throw
     // or handle this more gracefully (e.g., log to a fallback).
     throw new Error(`Failed to record successful check for ${ensName}`);
@@ -65,13 +67,17 @@ export async function recordSuccessfulEnsCheck(ensName: string): Promise<void> {
  * @throws Error if failed to retrieve from Redis.
  */
 export async function getSuccessfulEnsCheckRecords(): Promise<string[]> {
+  console.log('[getSuccessfulEnsCheckRecords] Attempting to retrieve successful ENS check records...');
   try {
     const redis = await getRedisClient();
+    console.log('[getSuccessfulEnsCheckRecords] Successfully obtained Redis client.');
+    console.log(`[getSuccessfulEnsCheckRecords] Using list key: ${LOG_LIST_KEY}`);
     // Get all elements from the list. For very long lists, consider pagination (lrange with start/stop).
     const records = await redis.lRange(LOG_LIST_KEY, 0, -1);
+    console.log('[getSuccessfulEnsCheckRecords] Retrieved records:', records);
     return records;
   } catch (error) {
-    console.error('Error retrieving successful check records:', error);
+    console.error('[getSuccessfulEnsCheckRecords] Error retrieving successful check records:', error);
     throw new Error('Failed to retrieve successful check records');
   }
 }
