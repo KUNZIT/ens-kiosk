@@ -143,7 +143,7 @@ const [currentEnsName, setCurrentEnsName] = useState<string | null>(null);
       const audio = new Audio("/assets/beep.mp3")
       audio.play();
 // Call the API to record the successful check
-    fetch('/api/route.ts', {
+    fetch('/api/success-log', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
