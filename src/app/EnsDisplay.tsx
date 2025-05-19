@@ -163,7 +163,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
         // Optionally handle the error, e.g., show an error message to the user
       });
   }
-}, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage, currentEnsName]);
+}, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage]);
 
       
   useEffect(() => {
