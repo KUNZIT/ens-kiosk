@@ -32,7 +32,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false)
-  const [currentEnsName, setCurrentEnsName] = useState<string | null>(null);
+  
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
     setModalMessage(`${ensName} is whitelisted!`)
     setRemainingCheckTime(remainingTime)
@@ -148,7 +148,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ensName: currentEnsName }),
+      body: JSON.stringify({ ensName: ensName }),
     })
       .then(response => {
         if (!response.ok) {
