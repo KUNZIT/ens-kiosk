@@ -32,7 +32,7 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   const [remainingCheckTime, setRemainingCheckTime] = useState<number | undefined>(undefined)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [isFirstTimeWhitelisted, setIsFirstTimeWhitelisted] = useState(false)
-
+  
   const handleWhitelisted = useCallback((ensName: string, remainingTime?: number) => {
     setModalMessage(`${ensName} is whitelisted!`)
     setRemainingCheckTime(remainingTime)
@@ -137,13 +137,35 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     }
   }, [isWhitelistedModalOpen, remainingCheckTime])
 
+
   useEffect(() => {
     if (isWhitelistedModalOpen && isFirstTimeWhitelisted && efpMessage === "grado.eth follows you!") {
       const audio = new Audio("/assets/beep.mp3")
-      audio.play()
-    }
-  }, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage])
+      audio.play();
+// Call the API to record the successful check
+    fetch('/api/success-log', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ensName: ensName }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          console.error('Failed to record successful ENS check:', response.status);
+        } else {
+          console.log('Successfully triggered recording of ENS check.');
+          // Optionally handle the success response, e.g., show a notification
+        }
+      })
+      .catch(error => {
+        console.error('Error sending request to record ENS check:', error);
+        // Optionally handle the error, e.g., show an error message to the user
+      });
+  }
+}, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage]);
 
+      
   useEffect(() => {
     const checkEfpFollow = async () => {
       if (address) {
