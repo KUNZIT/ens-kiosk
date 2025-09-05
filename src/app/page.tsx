@@ -6,7 +6,7 @@ import { useEffect, useState, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { isUserFollowedByGrado } from "./efpUtils" // Assuming this path is correct
 import RunningInfoLine from "./RunningInfoLine" // Assuming this path is correct, might be '@/components/RunningInfoLine'
-import { Button } from "@/components/ui/button"
+import { Button } from "./button"
 import type { SerialPort } from "serialport"
 
 const AnimatedRainCanvasBackground = () => {
