@@ -13,7 +13,7 @@ import type { SerialPort } from "serialport"
 
 declare global {
   interface Navigator {
-    serial: Serial
+    serial: serial
   }
 }
 const AnimatedRainCanvasBackground = () => {
