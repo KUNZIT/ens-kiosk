@@ -10,6 +10,12 @@ import { Button } from "./button"
 import { AlertCircle } from "lucide-react"
 import type { SerialPort } from "serialport"
 
+
+declare global {
+  interface Navigator {
+    serial: Serial
+  }
+}
 const AnimatedRainCanvasBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rainDrops = 300
