@@ -9,10 +9,11 @@ import { isUserFollowedByGrado } from "./efpUtils"
 import Image from 'next/image';
 
 interface EnsDisplayProps {
-  efpMessage: string
+  efpMessage: string;
+  operateRelay: () => void; // Add the new prop here
 }
 
-export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
+export function EnsDisplay({ efpMessage, operateRelay }: EnsDisplayProps) {
   const { address, isConnected } = useAccount()
   const [ensName, setEnsName] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -142,30 +143,31 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
     if (isWhitelistedModalOpen && isFirstTimeWhitelisted && efpMessage === "grado.eth follows you!") {
       const audio = new Audio("/assets/beep.mp3")
       audio.play();
-// Call the API to record the successful check
-    fetch('/api/success-log', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ensName: ensName }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          console.error('Failed to record successful ENS check:', response.status);
-        } else {
-          console.log('Successfully triggered recording of ENS check.');
-          // Optionally handle the success response, e.g., show a notification
-        }
-      })
-      .catch(error => {
-        console.error('Error sending request to record ENS check:', error);
-        // Optionally handle the error, e.g., show an error message to the user
-      });
-  }
-}, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage]);
 
-      
+      // NEW CODE: Call the operateRelay function passed from the parent component
+      operateRelay();
+
+      fetch('/api/success-log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ensName: ensName }),
+      })
+        .then(response => {
+          if (!response.ok) {
+            console.error('Failed to record successful ENS check:', response.status);
+          } else {
+            console.log('Successfully triggered recording of ENS check.');
+          }
+        })
+        .catch(error => {
+          console.error('Error sending request to record ENS check:', error);
+        });
+    }
+  }, [isWhitelistedModalOpen, isFirstTimeWhitelisted, efpMessage, operateRelay]);
+
+  
   useEffect(() => {
     const checkEfpFollow = async () => {
       if (address) {
@@ -194,25 +196,19 @@ export function EnsDisplay({ efpMessage }: EnsDisplayProps) {
   if (loading || avatarLoading) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
-
-
-<div
-  style={{
-    display: 'inline-block', // To contain the image and allow rotation
-    animation: 'rotate 2s linear infinite', // Adjust speed as needed
-  }}
->
-  <Image
-    src="/assets/logo.jpg" // Replace with the actual path to your image
-    alt="Loading" // Important for accessibility
-    width={30} // Adjust as needed
-    height={30} // Adjust as needed
-  />
-</div>
-
-
-
-        
+        <div
+          style={{
+            display: 'inline-block',
+            animation: 'rotate 2s linear infinite',
+          }}
+        >
+          <Image
+            src="/assets/logo.jpg"
+            alt="Loading"
+            width={30}
+            height={30}
+          />
+        </div>
         <p style={{ fontSize: "1.2em", color: "white", marginLeft: "10px" }}>Loading ENS profile...</p>
       </div>
     )
