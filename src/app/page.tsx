@@ -157,7 +157,7 @@ export default function HomePage() {
 
       if (autoConnect) {
         const ports = await navigator.serial.getPorts();
-        const arduinoPort = ports.find((port) => {
+        const arduinoPort = ports.find((port: SerialPort) => {
           const info = port.getInfo();
           return ARDUINO_LEONARDO_FILTERS.some(
             (filter) => info.usbVendorId === filter.usbVendorId && info.usbProductId === filter.usbProductId,
