@@ -8,7 +8,7 @@ import { isUserFollowedByGrado } from "./efpUtils";
 import RunningInfoLine from "./RunningInfoLine";
 import { Button } from "./button";
 import { AlertCircle } from "lucide-react";
-import type { SerialPort } from "serialport";
+
 
 // Define the AnimatedRainCanvasBackground component
 const AnimatedRainCanvasBackground = () => {
