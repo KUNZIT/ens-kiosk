@@ -230,7 +230,7 @@ export default function HomePage() {
   const sendCommand = useCallback(
     async (command: string) => {
       if (!port || !writer || !isConnected) {
-        setSerialError("Arduino not connected");
+        setSerialError();
         return;
       }
       try {
