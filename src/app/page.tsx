@@ -400,7 +400,8 @@ export default function HomePage() {
     );
   }
 
-
+const isButtonHidden = true; // Set to 'false' to show the button
+  
   return (
     <>
       <RunningInfoLine
@@ -568,7 +569,8 @@ export default function HomePage() {
                 disabled={!isConnected || isLoading}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 text-lg"
                 size="lg"
-              >
+                style={{ visibility: isButtonHidden ? "hidden" : "visible" }}
+                >
                 {isLoading ? "Operating..." : "Operate Relay"}
               </Button>
             </div>
