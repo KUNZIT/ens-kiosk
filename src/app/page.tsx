@@ -419,33 +419,7 @@ const isButtonHidden = true; // Set to 'false' to show the button
 
         <div style={{ display: "flex", width: "100%", marginTop: "2rem", padding: '0 2rem', boxSizing: 'border-box', position: 'relative', zIndex: 1 }}>
           {/* Left Panel */}
-          <div
-            style={{
-              flex: "1",
-              padding: "2rem",
-              backgroundColor: "rgba(0, 0, 0, 0.7)",
-              borderRadius: "5px",
-              textAlign: "left",
-              transition: "background-color 0.3s ease",
-              color: 'white',
-              marginRight: '1rem',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "rgb(3, 54, 126)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-            }}
-          >
-            <p>
-              Welcome to the ENS kiosk! Simply connect your wallet to check out with
-              your ENS profile. Tap the connect button and scan the QR code with your
-              mobile wallet. If your name is whitelisted and grado.eth follows you on
-              EFP, the app will play audio, a notification
-              will appear. This kiosk will automatically disconnect after 30 seconds.
-            </p>
-          </div>
-
+          
           {/* Right Panel */}
           <div
             style={{
