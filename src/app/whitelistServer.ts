@@ -26,8 +26,8 @@ export async function addEnsNameToWhitelistServer(ensName: string): Promise<void
 }
 
 export async function addDefaultNamesToWhitelistServer(): Promise<void> {
-  const defaultNames = ['vitalik.eth', 'grado.eth', 'ens.eth', 'brantly.eth','jesse.eth','sargent.eth','designer.eth','efp.eth',
-  'brianarmstrong.eth','broke.eth','bama.eth','cocoon.eth','acevod.eth','odie.eth','dima.eth','dons.eth','okarun.eth','autist.eth','wbush.eth' ];
+  const defaultNames = ['vitalik.eth', 'grado.eth', 'ens.eth', 'brantly.eth','efp.eth'
+   ];
   try {
     for (const name of defaultNames) {
       await addEnsNameToWhitelistServer(name);
