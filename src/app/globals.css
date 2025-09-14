@@ -29,17 +29,6 @@ h2.ens-kiosk {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-h2.ens-kiosk::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 50%;
-  background: repeating-linear-gradient(to right, rgb(3, 54, 126), rgb(3, 54, 126) 10px, transparent 10px, transparent 20px);
-  z-index: -1;
-  
-}
 
 
 
