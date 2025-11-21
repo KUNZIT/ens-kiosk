@@ -7,21 +7,7 @@ import { useRouter } from "next/navigation";
 import { isUserFollowedByGrado } from "./efpUtils"; // Assuming this path is correct
 import RunningInfoLine from "./RunningInfoLine"; // Assuming this path is correct, might be '@/components/RunningInfoLine'
 
-const AnimatedRainCanvasBackground = () => {
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: '#000000', // Pure Hex Black
-        zIndex: -1, 
-      }}
-    />
-  );
-};
+
 
 // This is your main page component
 export default function HomePage() {
