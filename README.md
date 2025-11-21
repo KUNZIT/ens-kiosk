@@ -14,7 +14,6 @@ It will play audio alerts (beep) if the connected wallet meets these three requi
 
 1. The user's ENS name is included in the database.
 2. The user's wallet is connected for the first time within a specific time period.
-3. The user's ENS name is followed by grado.eth on EFP.
 
 ## Potential Use Case
 
