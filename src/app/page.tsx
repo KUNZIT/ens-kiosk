@@ -7,68 +7,73 @@ import { useRouter } from "next/navigation";
 import { isUserFollowedByGrado } from "./efpUtils"; // Assuming this path is correct
 import RunningInfoLine from "./RunningInfoLine"; // Assuming this path is correct, might be '@/components/RunningInfoLine'
 
-// Define the AnimatedRainCanvasBackground component directly inside or outside HomePage
-// Keeping it inside as per your original structure is fine for this specific case.
 const AnimatedRainCanvasBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rainDrops = 300;
-  const rainArray: {
-    x: number;
-    y: number;
-    length: number;
-    opacity: number;
-    xSpeed: number;
-    ySpeed: number;
-  }[] = [];
+  const rainArray = useRef<
+    {
+      x: number;
+      y: number;
+      length: number;
+      opacity: number;
+      xSpeed: number;
+      ySpeed: number;
+    }[]
+  >([]); // Using useRef for the array prevents re-initialization issues
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    for (let i = 0; i < rainDrops; i++) {
-      rainArray.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        length: Math.random() * 10 + 5,
-        opacity: Math.random() * 0.5 + 0.5,
-        xSpeed: Math.random() * 2 - 1,
-        ySpeed: Math.random() * 7 + 5,
-      });
+    // Initialize rain only if empty
+    if (rainArray.current.length === 0) {
+      for (let i = 0; i < rainDrops; i++) {
+        rainArray.current.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          length: Math.random() * 10 + 5,
+          opacity: Math.random() * 0.5 + 0.5,
+          xSpeed: Math.random() * 2 - 1,
+          ySpeed: Math.random() * 7 + 5,
+        });
+      }
     }
 
     let animationFrameId: number;
+
     const animateRain = () => {
-      if (!ctx || !canvas) return; // Add check for canvas existence too
-      // Ensure clearing happens correctly
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Adjust alpha for desired trail effect
+      if (!ctx || !canvas) return;
+
+      // CHANGE 1: Increase the alpha (opacity) here. 
+      // 0.05 is very "smeary". 0.2 or 0.3 makes the background blacker/sharper 
+      // while still keeping a small trail. Use 'black' for zero trails.
+      ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; 
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      rainArray.forEach((drop) => {
+      rainArray.current.forEach((drop) => {
         drop.y += drop.ySpeed;
         drop.x += drop.xSpeed;
 
-        // Reset drop position if it goes off screen
         if (drop.y > canvas.height) {
-          drop.y = -drop.length; // Start just above the screen
+          drop.y = -drop.length;
           drop.x = Math.random() * canvas.width;
-          drop.xSpeed = Math.random() * 2 - 1; // Optional: reset speed too
-          drop.ySpeed = Math.random() * 7 + 5; // Optional: reset speed too
+          drop.xSpeed = Math.random() * 2 - 1;
+          drop.ySpeed = Math.random() * 7 + 5;
         } else if (drop.x > canvas.width || drop.x < 0) {
-           // If it drifts horizontally off-screen, reset
-           drop.y = -drop.length;
-           drop.x = Math.random() * canvas.width;
+          drop.y = -drop.length;
+          drop.x = Math.random() * canvas.width;
         }
-
 
         ctx.beginPath();
         ctx.moveTo(drop.x, drop.y);
         ctx.lineTo(drop.x, drop.y + drop.length);
-        ctx.strokeStyle = `rgba(17,41,255, ${drop.opacity})`; // Use drop opacity
+        // Optional: Use a brighter cyan/blue for better contrast against black
+        ctx.strokeStyle = `rgba(60, 180, 255, ${drop.opacity})`; 
         ctx.lineWidth = 1;
         ctx.stroke();
       });
@@ -76,38 +81,38 @@ const AnimatedRainCanvasBackground = () => {
       animationFrameId = requestAnimationFrame(animateRain);
     };
 
-    animateRain(); // Start animation
+    animateRain();
 
     const handleResize = () => {
-        if (!canvas) return;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        // Optional: You might want to re-initialize rain positions on resize
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    // Cleanup function
     return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId); // Stop animation on component unmount
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, []);
 
   return (
     <canvas
       ref={canvasRef}
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: -1, // Ensure it's behind other content
+        width: "100vw",
+        height: "100vh",
+        zIndex: -1,
+        // CHANGE 2: Force the base background to be black.
+        // This prevents the white page from showing through the transparency.
+        backgroundColor: "black", 
       }}
     />
   );
 };
-
 
 // This is your main page component
 export default function HomePage() {
