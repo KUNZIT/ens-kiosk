@@ -8,107 +8,16 @@ import { isUserFollowedByGrado } from "./efpUtils"; // Assuming this path is cor
 import RunningInfoLine from "./RunningInfoLine"; // Assuming this path is correct, might be '@/components/RunningInfoLine'
 
 const AnimatedRainCanvasBackground = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rainDrops = 300;
-  const rainArray = useRef<
-    {
-      x: number;
-      y: number;
-      length: number;
-      opacity: number;
-      xSpeed: number;
-      ySpeed: number;
-    }[]
-  >([]); // Using useRef for the array prevents re-initialization issues
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Initialize rain only if empty
-    if (rainArray.current.length === 0) {
-      for (let i = 0; i < rainDrops; i++) {
-        rainArray.current.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          length: Math.random() * 10 + 5,
-          opacity: Math.random() * 0.5 + 0.5,
-          xSpeed: Math.random() * 2 - 1,
-          ySpeed: Math.random() * 7 + 5,
-        });
-      }
-    }
-
-    let animationFrameId: number;
-
-    const animateRain = () => {
-      if (!ctx || !canvas) return;
-
-      // CHANGE 1: Increase the alpha (opacity) here. 
-      // 0.05 is very "smeary". 0.2 or 0.3 makes the background blacker/sharper 
-      // while still keeping a small trail. Use 'black' for zero trails.
-      ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; 
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      rainArray.current.forEach((drop) => {
-        drop.y += drop.ySpeed;
-        drop.x += drop.xSpeed;
-
-        if (drop.y > canvas.height) {
-          drop.y = -drop.length;
-          drop.x = Math.random() * canvas.width;
-          drop.xSpeed = Math.random() * 2 - 1;
-          drop.ySpeed = Math.random() * 7 + 5;
-        } else if (drop.x > canvas.width || drop.x < 0) {
-          drop.y = -drop.length;
-          drop.x = Math.random() * canvas.width;
-        }
-
-        ctx.beginPath();
-        ctx.moveTo(drop.x, drop.y);
-        ctx.lineTo(drop.x, drop.y + drop.length);
-        // Optional: Use a brighter cyan/blue for better contrast against black
-        ctx.strokeStyle = `rgba(60, 180, 255, ${drop.opacity})`; 
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      });
-
-      animationFrameId = requestAnimationFrame(animateRain);
-    };
-
-    animateRain();
-
-    const handleResize = () => {
-      if (!canvas) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   return (
-    <canvas
-      ref={canvasRef}
+    <div
       style={{
-        position: "fixed",
+        position: 'fixed',
         top: 0,
         left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: -1,
-        // CHANGE 2: Force the base background to be black.
-        // This prevents the white page from showing through the transparency.
-        backgroundColor: "black", 
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#000000', // Pure Hex Black
+        zIndex: -1, 
       }}
     />
   );
