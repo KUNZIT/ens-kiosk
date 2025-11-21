@@ -47,7 +47,7 @@ h2.ens-kiosk::after {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    background-color: #181818;
+    background-color: #000000;
     color: #ffffff;
   }
 }
