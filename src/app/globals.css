@@ -46,12 +46,12 @@ h2.ens-kiosk::after {
 
 
 @media (prefers-color-scheme: dark) {
+  html, 
+  body, 
   :root {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: transparent !important;
   }
 }
-
 @keyframes stripesAnimation {
   0% {
     background-position: 0 0;
