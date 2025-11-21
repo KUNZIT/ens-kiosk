@@ -177,7 +177,7 @@ export default function HomePage() {
 
       {/* The rest of your page structure */}
       <div style={{ textAlign: "center", marginTop: "2rem", position: 'relative', zIndex: 1 }}> {/* Ensure content is above canvas */}
-        <AnimatedRainCanvasBackground /> {/* Render the background */}
+        
 
         <h2 className="ens-kiosk" style={{ zIndex: isModalOpen ? "50" : "100" }}>
         ENS KIOSK
